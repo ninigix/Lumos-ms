@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/Home/HomeScreen';
-import RoomsScreen from '../screens/RoomsScreen';
+import RoomsScreen from '../screens/Rooms/RoomsScreen';
 import SimulationScreen from '../screens/SimulationScreen';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
