@@ -7,6 +7,7 @@ import {
 import FullWidthImage from 'react-native-fullwidth-image';
 
 import Card from './Card/Card';
+import TestContainer from '../../components/Test/TestContainer';
 import styles from './HomeScreenStyles';
 import {messages} from './HomeScreenConstants';
 
@@ -27,6 +28,7 @@ export default class HomeScreen extends React.Component {
                 <View style={styles.fullScreen}>
                     <FullWidthImage source={require('../../assets/images/bulb-wire.jpg')} width={1000} height={1200}/>
                     <Text style={styles.title}>{messages.title}</Text>
+                    <TestContainer/>
                 </View>
                 {this.mapCards()}
             </ScrollView>
