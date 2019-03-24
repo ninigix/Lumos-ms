@@ -62,6 +62,7 @@ export default class App extends React.Component {
                 'simplifica': require('./assets/fonts/simplifica.ttf'),
                 'raleway-light': require('./assets/fonts/Raleway-Light.ttf'),
                 'raleway-regular': require('./assets/fonts/Raleway-Regular.ttf'),
+                'raleway-bold': require('./assets/fonts/Raleway-Bold.ttf'),
             }),
         ]);
     };

@@ -1,21 +1,40 @@
 // import axios from "axios";
+import isempty from 'lodash.isempty';
 
 const SERVER_URL = "http://localhost:5000/";
 
-// POST
+// GET
 
 export function findLightSwitches() {
     const endpoint = "microcontrollers";
-    // const requestParams = { query: params };
-    return callApi(endpoint).then(value => ({response: value}));
+    return callApi(endpoint, 'GET').then(value => ({response: value}));
 }
 
-async function callApi(endpoint, params = {}) {
+// POST
+
+export function postSwitchLights(params) {
+    const endpoint = "front";
+    return callApi(endpoint, 'POST', params).then(value => ({response: value}));
+}
+
+async function callApi(endpoint, method, params = {}) {
     const apiPath = `${SERVER_URL}` + `${endpoint}`;
     try {
-        let response = await fetch(apiPath);
+        let additionalParams = {method};
+        if (!isempty(params)) {
+            additionalParams = {
+                ...additionalParams,
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...params
+                })
+            }
+        }
+        let response = await fetch(apiPath, additionalParams);
         let responseJson = await response.json();
-        console.log('responseJson', responseJson);
         return responseJson;
     } catch (error) {
         console.error(error);

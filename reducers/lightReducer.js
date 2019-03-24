@@ -6,11 +6,9 @@ const initialState = {
 };
 
 export function lightReducer(state = initialState, action) {
-    console.log('action', action);
     switch (action.type) {
 
         case actions.GET_LIGHT_SWITCHES.SUCCESS: {
-            console.log('action reducer', action);
             return {
                 ...state,
                 status: SUCCESS,
@@ -22,6 +20,20 @@ export function lightReducer(state = initialState, action) {
             return {
                 ...state,
                 status: FAILURE
+            };
+        }
+
+        case actions.SWITCH_LIGHTS.SUCCESS: {
+            return {
+                ...state,
+                status: SUCCESS,
+            };
+        }
+
+        case actions.SWITCH_LIGHTS.FAILURE: {
+            return {
+                ...state,
+                status: FAILURE,
             };
         }
 

@@ -4,6 +4,12 @@ import * as callApi from "./apiHelpers";
 
 export function findLightSwitches() {
     const result = callApi.findLightSwitches();
-    console.log('result', result);
+    return result.then(json => json);
+}
+
+// POST
+
+export function postSwitchLights(params) {
+    const result = callApi.postSwitchLights(params);
     return result.then(json => json);
 }
