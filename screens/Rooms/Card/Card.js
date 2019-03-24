@@ -11,10 +11,8 @@ import {
 
 import MyText from '../../../components/MyText/MyText';
 import styles from './CardStyles';
-import * as actions from "../../../actions/lightActions";
-import {SUCCESS} from "../../../actions/helpers";
 
-const Card = ({item, image, onClick}) => {
+const Card = ({item, image, onClick, isAvailable}) => {
     const handleOnItemPressed = () => {
         onClick({esp_id: item.id});
     };
@@ -37,6 +35,7 @@ const Card = ({item, image, onClick}) => {
             <TouchableOpacity
                 delayPressIn={70}
                 activeOpacity={0.8}
+                disabled={isAvailable}
                 onPress={handleOnItemPressed}>
                 <ImageBackground source={{uri: image}}
                                  style={{borderRadius: 10}}

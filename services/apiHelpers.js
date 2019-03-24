@@ -10,6 +10,11 @@ export function findLightSwitches() {
     return callApi(endpoint, 'GET').then(value => ({response: value}));
 }
 
+export function getSimulationStatus() {
+    const endpoint = "simulation";
+    return callApi(endpoint, 'GET').then(value => ({response: value}));
+}
+
 // POST
 
 export function postSwitchLights(params) {

@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/Home/HomeScreen';
 import RoomsScreenComponent from '../screens/Rooms/RoomsScreenContainer';
-import SimulationScreen from '../screens/SimulationScreen';
+import SimulationScreenComponent from '../screens/Simulation/SimulationScreenComponent';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -43,7 +43,7 @@ RoomsStack.navigationOptions = {
 };
 
 const SimulationStack = createStackNavigator({
-  Simulation: SimulationScreen,
+  Simulation: SimulationScreenComponent,
 });
 
 SimulationStack.navigationOptions = {

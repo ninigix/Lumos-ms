@@ -7,11 +7,11 @@ export default styles = RkStyleSheet.create(theme => ({
     },
     title: {
         fontSize: 20,
-        color: 'white',
+        color: 'pink',
         fontFamily: 'raleway-bold'
     },
     text: {
-        color: 'white',
+        color: 'pink',
         fontFamily: 'raleway-regular'
     },
     root: {

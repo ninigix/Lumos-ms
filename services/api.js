@@ -7,6 +7,11 @@ export function findLightSwitches() {
     return result.then(json => json);
 }
 
+export function getSimulationStatus() {
+    const result = callApi.getSimulationStatus();
+    return result.then(json => json);
+}
+
 // POST
 
 export function postSwitchLights(params) {

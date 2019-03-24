@@ -23,6 +23,7 @@ export function* watchGetLightSwitches() {
 function* switchLights(requestData) {
     const { response, error } = yield call(api.postSwitchLights, requestData);
     if (response) {
+        console.log('swkitch lights')
         yield put(actions.switchLights.success(response, requestData));
     } else {
         yield put(actions.switchLights.failure(error));
