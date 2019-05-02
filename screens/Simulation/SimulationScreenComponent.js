@@ -5,61 +5,72 @@ import {
     View,
 } from 'react-native';
 import {Button} from "react-native-elements";
-import {RkTabView} from 'react-native-ui-kitten';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
 
 import MyText from '../../components/MyText/MyText';
+import Calendar from '../../components/Calendar/Calendar';
 
 export default class SimulationScreenComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            markedDates: {
-                '2019-04-23': {selected: true, endingDay: true, color: 'green', textColor: 'gray'},
-            },
+            startingDay: null,
+            endingDay: null
         };
     }
 
-    onDateSelect = date => {
-        console.log('date', date)
+    setEndingDay = date => {
+        if (this.state.endingDay) {
+            this.setState({startingDay: date.dateString});
+            this.setState({endingDay: null})
+        } else {
+            this.setState({endingDay: date.dateString})
+        }
+    };
+
+    handleOnDateSelect = date => {
+        if (this.state.startingDay) {
+            this.setEndingDay(date);
+        } else {
+            this.setState({});
+            this.setState({startingDay: date.dateString});
+        }
     };
 
     render() {
         return <View style={styles.container}>
-            <Text style={styles.title}>Start simulation</Text>
-            <MyText textStyle={{textAlign: 'justify'}}>Here you can choose dates when you want to simulate presence in the house. You can see the results
-            and if you like them, just press a button to start simulation! Be careful - when the simulation is running
-                you can't switch light via Lumos app.
-            </MyText>
-            <RkTabView>
-                <RkTabView.Tab title={'Tab 1'}>
-                    <CalendarList
-                        // Callback which gets executed when visible months change in scroll view. Default = undefined
-                        markedDates={this.state.markedDates}
-                        onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
-                        // Max amount of months allowed to scroll to the past. Default = 50
-                        pastScrollRange={50}
-                        // Max amount of months allowed to scroll to the future. Default = 50
-                        futureScrollRange={50}
-                        // Enable or disable scrolling of calendar list
-                        scrollEnabled={true}
-                        // Enable or disable vertical scroll indicator. Default = false
-                        showScrollIndicator={true}
-                        onDayPress={(day) => {console.log('selected day', day)}}
-                        markingType='multi-period'
-                />
-                </RkTabView.Tab>
-                <RkTabView.Tab title={'Tab 2'}>
-                    <Text>Tab 2 Content</Text>
-                </RkTabView.Tab>
-                <RkTabView.Tab title={'Tab 3'}>
-                    <Text>Tab 3 Content</Text>
-                </RkTabView.Tab>
-            </RkTabView>
-            <Button
-                title="Go to Details"
-                onPress={() => this.props.navigation.navigate('Home')}
-            />
+            <View style={{flex: 1}}>
+                <ProgressSteps>
+                    <ProgressStep label="Choose date"
+                                  nextBtnDisabled={!this.state.startingDay || !this.state.endingDay}>
+                        <View style={{alignItems: 'center'}}>
+                            <Calendar startDate={this.state.startingDay} endDate={this.state.endingDay}
+                                      onDateSelect={this.handleOnDateSelect}/>
+                        </View>
+                    </ProgressStep>
+                    <ProgressStep label="Choose hours">
+                        <View style={{alignItems: 'center'}}>
+                            <Text>This is the content within step 2!</Text>
+                        </View>
+                    </ProgressStep>
+                    <ProgressStep label="See simulation">
+                        <View style={{alignItems: 'center'}}>
+                            <Text>This is the content within step 2!</Text>
+                        </View>
+                    </ProgressStep>
+                    <ProgressStep label="Start">
+                        <View style={{alignItems: 'center'}}>
+                            <MyText textStyle={{textAlign: 'justify', fontSize: 16}}> Be careful - when the simulation is running
+                                you can't switch light via Lumos app.
+                            </MyText>
+                            <Button
+                                title="Start simulation"
+                                onPress={() => this.props.navigation.navigate('Home')}
+                            />
+                        </View>
+                    </ProgressStep>
+                </ProgressSteps>
+            </View>
         </View>;
     }
 }
@@ -71,11 +82,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 16
     },
     title: {
-        fontSize: 32,
+        fontSize: 22,
         color: '#3B3B39',
         fontFamily: 'raleway-bold',
         textAlign: 'center',
         margin: 10
     },
 });
-
