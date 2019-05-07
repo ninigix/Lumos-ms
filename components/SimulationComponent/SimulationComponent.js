@@ -5,19 +5,20 @@ import {Button} from "react-native-elements";
 import {RkButton, RkChoice} from "react-native-ui-kitten";
 
 // TODO: add icon
-const HourChoiceButton = ({label, isSelected, onSelect, roomId}) => {
+const SimulationComponent = ({date,  hour, roomName, isLightOn}) => {
     return (
         <View style={styles.dateComponentWrapper}>
             <View style={styles.dateComponentGrey}>
-                <MyText isBold> {label} </MyText>
+                <MyText isBold> {roomName} {isLightOn ? "Light on" : "Light off"}</MyText>
             </View>
-            <TouchableOpacity style={styles.dateComponentSideButton} onPress={() => onSelect(roomId)} choiceTrigger>
-                <MyText>{isSelected ? "Selected" : "Select"}</MyText>
-            </TouchableOpacity>
+            <View style={styles.dateComponentSideButton}>
+                <MyText>{date}</MyText>
+                <MyText>{hour}</MyText>
+            </View>
         </View>)
 };
 
-export default HourChoiceButton;
+export default SimulationComponent;
 
 const styles = StyleSheet.create({
     dateComponentGrey: {

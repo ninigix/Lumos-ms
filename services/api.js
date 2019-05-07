@@ -18,3 +18,8 @@ export function postSwitchLights(params) {
     const result = callApi.postSwitchLights(params);
     return result.then(json => json);
 }
+
+export function postDataToLearn(params) {
+    const result = callApi.postDataToLearn(params);
+    return result.then(json => json);
+}

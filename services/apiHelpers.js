@@ -1,7 +1,31 @@
-// import axios from "axios";
 import isempty from 'lodash.isempty';
 
 const SERVER_URL = "http://localhost:5000/";
+
+async function callApi(endpoint, method, params = {}) {
+    const apiPath = `${SERVER_URL}` + `${endpoint}`;
+    try {
+        let additionalParams = {method};
+        if (!isempty(params)) {
+            additionalParams = {
+                ...additionalParams,
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...params
+                })
+            }
+        }
+        const response = await fetch(apiPath, additionalParams);
+        const responseJson = await response.json();
+        return responseJson;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 // GET
 
@@ -22,26 +46,11 @@ export function postSwitchLights(params) {
     return callApi(endpoint, 'POST', params).then(value => ({response: value}));
 }
 
-async function callApi(endpoint, method, params = {}) {
-    const apiPath = `${SERVER_URL}` + `${endpoint}`;
-    try {
-        let additionalParams = {method};
-        if (!isempty(params)) {
-            additionalParams = {
-                ...additionalParams,
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...params
-                })
-            }
-        }
-        let response = await fetch(apiPath, additionalParams);
-        let responseJson = await response.json();
-        return responseJson;
-    } catch (error) {
-        console.error(error);
-    }
+export function postDataToLearn(params) {
+    console.log('params', params);
+    const endpoint = "learn";
+    return callApi(endpoint, 'POST', params).then(value => ({response: value}));
 }
+
+
+

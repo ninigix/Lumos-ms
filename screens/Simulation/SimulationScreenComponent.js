@@ -15,17 +15,20 @@ import MyText from '../../components/MyText/MyText';
 import Calendar from '../../components/Calendar/Calendar';
 import HourChoiceButton from '../../components/HourChoiceButton/HourChoiceButton';
 import RoomChoiceButton from '../../components/RoomChoiceButton/RoomChoiceButton';
+import SimulationComponent from '../../components/SimulationComponent/SimulationComponent';
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
-const labels = [
-    "Kitchen",
-    "Bathroom",
-    "Hall",
-    "Bedroom1",
-    "Bedroom2"
-];
 
+const labels = {
+    1: "Kitchen",
+    2: "Bathroom",
+    3: "Hall",
+    4: "Bedroom1",
+    5: "Bedroom2",
+};
+
+// TODO: hide in shame and pretend that somebody else wrote this component
 // TODO: block choosing past date
 // TODO: when for one day block choosing end hour before start hour
 export default class SimulationScreenComponent extends React.Component {
@@ -84,19 +87,28 @@ export default class SimulationScreenComponent extends React.Component {
         this.setState({isDateTimePickerVisible: true});
     };
 
-    handleSelect = (label) => { if (!this.state.selectedRooms.includes(label)) {
+    handleSelect = (label) => {
+        if (!this.state.selectedRooms.includes(label)) {
             this.setState({selectedRooms: [...this.state.selectedRooms, label]})
         } else {
             this.setState({selectedRooms: this.state.selectedRooms.filter(room => room !== label)})
         }
     };
 
+    handlePostDataToLearn = () => {
+        this.props.postDataToLearn({
+            start: `${this.state.startingDay} ${this.state.startingHour}`,
+            stop: `${this.state.endingDay} ${this.state.endingHour}`,
+            room_id: this.state.selectedRooms
+        });
+    };
+
     render() {
+        const {generatedData} = this.props;
         return <View style={styles.container}>
             <View style={{flex: 1}}>
                 <ProgressSteps>
-                    <ProgressStep label="Date">
-                        {/*nextBtnDisabled={!this.state.startingDay || !this.state.endingDay}>*/}
+                    <ProgressStep label="Date" nextBtnDisabled={!this.state.startingDay || !this.state.endingDay}>
                         <View style={{
                             alignItems: 'center',
                             width: deviceWidth,
@@ -108,8 +120,7 @@ export default class SimulationScreenComponent extends React.Component {
                             <MyText textStyle={{textAlign: 'justify', fontSize: 16}}>starting hour: 16 a.m. </MyText>
                         </View>
                     </ProgressStep>
-                    <ProgressStep label="Hours">
-                        {/*nextBtnDisabled={!this.state.startingHour || !this.state.endingHour}>*/}
+                    <ProgressStep label="Hours" nextBtnDisabled={!this.state.startingHour || !this.state.endingHour}>
                         <View style={{alignItems: 'center'}}>
                             <HourChoiceButton chosenDay={this.state.startingDay} chosenHour={this.state.startingHour}
                                               handleHourSelect={this.handleStartingHourSelect}/>
@@ -123,17 +134,20 @@ export default class SimulationScreenComponent extends React.Component {
                             />
                         </View>
                     </ProgressStep>
-                    <ProgressStep label="Rooms">
+                    <ProgressStep label="Rooms" onNext={this.handlePostDataToLearn}
+                                  nextBtnDisabled={this.state.selectedRooms.length === 0}>
                         <View style={{alignItems: 'center'}}>
-                            {labels.map((label, index) => (
-                                <RoomChoiceButton label={label} onSelect={this.handleSelect} key={`${label}__${index}`}
-                                                  isSelected={this.state.selectedRooms.includes(label)}/>
-                            ))}
+                            {Object.entries(labels).map(([key, value]) => (
+                                <RoomChoiceButton label={value} onSelect={this.handleSelect} key={`${key}__${value}`}
+                                                  isSelected={this.state.selectedRooms.includes(key)}
+                                                  roomId={key}/>))}
                         </View>
                     </ProgressStep>
                     <ProgressStep label="See simulation">
                         <View style={{alignItems: 'center'}}>
-                            <Text>This is the content within step 2!</Text>
+                            {generatedData && generatedData.map(data =>
+                                <SimulationComponent date={data.datetimevalue} isLightOn={data.status}
+                                                     roomName={labels[data.room]}/>)}
                         </View>
                     </ProgressStep>
                     <ProgressStep label="Start">
