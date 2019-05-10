@@ -1,71 +1,71 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {StyleSheet, View, TouchableOpacity, Image} from "react-native";
+
 import MyText from "../MyText/MyText";
-import { Button } from "react-native-elements";
-import { RkButton } from "react-native-ui-kitten";
+import CardChoice from '../CardChoice/CardChoice';
 
 // TODO: add icon
-const HourChoiceButton = ({ chosenDay, chosenHour, handleHourSelect }) => {
-  const formattedDate = chosenDay && new Date(chosenDay);
-  const stringMonth =
-    chosenDay && formattedDate.toLocaleString("en-us", { month: "short" });
-  const numberDay = chosenDay && formattedDate.getDate();
-  const renderDate = () => (
-    <MyText isBold>
-      {stringMonth} {numberDay}
-      {chosenHour && `, ${chosenHour}`}
-    </MyText>
-  );
+const HourChoiceButton = ({chosenDay, chosenHour, handleHourSelect}) => {
+    const formattedDate = chosenDay && new Date(chosenDay);
+    const stringMonth =
+        chosenDay && formattedDate.toLocaleString("en-us", {month: "short"});
+    const numberDay = chosenDay && formattedDate.getDate();
 
-  return (
-    <View style={styles.dateComponentWrapper}>
-      <View style={styles.dateComponentGrey}>{renderDate()}</View>
-      <View style={styles.dateComponentButton}>
+    const renderDate = () => (
         <TouchableOpacity
-          style={styles.dateComponentSideButton}
-          onPress={handleHourSelect}
+            onPress={handleHourSelect}
+            style={styles.wrapper}
         >
-          <MyText isBold> {chosenHour ? "Edit" : "Choose hour"}</MyText>
+            <View style={styles.iconButton}>
+            <Image
+                style={styles.icon}
+                source={require('../../assets/images/time.png')}
+            />
+            </View>
+            <MyText isBold textStyle={{fontSize: 16}}> {chosenHour ? "Edit hour" : "Choose hour"}</MyText>
         </TouchableOpacity>
-      </View>
-    </View>
-  );
+    );
+
+    const renderButton = () => (
+        <View style={styles.dateComponentSideButton}>
+            <MyText textStyle={{fontSize: 16}}>  {stringMonth} {numberDay}</MyText>
+            {chosenHour && <MyText isBold textStyle={{fontSize: 16}}> {chosenHour} </MyText>}
+        </View >
+    );
+
+    return (
+        <CardChoice leftComponent={renderDate()} rightComponent={renderButton()}/>
+    );
 };
 
 export default HourChoiceButton;
 
 const styles = StyleSheet.create({
-  dateComponentChosenHour: {
-    fontSize: 22
-  },
-  dateComponentGrey: {
-    flex: 3,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  dateComponentSideButton: {
-    flex: 1,
-    padding: 15,
-    backgroundColor: "deeppink",
-    borderTopRightRadius: 4,
-    borderBottomRightRadius: 4
-  },
-  dateComponentWrapper: {
-    display: "flex",
-    borderRadius: 4,
-    borderWidth: 0.5,
-    borderColor: "#d6d7da",
-    flexDirection: "row",
-    margin: 15,
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center'
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5
-  }
+    iconButton: {
+      height: 40,
+      width: 40,
+        borderRadius: 4,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 20,
+        backgroundColor: '#ffbf00'
+    },
+    icon: {
+        width: 30, height: 30
+    },
+    dateComponentSideButton: {
+        flex: 1,
+        backgroundColor: "#EBEBE4",
+        borderTopRightRadius: 4,
+        borderBottomRightRadius: 4,
+        justifyContent: "center",
+        alignItems: "center"
+    },
 });

@@ -258,7 +258,6 @@ export default class SimulationScreenComponent extends React.Component {
             activeLabelColor="#2274a5"
             activeStepNumColor="#2274a5"
             completedStepIconColor="#2274a5"
-            completedCheckColor="#ffbf00"
           >
             {this.renderCalendarStep()}
             {this.renderHoursStep()}
@@ -275,7 +274,7 @@ export default class SimulationScreenComponent extends React.Component {
 const styles = StyleSheet.create({
   dateComponentGrey: {
     flex: 1,
-    backgroundColor: "grey",
+    backgroundColor: "#EBEBE4",
     justifyContent: "center",
     alignItems: "center",
     borderTopLeftRadius: 4,
@@ -319,7 +318,7 @@ const styles = StyleSheet.create({
   disabledNextBtnStyle: {
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: "grey",
+    borderColor: "#EBEBE4",
     borderRadius: 8,
     marginRight: -50,
     marginBottom: -30
