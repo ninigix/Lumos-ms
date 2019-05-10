@@ -8,14 +8,14 @@ import { getStatus } from "../../selectors/lightSelector";
 const MenuContainer = props => <MenuComponent {...props} />;
 
 const mapStateToProps = state => ({
-    lightSwitches: getStatus(state)
+  lightSwitches: getStatus(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-    getLightSwitches: () => dispatch(actions.getLightSwitches.request()),
+  getLightSwitches: () => dispatch(actions.getLightSwitches.request())
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MenuContainer);

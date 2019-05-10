@@ -3,39 +3,39 @@ import * as actions from "../actions/simulationActions";
 import * as api from "../services/api";
 
 function* getSimulationStatus(requestData) {
-    const { response, error } = yield call(api.getSimulationStatus, requestData);
-    if (response) {
-        yield put(actions.getSimulationState.success(response, requestData));
-    } else {
-        yield put(actions.getSimulationState.failure(error));
-    }
+  const { response, error } = yield call(api.getSimulationStatus, requestData);
+  if (response) {
+    yield put(actions.getSimulationState.success(response, requestData));
+  } else {
+    yield put(actions.getSimulationState.failure(error));
+  }
 }
 
 export function* watchGetSimulationStatus() {
-    while (true) {
-        const action = yield take(actions.GET_SIMULATION_STATUS.REQUEST);
-        if (action) {
-            yield fork(getSimulationStatus, action.params);
-        }
+  while (true) {
+    const action = yield take(actions.GET_SIMULATION_STATUS.REQUEST);
+    if (action) {
+      yield fork(getSimulationStatus, action.params);
     }
+  }
 }
 
 function* postDataToLearn(requestData) {
-    const { response, error } = yield call(api.postDataToLearn, requestData);
-    console.log('response', response);
+  const { response, error } = yield call(api.postDataToLearn, requestData);
+  console.log("response", response);
 
-    if (response) {
-        yield put(actions.postLearnData.success(response, requestData));
-    } else {
-        yield put(actions.postLearnData.failure(error));
-    }
+  if (response) {
+    yield put(actions.postLearnData.success(response, requestData));
+  } else {
+    yield put(actions.postLearnData.failure(error));
+  }
 }
 
 export function* watchPostDataToLearn() {
-    while (true) {
-        const action = yield take(actions.POST_LEARN_DATA.REQUEST);
-        if (action) {
-            yield fork(postDataToLearn, action.params);
-        }
+  while (true) {
+    const action = yield take(actions.POST_LEARN_DATA.REQUEST);
+    if (action) {
+      yield fork(postDataToLearn, action.params);
     }
+  }
 }

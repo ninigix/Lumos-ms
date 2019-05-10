@@ -5,11 +5,9 @@ import {AppLoading, Asset, Font, Icon} from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import createSagaMiddleware from "redux-saga";
 
-
 import {applyMiddleware, createStore} from "redux";
 import rootReducer from "./reducers/rootReducer";
 import rootSaga from "./sagas/rootSaga";
-
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

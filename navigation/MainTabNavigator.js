@@ -1,31 +1,16 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/Home/HomeScreen';
 import RoomsScreen from '../screens/Rooms/RoomsScreenContainer';
 import SimulationScreen from '../screens/Simulation/SimulationScreenContainer';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
+  tabBarLabel: 'Home'
 };
 
 const RoomsStack = createStackNavigator({
@@ -33,13 +18,7 @@ const RoomsStack = createStackNavigator({
 });
 
 RoomsStack.navigationOptions = {
-  tabBarLabel: 'Rooms',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
+  tabBarLabel: 'Rooms'
 };
 
 const SimulationStack = createStackNavigator({
@@ -47,17 +26,21 @@ const SimulationStack = createStackNavigator({
 });
 
 SimulationStack.navigationOptions = {
-  tabBarLabel: 'Simulation',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
+  tabBarLabel: 'Simulation'
 };
 
 export default createBottomTabNavigator({
   HomeStack,
   RoomsStack,
   SimulationStack,
+},{
+  defaultNavigationOptions: () => ({
+  tabBarOptions: {
+    activeTintColor: '#2274a5',
+    labelStyle: {
+      fontSize: 20,
+      fontFamily: 'raleway-bold',
+    },
+  },
+})
 });

@@ -6,7 +6,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll",
+    "format:all": "prettier --write \"components/**/*.js\" \"actions/**/*.js\" \"reducers/**/*.js\" \"sagas/**/*.js\" \"screens/**/*.js\" \"selectors/**/*.js\" "
   },
   "jest": {
     "preset": "jest-expo"
@@ -22,17 +23,21 @@
     "redux-saga": "^1.0.2"
   },
   "devDependencies": {
+    "arty-charty": "^1.0.4",
     "axios": "^0.18.0",
     "babel-preset-expo": "^5.0.0",
     "jest-expo": "^32.0.0",
     "lodash.get": "^4.4.2",
     "lodash.isempty": "^4.4.0",
     "moment": "^2.24.0",
+    "prettier": "^1.17.0",
+    "react-native-animatable": "^1.3.2",
     "react-native-calendars": "1.21.0",
     "react-native-cards": "^1.1.4",
     "react-native-fullwidth-image": "^0.1.3",
     "react-native-modal-datetime-picker": "^7.4.0",
     "react-native-progress-steps": "^1.2.7",
+    "react-native-svg-charts": "^5.2.0",
     "react-native-ui-kitten": "^3.1.2",
     "react-native-vector-icons": "^6.4.0",
     "react-redux": "^6.0.1",
