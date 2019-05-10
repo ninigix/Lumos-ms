@@ -105,16 +105,6 @@ const styles = RkStyleSheet.create(theme => ({
     flex: 1,
     justifyContent: "center"
   },
-  list: {
-    marginHorizontal: 16
-  },
-  title: {
-    fontSize: 32,
-    color: "#3B3B39",
-    fontFamily: "raleway-bold",
-    textAlign: "center",
-    margin: 10
-  },
   nextBtnStyle: {
     borderWidth: 1,
     borderStyle: "solid",

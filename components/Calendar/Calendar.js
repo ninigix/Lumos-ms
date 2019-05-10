@@ -3,12 +3,13 @@ import { CalendarList } from "react-native-calendars";
 import moment from "moment";
 
 const Calendar = ({ startDate, endDate, onDateSelect }) => {
+  const mustard = "#ffbf00";
   const createDateRange = () => {
     startDate = moment(startDate).format("YYYY-MM-DD");
     endDate = moment(endDate).format("YYYY-MM-DD");
     const dateRange = {
-      [startDate]: { selected: true, startingDay: true, color: "green" },
-      [endDate]: { selected: true, endingDay: true, color: "green" }
+      [startDate]: { selected: true, startingDay: true, color: `${mustard}` },
+      [endDate]: { selected: true, endingDay: true, color: `${mustard}` }
     };
     if (startDate && endDate) {
       let start = moment(startDate)
@@ -17,7 +18,7 @@ const Calendar = ({ startDate, endDate, onDateSelect }) => {
       const end = moment(endDate).startOf("day");
       while (end.isAfter(start)) {
         Object.assign(dateRange, {
-          [start.format("YYYY-MM-DD")]: { selected: true, color: "green" }
+          [start.format("YYYY-MM-DD")]: { selected: true, color: `${mustard}` }
         });
         start = start.add(1, "days");
       }

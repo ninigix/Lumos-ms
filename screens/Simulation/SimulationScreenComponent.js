@@ -100,9 +100,155 @@ export default class SimulationScreenComponent extends React.Component {
     });
   };
 
-  // TODO: move color to const
+  renderCalendarStep = () => {
+    const isDisabled = !this.state.startingDay || !this.state.endingDay;
+    return (
+      <ProgressStep
+        label="Date"
+        nextBtnDisabled={isDisabled}
+        nextBtnText=">"
+        nextBtnStyle={
+          isDisabled ? styles.disabledNextBtnStyle : styles.nextBtnStyle
+        }
+        nextBtnTextStyle={styles.btnTextStyle}
+      >
+        <View
+          style={{
+            alignItems: "center",
+            width: deviceWidth,
+            height: deviceHeight,
+            flexDirection: "column"
+          }}
+        >
+          <Calendar
+            startDate={this.state.startingDay}
+            endDate={this.state.endingDay}
+            onDateSelect={this.handleOnDateSelect}
+          />
+          <MyText textStyle={{ textAlign: "justify", fontSize: 16 }}>
+            starting hour: 16 a.m.{" "}
+          </MyText>
+        </View>
+      </ProgressStep>
+    );
+  };
+
+  renderHoursStep = () => {
+    const isDisabled = !this.state.startingHour || !this.state.endingHour;
+    return (
+      <ProgressStep
+        label="Hours"
+        nextBtnDisabled={isDisabled}
+        nextBtnText=">"
+        previousBtnText="<"
+        nextBtnStyle={
+          isDisabled ? styles.disabledNextBtnStyle : styles.nextBtnStyle
+        }
+        nextBtnTextStyle={styles.btnTextStyle}
+        previousBtnStyle={styles.prevBtnStyle}
+        previousBtnTextStyle={styles.btnTextStyle}
+      >
+        <View style={{ alignItems: "center" }}>
+          <HourChoiceButton
+            chosenDay={this.state.startingDay}
+            chosenHour={this.state.startingHour}
+            handleHourSelect={this.handleStartingHourSelect}
+          />
+          <HourChoiceButton
+            chosenDay={this.state.endingDay}
+            chosenHour={this.state.endingHour}
+            handleHourSelect={this.handleEndingHourSelect}
+          />
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this.handleTimePicked}
+            onCancel={this.hideDateTimePicker}
+            mode="time"
+          />
+        </View>
+      </ProgressStep>
+    );
+  };
+
+  renderRoomsStep = () => {
+    const isDisabled = this.state.selectedRooms.length === 0;
+    return (
+      <ProgressStep
+        label="Rooms"
+        onNext={this.handlePostDataToLearn}
+        nextBtnDisabled={isDisabled}
+        nextBtnText=">"
+        previousBtnText="<"
+        nextBtnStyle={
+          isDisabled ? styles.disabledNextBtnStyle : styles.nextBtnStyle
+        }
+        nextBtnTextStyle={styles.btnTextStyle}
+        previousBtnStyle={styles.prevBtnStyle}
+        previousBtnTextStyle={styles.btnTextStyle}
+      >
+        <View style={{ alignItems: "center" }}>
+          {Object.entries(labels).map(([key, value]) => (
+            <RoomChoiceButton
+              label={value}
+              onSelect={this.handleSelect}
+              key={`${key}__${value}`}
+              isSelected={this.state.selectedRooms.includes(key)}
+              roomId={key}
+            />
+          ))}
+        </View>
+      </ProgressStep>
+    );
+  };
+
+  renderSimulationStep = () => (
+    <ProgressStep
+      label="See simulation"
+      nextBtnText=">"
+      previousBtnText="<"
+      nextBtnStyle={styles.nextBtnStyle}
+      nextBtnTextStyle={styles.btnTextStyle}
+      previousBtnStyle={styles.prevBtnStyle}
+      previousBtnTextStyle={styles.btnTextStyle}
+    >
+      <View style={{ alignItems: "center" }}>
+        {this.props.generatedData &&
+          this.props.generatedData.map(data => (
+            <SimulationComponent
+              date={data.datetimevalue}
+              isLightOn={data.status}
+              roomName={labels[data.room]}
+            />
+          ))}
+      </View>
+    </ProgressStep>
+  );
+
+  renderStartSimulationStep = () => (
+    <ProgressStep
+      label="Start"
+      nextBtnText=">"
+      previousBtnText="<"
+      nextBtnStyle={styles.nextBtnStyle}
+      nextBtnTextStyle={styles.btnTextStyle}
+      previousBtnStyle={styles.prevBtnStyle}
+      previousBtnTextStyle={styles.btnTextStyle}
+    >
+      <View style={{ alignItems: "center" }}>
+        <MyText textStyle={{ textAlign: "justify", fontSize: 16 }}>
+          {" "}
+          Be careful - when the simulation is running you can't switch light via
+          Lumos app.
+        </MyText>
+        <Button
+          title="Start simulation"
+          onPress={() => this.props.navigation.navigate("Home")}
+        />
+      </View>
+    </ProgressStep>
+  );
+
   render() {
-    const { generatedData } = this.props;
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -112,96 +258,13 @@ export default class SimulationScreenComponent extends React.Component {
             activeLabelColor="#2274a5"
             activeStepNumColor="#2274a5"
             completedStepIconColor="#2274a5"
+            completedCheckColor="#ffbf00"
           >
-            <ProgressStep
-              label="Date"
-              nextBtnDisabled={!this.state.startingDay || !this.state.endingDay}
-            >
-              <View
-                style={{
-                  alignItems: "center",
-                  width: deviceWidth,
-                  height: deviceHeight,
-                  flexDirection: "column"
-                }}
-              >
-                <Calendar
-                  startDate={this.state.startingDay}
-                  endDate={this.state.endingDay}
-                  onDateSelect={this.handleOnDateSelect}
-                />
-                <MyText textStyle={{ textAlign: "justify", fontSize: 16 }}>
-                  starting hour: 16 a.m.{" "}
-                </MyText>
-              </View>
-            </ProgressStep>
-            <ProgressStep
-              label="Hours"
-              nextBtnDisabled={
-                !this.state.startingHour || !this.state.endingHour
-              }
-            >
-              <View style={{ alignItems: "center" }}>
-                <HourChoiceButton
-                  chosenDay={this.state.startingDay}
-                  chosenHour={this.state.startingHour}
-                  handleHourSelect={this.handleStartingHourSelect}
-                />
-                <HourChoiceButton
-                  chosenDay={this.state.endingDay}
-                  chosenHour={this.state.endingHour}
-                  handleHourSelect={this.handleEndingHourSelect}
-                />
-                <DateTimePicker
-                  isVisible={this.state.isDateTimePickerVisible}
-                  onConfirm={this.handleTimePicked}
-                  onCancel={this.hideDateTimePicker}
-                  mode="time"
-                />
-              </View>
-            </ProgressStep>
-            <ProgressStep
-              label="Rooms"
-              onNext={this.handlePostDataToLearn}
-              nextBtnDisabled={this.state.selectedRooms.length === 0}
-            >
-              <View style={{ alignItems: "center" }}>
-                {Object.entries(labels).map(([key, value]) => (
-                  <RoomChoiceButton
-                    label={value}
-                    onSelect={this.handleSelect}
-                    key={`${key}__${value}`}
-                    isSelected={this.state.selectedRooms.includes(key)}
-                    roomId={key}
-                  />
-                ))}
-              </View>
-            </ProgressStep>
-            <ProgressStep label="See simulation">
-              <View style={{ alignItems: "center" }}>
-                {generatedData &&
-                  generatedData.map(data => (
-                    <SimulationComponent
-                      date={data.datetimevalue}
-                      isLightOn={data.status}
-                      roomName={labels[data.room]}
-                    />
-                  ))}
-              </View>
-            </ProgressStep>
-            <ProgressStep label="Start">
-              <View style={{ alignItems: "center" }}>
-                <MyText textStyle={{ textAlign: "justify", fontSize: 16 }}>
-                  {" "}
-                  Be careful - when the simulation is running you can't switch
-                  light via Lumos app.
-                </MyText>
-                <Button
-                  title="Start simulation"
-                  onPress={() => this.props.navigation.navigate("Home")}
-                />
-              </View>
-            </ProgressStep>
+            {this.renderCalendarStep()}
+            {this.renderHoursStep()}
+            {this.renderRoomsStep()}
+            {this.renderSimulationStep()}
+            {this.renderStartSimulationStep()}
           </ProgressSteps>
         </View>
       </View>
@@ -244,5 +307,36 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginHorizontal: 16
+  },
+  nextBtnStyle: {
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#2274a5",
+    borderRadius: 8,
+    marginRight: -50,
+    marginBottom: -30
+  },
+  disabledNextBtnStyle: {
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "grey",
+    borderRadius: 8,
+    marginRight: -50,
+    marginBottom: -30
+  },
+  prevBtnStyle: {
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#2274a5",
+    borderRadius: 8,
+    marginLeft: -50,
+    marginBottom: -30
+  },
+  btnTextStyle: {
+    color: "#2274a5",
+    fontFamily: "raleway-bold",
+    textAlign: "center",
+    padding: 8,
+    fontSize: 18
   }
 });
