@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import isempty from "lodash.isempty";
-import { Dimensions } from 'react-native';
+import { Dimensions } from "react-native";
 
 import { RkText, RkCard } from "react-native-ui-kitten";
 import {
@@ -12,7 +12,7 @@ import {
   ProgressChart,
   ContributionGraph,
   StackedBarChart
-} from 'react-native-chart-kit'
+} from "react-native-chart-kit";
 
 import Room from "./Room/Room";
 import { messages } from "./RoomsScreenConstants";
@@ -26,9 +26,10 @@ export default class RoomsScreenComponent extends React.Component {
   }
 
   componentDidMount() {
-    const { getSimulationStatus, getLightSwitches } = this.props;
+    const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
     getLightSwitches();
     getSimulationStatus();
+    getStatistics();
   }
 
   checkIfSimulationOn = () => {
@@ -39,25 +40,54 @@ export default class RoomsScreenComponent extends React.Component {
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
 
-
   data = [
-    { name: 'Seoul', population: 215, color: '#FFBF00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-    { name: 'Toronto', population: 280, color: '#E83F6F', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-    { name: 'Beijing', population: 527, color: '#2274A5', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-    { name: 'New York', population: 853, color: '#32936F', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-    { name: 'Moscow', population: 119, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
+    {
+      name: "Seoul",
+      population: 215,
+      color: "#FFBF00",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Toronto",
+      population: 280,
+      color: "#E83F6F",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Beijing",
+      population: 527,
+      color: "#2274A5",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "New York",
+      population: 853,
+      color: "#32936F",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Moscow",
+      population: 119,
+      color: "rgb(0, 0, 255)",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    }
   ];
 
-  screenWidth = Dimensions.get('window').width
+  screenWidth = Dimensions.get("window").width;
 
   chartConfig = {
-    backgroundGradientFrom: '#1E2923',
-    backgroundGradientTo: '#08130D',
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientTo: "#08130D",
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
     strokeWidth: 2 // optional, default 3
   };
 
-  capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
 
   render() {
     const { lightSwitches } = this.props;
@@ -93,7 +123,7 @@ export default class RoomsScreenComponent extends React.Component {
                   <View style={{ marginTop: 10, marginBottom: 10 }}>
                     <RkCard rkType="shadowed">
                       <MyText>Some title</MyText>
-                    <PieChart
+                      <PieChart
                         data={this.data}
                         width={this.screenWidth}
                         height={220}
@@ -102,7 +132,7 @@ export default class RoomsScreenComponent extends React.Component {
                         backgroundColor="transparent"
                         paddingLeft="15"
                         absolute
-                    />
+                      />
                     </RkCard>
                   </View>
                 </View>

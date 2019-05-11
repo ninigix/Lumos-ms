@@ -5,12 +5,14 @@ import {
   watchGetSimulationStatus,
   watchPostDataToLearn
 } from "./simulationSaga";
+import { watchGetStatistics } from "./statisticSaga";
 
 export default function* rootSaga() {
   yield all([
     watchGetLightSwitches(),
     watchSwitchLights(),
     watchGetSimulationStatus(),
-    watchPostDataToLearn()
+    watchPostDataToLearn(),
+    watchGetStatistics()
   ]);
 }

@@ -12,6 +12,14 @@ export function getSimulationStatus() {
     return result.then(json => json);
 }
 
+export function getStatistics() {
+    const result = callApi.getStatistics();
+    console.log('result', result);
+    return result;
+    // return result.then(json => json);
+}
+
+
 // POST
 
 export function postSwitchLights(params) {
