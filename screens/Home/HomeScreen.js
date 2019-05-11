@@ -40,7 +40,6 @@ const deviceHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   title: {
     fontSize: 100,
-    // color: '#3B3B39',
     color: "#2274a5",
     fontFamily: "arkipelago",
     textAlign: "center"

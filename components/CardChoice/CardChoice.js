@@ -1,11 +1,61 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
-const CardChoice = ({ leftComponent, rightComponent }) => {
+import MyText from "../MyText/MyText";
+import IconButton from "../IconButton/IconButton";
+
+const CardChoice = ({
+  leftComponent,
+  rightComponent,
+  handleOnPress,
+  leftComponentAdditionalLine,
+  iconType,
+  iconIsActive,
+  iconBackgroundColor
+}) => {
+  const renderText = () => (
+    <MyText textStyle={{ fontSize: 16 }}>{leftComponentAdditionalLine}</MyText>
+  );
+
+  const renderBoldText = () => (
+    <MyText isBold textStyle={{ fontSize: 16 }}>
+      {leftComponent}
+    </MyText>
+  );
+
+  const renderLeftContent = () => (
+    <TouchableOpacity
+      onPress={handleOnPress}
+      style={styles.leftContentWrapper}
+      disabled={!handleOnPress}
+    >
+      <IconButton
+        type={iconType}
+        wasSelected={iconIsActive}
+        backgroundColor={iconBackgroundColor}
+      />
+      {leftComponentAdditionalLine ? (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "column"
+          }}
+        >
+          {renderText()}
+          {renderBoldText()}
+        </View>
+      ) : (
+        renderBoldText()
+      )}
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.wrapper}>
-      <View style={styles.leftWrapper}>{leftComponent}</View>
-      <View style={styles.rightWrapper}>{rightComponent}</View>
+      <View style={styles.leftWrapper}>{renderLeftContent()}</View>
+      <View style={styles.rightWrapper}>
+        <View style={styles.greyBackground}>{rightComponent}</View>
+      </View>
     </View>
   );
 };
@@ -32,6 +82,20 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "#d6d7da",
     flexDirection: "row",
-    margin: 15,
+    margin: 15
+  },
+  greyBackground: {
+    flex: 1,
+    backgroundColor: "#EBEBE4",
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  leftContentWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center"
   }
 });

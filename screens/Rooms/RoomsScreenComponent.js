@@ -88,6 +88,12 @@ export default class RoomsScreenComponent extends React.Component {
                   <RkCard>
                     <PieChart style={{ height: 200 }} data={this.pieData} />
                   </RkCard>
+                  <RkCard>
+                    <PieChart style={{ height: 200 }} data={this.pieData} />
+                  </RkCard>
+                  <RkCard>
+                    <PieChart style={{ height: 200 }} data={this.pieData} />
+                  </RkCard>
                 </View>
               </ProgressStep>
             ))}

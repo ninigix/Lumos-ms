@@ -1,6 +1,5 @@
 import React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
-import { Button } from "react-native-elements";
+import { Dimensions, StyleSheet, View, Text } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import DateTimePicker from "react-native-modal-datetime-picker";
 
@@ -229,21 +228,18 @@ export default class SimulationScreenComponent extends React.Component {
       label="Start"
       nextBtnText=">"
       previousBtnText="<"
+      finishBtnText="Start simulation"
+      onSubmit={() => this.props.navigation.navigate("Home")}
       nextBtnStyle={styles.nextBtnStyle}
       nextBtnTextStyle={styles.btnTextStyle}
       previousBtnStyle={styles.prevBtnStyle}
       previousBtnTextStyle={styles.btnTextStyle}
     >
-      <View style={{ alignItems: "center" }}>
-        <MyText textStyle={{ textAlign: "justify", fontSize: 16 }}>
-          {" "}
-          Be careful - when the simulation is running you can't switch light via
-          Lumos app.
+      <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', margin:10 }}>
+        <Text style={styles.fancyFont}>Be careful!</Text>
+        <MyText textStyle={{ textAlign: "justify", fontSize: 26 }}>
+           When the simulation is running you can't switch light using Lumos app.
         </MyText>
-        <Button
-          title="Start simulation"
-          onPress={() => this.props.navigation.navigate("Home")}
-        />
       </View>
     </ProgressStep>
   );
@@ -337,5 +333,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 8,
     fontSize: 18
-  }
+  },
+  fancyFont: {
+    fontSize: 60,
+    color: "#e83f6f",
+    fontFamily: "arkipelago",
+    textAlign: "center",
+    padding: 20
+  },
 });
