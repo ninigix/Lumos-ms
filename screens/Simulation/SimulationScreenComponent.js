@@ -235,10 +235,18 @@ export default class SimulationScreenComponent extends React.Component {
       previousBtnStyle={styles.prevBtnStyle}
       previousBtnTextStyle={styles.btnTextStyle}
     >
-      <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', margin:10 }}>
+      <View
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          margin: 10
+        }}
+      >
         <Text style={styles.fancyFont}>Be careful!</Text>
         <MyText textStyle={{ textAlign: "justify", fontSize: 26 }}>
-           When the simulation is running you can't switch light using Lumos app.
+          When the simulation is running you can't switch light using Lumos app.
         </MyText>
       </View>
     </ProgressStep>
@@ -340,5 +348,5 @@ const styles = StyleSheet.create({
     fontFamily: "arkipelago",
     textAlign: "center",
     padding: 20
-  },
+  }
 });

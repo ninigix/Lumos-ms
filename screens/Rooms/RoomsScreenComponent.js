@@ -2,11 +2,18 @@ import React from "react";
 import { View, Text } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import isempty from "lodash.isempty";
-import { PieChart } from "react-native-svg-charts";
-import { RkText, RkCard } from "react-native-ui-kitten";
+import { Dimensions } from 'react-native';
 
-import { roomImages } from "../../constants/Links";
-import Card from "./Card/Card";
+import { RkText, RkCard } from "react-native-ui-kitten";
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from 'react-native-chart-kit'
+
 import Room from "./Room/Room";
 import { messages } from "./RoomsScreenConstants";
 
@@ -32,27 +39,25 @@ export default class RoomsScreenComponent extends React.Component {
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
 
-  data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80];
 
-  randomColor = () =>
-    ("#" + ((Math.random() * 0xffffff) << 0).toString(16) + "000000").slice(
-      0,
-      7
-    );
+  data = [
+    { name: 'Seoul', population: 215, color: '#FFBF00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+    { name: 'Toronto', population: 280, color: '#E83F6F', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+    { name: 'Beijing', population: 527, color: '#2274A5', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+    { name: 'New York', population: 853, color: '#32936F', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+    { name: 'Moscow', population: 119, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
+  ];
 
-  pieData = this.data
-    .filter(value => value > 0)
-    .map((value, index) => ({
-      value,
-      svg: {
-        fill: this.randomColor(),
-        onPress: () => console.log("press", index)
-      },
-      key: `pie-${index}`
-    }));
+  screenWidth = Dimensions.get('window').width
 
-  getIndex = (currentIndex, shouldIncrement) =>
-    shouldIncrement ? currentIndex + 1 : currentIndex - 1;
+  chartConfig = {
+    backgroundGradientFrom: '#1E2923',
+    backgroundGradientTo: '#08130D',
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 2 // optional, default 3
+  };
+
+  capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
   render() {
     const { lightSwitches } = this.props;
@@ -69,7 +74,7 @@ export default class RoomsScreenComponent extends React.Component {
           >
             {lightSwitches.map((item, index) => (
               <ProgressStep
-                label={item.description}
+                label={this.capitalize(item.description.toLowerCase())}
                 key={`${item.id}_${item.status}`}
                 nextBtnText=">"
                 previousBtnText="<"
@@ -85,15 +90,21 @@ export default class RoomsScreenComponent extends React.Component {
                     item={item}
                     onClick={this.props.switchLight}
                   />
-                  <RkCard>
-                    <PieChart style={{ height: 200 }} data={this.pieData} />
-                  </RkCard>
-                  <RkCard>
-                    <PieChart style={{ height: 200 }} data={this.pieData} />
-                  </RkCard>
-                  <RkCard>
-                    <PieChart style={{ height: 200 }} data={this.pieData} />
-                  </RkCard>
+                  <View style={{ marginTop: 10, marginBottom: 10 }}>
+                    <RkCard rkType="shadowed">
+                      <MyText>Some title</MyText>
+                    <PieChart
+                        data={this.data}
+                        width={this.screenWidth}
+                        height={220}
+                        chartConfig={this.chartConfig}
+                        accessor="population"
+                        backgroundColor="transparent"
+                        paddingLeft="15"
+                        absolute
+                    />
+                    </RkCard>
+                  </View>
                 </View>
               </ProgressStep>
             ))}
@@ -105,6 +116,7 @@ export default class RoomsScreenComponent extends React.Component {
 }
 
 import { RkStyleSheet } from "react-native-ui-kitten";
+import MyText from "../../components/MyText/MyText";
 
 const styles = RkStyleSheet.create(theme => ({
   root: {
