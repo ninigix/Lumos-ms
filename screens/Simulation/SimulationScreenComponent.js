@@ -8,6 +8,7 @@ import Calendar from "../../components/Calendar/Calendar";
 import HourChoiceButton from "../../components/HourChoiceButton/HourChoiceButton";
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 import * as actions from "../../actions/simulationActions";
 import {FAILURE, REQUEST, SUCCESS} from "../../actions/helpers";
 
@@ -229,7 +230,7 @@ export default class SimulationScreenComponent extends React.Component {
 
       case FAILURE: {return <Text>failure</Text>}
 
-      case REQUEST: {return <Text>request</Text>}
+      case REQUEST: {return <LoadingIndicator/>}
 
       default:
         return <Text>empty</Text>;

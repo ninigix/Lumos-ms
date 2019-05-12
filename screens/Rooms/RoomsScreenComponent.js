@@ -8,6 +8,7 @@ import Room from "./Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreenConstants";
 import {FAILURE, REQUEST, SUCCESS} from "../../actions/helpers";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
+import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ export default class RoomsScreenComponent extends React.Component {
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
 
+  // TODO: fix labels
   renderContent = () => {
     const { statisticsState, statistics } = this.props;
     {console.log('statisticsState', statisticsState)}
@@ -59,13 +61,13 @@ export default class RoomsScreenComponent extends React.Component {
                   previousBtnTextStyle={styles.btnTextStyle}
               >
                 <View style={{ marginLeft: 10, marginRight: 10 }}>
-                  {/*<Room*/}
-                  {/*  isSimulationOn={this.checkIfSimulationOn()}*/}
-                  {/*  // isLightOn={lightSwitches[key]}*/}
-                  {/*  key={key}*/}
-                  {/*  value={value}*/}
-                  {/*  onClick={this.props.switchLight}*/}
-                  {/*/>*/}
+                  <Room
+                    isSimulationOn={this.checkIfSimulationOn()}
+                    // isLightOn={lightSwitches[key]}
+                    key={key}
+                    value={value}
+                    onClick={this.props.switchLight}
+                  />
                 </View>
               </ProgressStep>
           ))}
@@ -74,7 +76,7 @@ export default class RoomsScreenComponent extends React.Component {
 
       case FAILURE: {return <Text>failure</Text>}
 
-      case REQUEST: {return <Text>request</Text>}
+      case REQUEST: {return <LoadingIndicator/>}
 
       default:
         return <Text>empty</Text>;

@@ -3,20 +3,20 @@ import { View } from "react-native";
 import { RkStyleSheet } from "react-native-ui-kitten";
 import MyText from "../../../components/MyText/MyText";
 
-const UsageCard = ({ price, kwh, time_on }) => (
+const UsageCard = ({ price, kwh, bulb_consumption }) => (
   <View style={styles.wrapper}>
     <View style={styles.priceWrapper}>
       <MyText textStyle={{ color: "white" }}> Total price</MyText>
       <MyText textStyle={{ color: "white", fontSize: 20 }} isBold>
-        {price} PLN
+        {price.toFixed(4)} PLN
       </MyText>
     </View>
     <View style={styles.detailsWrapper}>
       <MyText isBold textStyle={{ color: "white" }}>
-        {kwh} kwh
+        {kwh.toFixed(4)} kwh
       </MyText>
       <MyText isBold textStyle={{ color: "white" }}>
-        {time_on}
+        {bulb_consumption.toFixed(2)} %
       </MyText>
     </View>
   </View>

@@ -3,4 +3,4 @@ export const messages = {
   simulationOff: "Choose light to switch"
 };
 
-export const ROOMS_NAMES = ["Kitchen", "Bedroom1", "Hall", "Bedroom2", "Bathroom"];
+export const ROOMS_NAMES = ["Bathroom", "Bedroom1", "Kitchen", "Hall", "Bathroom2"];

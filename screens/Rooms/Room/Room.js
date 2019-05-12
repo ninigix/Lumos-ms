@@ -30,10 +30,11 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
     >
       {isSimulationOn ? SWITCH_OFF : SWITCH_ON}
     </RkButton>
+      {console.log('value', value)}
     <UsageCard
-      price={value.price.toFixed(2)}
-      kwh={value.kwh.toFixed(3)}
-      time_on={value.time_on}
+      price={value.price.price}
+      kwh={value.kwh.kwh}
+      bulb_consumption={value.bulb_consumption}
     />
 
     <RkCard style={{ marginTop: 20, marginBottom: 20 }}>

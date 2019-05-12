@@ -17,8 +17,7 @@ export function getSimulationStatus() {
 export function getStatistics() {
     const result = callApi.getStatistics();
     console.log('result', result);
-    return {response: result};
-    // return result.then(json => json);
+    return result.then(json => json);
 }
 
 
@@ -32,7 +31,4 @@ export function postSwitchLights(params) {
 export function postDataToLearn(params) {
     const result = callApi.postDataToLearn(params);
     return result.then(json => json);
-    // const sth = Papa.parse(result);
-    // console.log(results.meta.delimiter);
-    // console.log('sth', sth);
 }

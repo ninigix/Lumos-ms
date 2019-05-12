@@ -24,7 +24,6 @@ export default class HomeScreen extends React.Component {
           <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <Image source={require("../../assets/images/lightbulb_other.png")} style={{resizeMode: "center"}}/>
             <Text style={styles.title}>{messages.title}</Text>
-
           </View>
         </View>
         {this.mapCards()}
