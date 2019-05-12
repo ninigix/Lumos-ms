@@ -22,8 +22,6 @@ export function* watchGetSimulationStatus() {
 
 function* postDataToLearn(requestData) {
   const { response, error } = yield call(api.postDataToLearn, requestData);
-  console.log("response", response);
-
   if (response) {
     yield put(actions.postLearnData.success(response, requestData));
   } else {
@@ -36,6 +34,24 @@ export function* watchPostDataToLearn() {
     const action = yield take(actions.POST_LEARN_DATA.REQUEST);
     if (action) {
       yield fork(postDataToLearn, action.params);
+    }
+  }
+}
+
+function* postStartSimulation(requestData) {
+  const { response, error } = yield call(api.postStartSimulation, requestData);
+  if (response) {
+    yield put(actions.postLearnData.success(response, requestData));
+  } else {
+    yield put(actions.postLearnData.failure(error));
+  }
+}
+
+export function* watchPostStartSimulation() {
+  while (true) {
+    const action = yield take(actions.POST_START_SIMULATION.REQUEST);
+    if (action) {
+      yield fork(postStartSimulation, action.params);
     }
   }
 }

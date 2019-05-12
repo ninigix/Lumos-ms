@@ -8,9 +8,9 @@ import Calendar from "../../components/Calendar/Calendar";
 import HourChoiceButton from "../../components/HourChoiceButton/HourChoiceButton";
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
-import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 import * as actions from "../../actions/simulationActions";
-import {FAILURE, REQUEST, SUCCESS} from "../../actions/helpers";
+import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -18,7 +18,7 @@ const deviceHeight = Dimensions.get("window").height;
 const labels = {
   1: "Bathroom",
   2: "Bedroom1",
-  3: "Kitchen",
+  3: "Kitchen"
   // 4: "Hall", //not implemented
   // 5: "Bedroom2" //not implemented
 };
@@ -206,7 +206,8 @@ export default class SimulationScreenComponent extends React.Component {
   renderSimulationStep = () => {
     switch (this.props.learnStatus) {
       case SUCCESS: {
-        return <ProgressStep
+        return (
+          <ProgressStep
             label="See simulation"
             nextBtnText=">"
             previousBtnText="<"
@@ -214,23 +215,28 @@ export default class SimulationScreenComponent extends React.Component {
             nextBtnTextStyle={styles.btnTextStyle}
             previousBtnStyle={styles.prevBtnStyle}
             previousBtnTextStyle={styles.btnTextStyle}
-        >
-          <View style={{ alignItems: "center" }}>
-            {this.props.generatedData &&
-            this.props.generatedData.map(data => (
-                <SimulationComponent
+          >
+            <View style={{ alignItems: "center" }}>
+              {this.props.generatedData &&
+                this.props.generatedData.map(data => (
+                  <SimulationComponent
                     date={data.datetimevalue}
                     isLightOn={data.status.includes(1)}
                     roomName={labels[data.room]}
-                />
-            ))}
-          </View>
-        </ProgressStep>
+                  />
+                ))}
+            </View>
+          </ProgressStep>
+        );
       }
 
-      case FAILURE: {return <Text>failure</Text>}
+      case FAILURE: {
+        return <Text>failure</Text>;
+      }
 
-      case REQUEST: {return <LoadingIndicator/>}
+      case REQUEST: {
+        return <LoadingIndicator />;
+      }
 
       default:
         return <Text>empty</Text>;
@@ -243,7 +249,7 @@ export default class SimulationScreenComponent extends React.Component {
       nextBtnText=">"
       previousBtnText="<"
       finishBtnText="Start simulation"
-      onSubmit={() => this.props.navigation.navigate("Home")}
+      onSubmit={() => this.props.postStartSimulation(this.props.generatedData)}
       nextBtnStyle={styles.nextBtnStyle}
       nextBtnTextStyle={styles.btnTextStyle}
       previousBtnStyle={styles.prevBtnStyle}

@@ -1,5 +1,12 @@
 import React from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, View, Image} from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image
+} from "react-native";
 import FullWidthImage from "react-native-fullwidth-image";
 
 import Card from "./Card/Card";
@@ -21,8 +28,17 @@ export default class HomeScreen extends React.Component {
     return (
       <ScrollView style={styles.scrollView}>
         <View style={styles.fullScreen}>
-          <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Image source={require("../../assets/images/lightbulb_other.png")} style={{resizeMode: "center"}}/>
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Image
+              source={require("../../assets/images/lightbulb_other.png")}
+              style={{ resizeMode: "center" }}
+            />
             <Text style={styles.title}>{messages.title}</Text>
           </View>
         </View>
@@ -40,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 145,
     color: "#2274a5",
     fontFamily: "arkipelago",
-    marginTop: -70
+    marginTop: -(deviceHeight / 7.5)
   },
   scrollView: {
     flex: 1,

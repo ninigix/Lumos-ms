@@ -6,7 +6,7 @@ import { RkStyleSheet } from "react-native-ui-kitten";
 
 import Room from "./Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreenConstants";
-import {FAILURE, REQUEST, SUCCESS} from "../../actions/helpers";
+import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
@@ -37,28 +37,31 @@ export default class RoomsScreenComponent extends React.Component {
   // TODO: fix labels
   renderContent = () => {
     const { statisticsState, statistics } = this.props;
-    {console.log('statisticsState', statisticsState)}
+    {
+      console.log("statisticsState", statisticsState);
+    }
 
     switch (statisticsState) {
       case SUCCESS: {
-        return <ProgressSteps
+        return (
+          <ProgressSteps
             activeStepIconBorderColor="#2274a5"
             completedProgressBarColor="#2274a5"
             activeLabelColor="#2274a5"
             activeStepNumColor="#2274a5"
             completedStepIconColor="#2274a5"
-        >
-          {Object.entries(statistics).map(([key, value]) => (
+          >
+            {Object.entries(statistics).map(([key, value]) => (
               <ProgressStep
-                  label={ROOMS_NAMES[key]}
-                  key={key}
-                  nextBtnText=">"
-                  previousBtnText="<"
-                  finishBtnText="Go back"
-                  nextBtnStyle={styles.nextBtnStyle}
-                  nextBtnTextStyle={styles.btnTextStyle}
-                  previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
-                  previousBtnTextStyle={styles.btnTextStyle}
+                label={ROOMS_NAMES[key]}
+                key={key}
+                nextBtnText=">"
+                previousBtnText="<"
+                finishBtnText="Go back"
+                nextBtnStyle={styles.nextBtnStyle}
+                nextBtnTextStyle={styles.btnTextStyle}
+                previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
+                previousBtnTextStyle={styles.btnTextStyle}
               >
                 <View style={{ marginLeft: 10, marginRight: 10 }}>
                   <Room
@@ -70,25 +73,26 @@ export default class RoomsScreenComponent extends React.Component {
                   />
                 </View>
               </ProgressStep>
-          ))}
-        </ProgressSteps>
+            ))}
+          </ProgressSteps>
+        );
       }
 
-      case FAILURE: {return <Text>failure</Text>}
+      case FAILURE: {
+        return <Text>failure</Text>;
+      }
 
-      case REQUEST: {return <LoadingIndicator/>}
+      case REQUEST: {
+        return <LoadingIndicator />;
+      }
 
       default:
         return <Text>empty</Text>;
     }
-  }
+  };
 
   render() {
-    return (
-      <View style={styles.root}>
-        {this.renderContent()}
-      </View>
-    );
+    return <View style={styles.root}>{this.renderContent()}</View>;
   }
 }
 

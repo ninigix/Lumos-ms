@@ -16,7 +16,6 @@ export function getSimulationStatus() {
 
 export function getStatistics() {
     const result = callApi.getStatistics();
-    console.log('result', result);
     return result.then(json => json);
 }
 
@@ -30,5 +29,10 @@ export function postSwitchLights(params) {
 
 export function postDataToLearn(params) {
     const result = callApi.postDataToLearn(params);
+    return result.then(json => json);
+}
+
+export function postStartSimulation(params) {
+    const result = callApi.postStartSimulation(params);
     return result.then(json => json);
 }

@@ -30,7 +30,7 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
     >
       {isSimulationOn ? SWITCH_OFF : SWITCH_ON}
     </RkButton>
-      {console.log('value', value)}
+    {console.log("value", value)}
     <UsageCard
       price={value.price.price}
       kwh={value.kwh.kwh}
@@ -38,8 +38,18 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
     />
 
     <RkCard style={{ marginTop: 20, marginBottom: 20 }}>
-      <MyText isBold textStyle={{fontSize: 20, marginTop: 20, marginLeft: 20, color: "#2274A5"}}>Most popular days</MyText>
-      <VictoryChart animate={{ duration: 2000}}>
+      <MyText
+        isBold
+        textStyle={{
+          fontSize: 20,
+          marginTop: 20,
+          marginLeft: 20,
+          color: "#2274A5"
+        }}
+      >
+        Most popular days
+      </MyText>
+      <VictoryChart animate={{ duration: 2000 }}>
         <VictoryArea
           interpolation="natural"
           groupComponent={
@@ -50,7 +60,17 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
       </VictoryChart>
     </RkCard>
     <RkCard style={{ marginTop: 20, marginBottom: 20 }}>
-      <MyText isBold textStyle={{fontSize: 20, marginTop: 20, marginLeft: 20, color: "#2274A5"}}>Most popular hours</MyText>
+      <MyText
+        isBold
+        textStyle={{
+          fontSize: 20,
+          marginTop: 20,
+          marginLeft: 20,
+          color: "#2274A5"
+        }}
+      >
+        Most popular hours
+      </MyText>
       <VictoryPie
         data={fromChartHelper.formatHoursData(value.most_popular_hours)}
         colorScale={fromChartHelper.chartPieColors}
