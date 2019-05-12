@@ -1,5 +1,5 @@
 import * as actions from "../actions/simulationActions";
-import { FAILURE, SUCCESS } from "../actions/helpers";
+import { FAILURE, SUCCESS, REQUEST } from "../actions/helpers";
 
 const initialState = {
   status: []
@@ -35,6 +35,14 @@ export function simulationReducer(state = initialState, action) {
         learningStatus: FAILURE
       };
     }
+
+    case actions.POST_LEARN_DATA.REQUEST: {
+      return {
+        ...state,
+        learningStatus: REQUEST
+      };
+    }
+
     default:
       return state;
   }

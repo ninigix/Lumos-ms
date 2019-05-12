@@ -1,3 +1,5 @@
+import Papa from 'papaparse';
+
 import * as callApi from "./apiHelpers";
 
 // GET
@@ -29,5 +31,11 @@ export function postSwitchLights(params) {
 
 export function postDataToLearn(params) {
     const result = callApi.postDataToLearn(params);
-    return result.then(json => json);
+    return result.then(json => {
+        console.log('json', json);
+        return json;
+    });
+    // const sth = Papa.parse(result);
+    // console.log(results.meta.delimiter);
+    // console.log('sth', sth);
 }

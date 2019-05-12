@@ -8,16 +8,18 @@ import Calendar from "../../components/Calendar/Calendar";
 import HourChoiceButton from "../../components/HourChoiceButton/HourChoiceButton";
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
+import * as actions from "../../actions/simulationActions";
+import {FAILURE, REQUEST, SUCCESS} from "../../actions/helpers";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
 const labels = {
-  1: "Kitchen",
-  2: "Bathroom",
-  3: "Hall",
-  4: "Bedroom1",
-  5: "Bedroom2"
+  1: "Bathroom",
+  2: "Bedroom1",
+  3: "Kitchen",
+  // 4: "Hall", //not implemented
+  // 5: "Bedroom2" //not implemented
 };
 
 // TODO: hide in shame and pretend that somebody else wrote this component
@@ -200,28 +202,39 @@ export default class SimulationScreenComponent extends React.Component {
     );
   };
 
-  renderSimulationStep = () => (
-    <ProgressStep
-      label="See simulation"
-      nextBtnText=">"
-      previousBtnText="<"
-      nextBtnStyle={styles.nextBtnStyle}
-      nextBtnTextStyle={styles.btnTextStyle}
-      previousBtnStyle={styles.prevBtnStyle}
-      previousBtnTextStyle={styles.btnTextStyle}
-    >
-      <View style={{ alignItems: "center" }}>
-        {this.props.generatedData &&
-          this.props.generatedData.map(data => (
-            <SimulationComponent
-              date={data.datetimevalue}
-              isLightOn={data.status}
-              roomName={labels[data.room]}
-            />
-          ))}
-      </View>
-    </ProgressStep>
-  );
+  renderSimulationStep = () => {
+    switch (this.props.learnStatus) {
+      case SUCCESS: {
+        return <ProgressStep
+            label="See simulation"
+            nextBtnText=">"
+            previousBtnText="<"
+            nextBtnStyle={styles.nextBtnStyle}
+            nextBtnTextStyle={styles.btnTextStyle}
+            previousBtnStyle={styles.prevBtnStyle}
+            previousBtnTextStyle={styles.btnTextStyle}
+        >
+          <View style={{ alignItems: "center" }}>
+            {this.props.generatedData &&
+            this.props.generatedData.map(data => (
+                <SimulationComponent
+                    date={data.datetimevalue}
+                    isLightOn={data.status.includes(1)}
+                    roomName={labels[data.room]}
+                />
+            ))}
+          </View>
+        </ProgressStep>
+      }
+
+      case FAILURE: {return <Text>failure</Text>}
+
+      case REQUEST: {return <Text>request</Text>}
+
+      default:
+        return <Text>empty</Text>;
+    }
+  };
 
   renderStartSimulationStep = () => (
     <ProgressStep

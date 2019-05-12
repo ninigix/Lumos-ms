@@ -5,18 +5,8 @@ import isempty from "lodash.isempty";
 import { Dimensions } from "react-native";
 import { RkStyleSheet } from "react-native-ui-kitten";
 
-import { RkText, RkCard } from "react-native-ui-kitten";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
-
 import Room from "./Room/Room";
-import { messages } from "./RoomsScreenConstants";
+import { messages, ROOMS_NAMES } from "./RoomsScreenConstants";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
@@ -28,7 +18,6 @@ export default class RoomsScreenComponent extends React.Component {
 
   componentDidMount() {
     const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
-    getLightSwitches();
     getSimulationStatus();
     getStatistics();
   }
@@ -57,7 +46,7 @@ export default class RoomsScreenComponent extends React.Component {
 
     return (
       <View style={styles.root}>
-        {!isempty(statistics) && !isempty(lightSwitches) && (
+        {!isempty(statistics) && (
           <ProgressSteps
             activeStepIconBorderColor="#2274a5"
             completedProgressBarColor="#2274a5"
@@ -67,9 +56,7 @@ export default class RoomsScreenComponent extends React.Component {
           >
             {Object.entries(statistics).map(([key, value]) => (
               <ProgressStep
-                label={this.capitalize(
-                  lightSwitches[key].description.toLowerCase()
-                )}
+                label={ROOMS_NAMES[key]}
                 key={key}
                 nextBtnText=">"
                 previousBtnText="<"
@@ -79,10 +66,10 @@ export default class RoomsScreenComponent extends React.Component {
                 previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
                 previousBtnTextStyle={styles.btnTextStyle}
               >
-                {console.log("value", value)}
                 <View style={{ marginLeft: 10, marginRight: 10 }}>
                   <Room
                     isSimulationOn={this.checkIfSimulationOn()}
+                    isLightOn={lightSwitches[key]}
                     key={key}
                     value={value}
                     onClick={this.props.switchLight}

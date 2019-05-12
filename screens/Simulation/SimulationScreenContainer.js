@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 
 import SimulationScreenComponent from "./SimulationScreenComponent";
 import * as actions from "../../actions/simulationActions";
-import { getGeneratedData } from "../../selectors/simulationSelector";
+import { getGeneratedData, getLearningStatus } from "../../selectors/simulationSelector";
 
 const SimulationScreenContainer = props => (
   <SimulationScreenComponent {...props} />
 );
 
 const mapStateToProps = state => ({
-  generatedData: getGeneratedData(state)
+  generatedData: getGeneratedData(state),
+  learnStatus: getLearningStatus(state)
 });
 
 const mapDispatchToProps = dispatch => ({

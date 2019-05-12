@@ -22,11 +22,6 @@ export default class HomeScreen extends React.Component {
       <ScrollView style={styles.scrollView}>
         <View style={styles.fullScreen}>
           <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          {/*<FullWidthImage*/}
-          {/*  source={require("../../assets/images/lightbulb_other.png")}*/}
-          {/*  width={1100}*/}
-          {/*  height={1200}*/}
-          {/*/>*/}
             <Image source={require("../../assets/images/lightbulb_other.png")} style={{resizeMode: "center"}}/>
             <Text style={styles.title}>{messages.title}</Text>
 
@@ -47,7 +42,6 @@ const styles = StyleSheet.create({
     color: "#2274a5",
     fontFamily: "arkipelago",
     marginTop: -70
-    // textAlign: "center"
   },
   scrollView: {
     flex: 1,

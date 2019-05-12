@@ -1,9 +1,13 @@
 import isempty from 'lodash.isempty';
 
+// const SERVER_URL = "http://localhost:5000/";
 const SERVER_URL = "http://localhost:5000/";
+const MATEUSZ_SERVER = "178.32.244.200";
+const DOROTA_LOCAL_SERVER = "http://192.168.0.192:5000/";
 
 async function callApi(endpoint, method, params = {}) {
-    const apiPath = `${SERVER_URL}` + `${endpoint}`;
+    // const apiPath = `${SERVER_URL}` + `${endpoint}`;
+    const apiPath = `${endpoint}`;
     try {
         let additionalParams = {method};
         if (!isempty(params)) {
@@ -19,6 +23,7 @@ async function callApi(endpoint, method, params = {}) {
             }
         }
         const response = await fetch(apiPath, additionalParams);
+        console.log('response callApi', response);
         const responseJson = await response.json();
         return responseJson;
     } catch (error) {
@@ -119,7 +124,8 @@ export function postSwitchLights(params) {
 }
 
 export function postDataToLearn(params) {
-    const endpoint = "learn";
+    const endpoint = `${DOROTA_LOCAL_SERVER}learn`;
+    console.log('params', params);
     return callApi(endpoint, 'POST', params).then(value => ({response: value}));
 }
 
