@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     color: "#3B3B39",
-    fontFamily: "raleway-regular"
+    fontFamily: "raleway-bold"
   }
 });

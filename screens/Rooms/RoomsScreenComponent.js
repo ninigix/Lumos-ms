@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import isempty from "lodash.isempty";
 import { Dimensions } from "react-native";
+import { RkStyleSheet } from "react-native-ui-kitten";
 
 import { RkText, RkCard } from "react-native-ui-kitten";
 import {
@@ -40,44 +41,6 @@ export default class RoomsScreenComponent extends React.Component {
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
 
-  data = [
-    {
-      name: "Seoul",
-      population: 215,
-      color: "#FFBF00",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "Toronto",
-      population: 280,
-      color: "#E83F6F",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "Beijing",
-      population: 527,
-      color: "#2274A5",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "New York",
-      population: 853,
-      color: "#32936F",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "Moscow",
-      population: 119,
-      color: "rgb(0, 0, 255)",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    }
-  ];
-
   screenWidth = Dimensions.get("window").width;
 
   chartConfig = {
@@ -90,11 +53,11 @@ export default class RoomsScreenComponent extends React.Component {
   capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
 
   render() {
-    const { lightSwitches } = this.props;
+    const { lightSwitches, statistics } = this.props;
 
     return (
       <View style={styles.root}>
-        {!isempty(lightSwitches) && (
+        {!isempty(statistics) && !isempty(lightSwitches) && (
           <ProgressSteps
             activeStepIconBorderColor="#2274a5"
             completedProgressBarColor="#2274a5"
@@ -102,39 +65,28 @@ export default class RoomsScreenComponent extends React.Component {
             activeStepNumColor="#2274a5"
             completedStepIconColor="#2274a5"
           >
-            {lightSwitches.map((item, index) => (
+            {Object.entries(statistics).map(([key, value]) => (
               <ProgressStep
-                label={this.capitalize(item.description.toLowerCase())}
-                key={`${item.id}_${item.status}`}
+                label={this.capitalize(
+                  lightSwitches[key].description.toLowerCase()
+                )}
+                key={key}
                 nextBtnText=">"
                 previousBtnText="<"
                 finishBtnText="Go back"
                 nextBtnStyle={styles.nextBtnStyle}
                 nextBtnTextStyle={styles.btnTextStyle}
-                previousBtnStyle={index !== 0 && styles.prevBtnStyle}
+                previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
                 previousBtnTextStyle={styles.btnTextStyle}
               >
+                {console.log("value", value)}
                 <View style={{ marginLeft: 10, marginRight: 10 }}>
                   <Room
                     isSimulationOn={this.checkIfSimulationOn()}
-                    item={item}
+                    key={key}
+                    value={value}
                     onClick={this.props.switchLight}
                   />
-                  <View style={{ marginTop: 10, marginBottom: 10 }}>
-                    <RkCard rkType="shadowed">
-                      <MyText>Some title</MyText>
-                      <PieChart
-                        data={this.data}
-                        width={this.screenWidth}
-                        height={220}
-                        chartConfig={this.chartConfig}
-                        accessor="population"
-                        backgroundColor="transparent"
-                        paddingLeft="15"
-                        absolute
-                      />
-                    </RkCard>
-                  </View>
                 </View>
               </ProgressStep>
             ))}
@@ -145,8 +97,51 @@ export default class RoomsScreenComponent extends React.Component {
   }
 }
 
-import { RkStyleSheet } from "react-native-ui-kitten";
-import MyText from "../../components/MyText/MyText";
+{
+  /*<View style={{ marginTop: 10, marginBottom: 10 }}>*/
+}
+{
+  /*  <RkCard rkType="shadowed">*/
+}
+{
+  /*    <MyText>Some title</MyText>*/
+}
+{
+  /*    <PieChart*/
+}
+{
+  /*        data={this.data}*/
+}
+{
+  /*        width={this.screenWidth}*/
+}
+{
+  /*        height={220}*/
+}
+{
+  /*        chartConfig={this.chartConfig}*/
+}
+{
+  /*        accessor="population"*/
+}
+{
+  /*        backgroundColor="transparent"*/
+}
+{
+  /*        paddingLeft="15"*/
+}
+{
+  /*        absolute*/
+}
+{
+  /*    />*/
+}
+{
+  /*  </RkCard>*/
+}
+{
+  /*</View>*/
+}
 
 const styles = RkStyleSheet.create(theme => ({
   root: {

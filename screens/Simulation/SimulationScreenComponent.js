@@ -244,7 +244,9 @@ export default class SimulationScreenComponent extends React.Component {
           margin: 10
         }}
       >
-        <Text style={styles.fancyFont}>Be careful!</Text>
+        <MyText textStyle={styles.fancyFont} isBold>
+          Be careful!
+        </MyText>
         <MyText textStyle={{ textAlign: "justify", fontSize: 26 }}>
           When the simulation is running you can't switch light using Lumos app.
         </MyText>
@@ -343,9 +345,8 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   fancyFont: {
-    fontSize: 60,
-    color: "#e83f6f",
-    fontFamily: "arkipelago",
+    fontSize: 50,
+    color: "#ffbf00",
     textAlign: "center",
     padding: 20
   }

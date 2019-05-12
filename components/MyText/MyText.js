@@ -5,6 +5,7 @@ const MyText = ({ textStyle, isBold, children }) => (
   <Text
     style={{
       fontFamily: isBold ? "raleway-bold" : "raleway-light",
+      fontSize: 16,
       ...textStyle
     }}
   >

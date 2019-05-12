@@ -16,8 +16,7 @@ const IconButton = ({ type, backgroundColor, wasSelected }) => {
     <View
       style={{
         ...styles.iconButton,
-        backgroundColor:
-          wasSelected && backgroundColor ? backgroundColor : "#EBEBE4"
+        backgroundColor: wasSelected ? "#ffbf00" : "#EBEBE4"
       }}
     >
       <Image style={styles.icon} source={helper[type]} />

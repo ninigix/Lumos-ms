@@ -5,6 +5,7 @@ import * as api from "../services/api";
 
 function* getStatistics(requestData) {
   const { response, error } = yield call(api.getStatistics, requestData);
+  console.log("response", response);
   if (response) {
     yield put(actions.getStatistics.success(response, requestData));
   } else {

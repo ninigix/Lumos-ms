@@ -7,12 +7,14 @@ import { getSimulationState } from "../../actions/simulationActions";
 import { getStatistics } from "../../actions/statisticActions";
 import { getSimulationStatus } from "../../selectors/simulationSelector";
 import { getAvailableLights } from "../../selectors/lightSelector";
+import * as fromStatistic from "../../selectors/statisticSelector";
 
 const RoomsScreenContainer = props => <RoomsScreenComponent {...props} />;
 
 const mapStateToProps = state => ({
   lightSwitches: getAvailableLights(state),
-  simulationStatus: getSimulationStatus(state)
+  simulationStatus: getSimulationStatus(state),
+  statistics: fromStatistic.getStatistic(state)
 });
 
 const mapDispatchToProps = dispatch => ({
