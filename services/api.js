@@ -31,10 +31,7 @@ export function postSwitchLights(params) {
 
 export function postDataToLearn(params) {
     const result = callApi.postDataToLearn(params);
-    return result.then(json => {
-        console.log('json', json);
-        return json;
-    });
+    return result.then(json => json);
     // const sth = Papa.parse(result);
     // console.log(results.meta.delimiter);
     // console.log('sth', sth);

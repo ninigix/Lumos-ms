@@ -2,11 +2,12 @@ import React from "react";
 import { View, Text } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import isempty from "lodash.isempty";
-import { Dimensions } from "react-native";
 import { RkStyleSheet } from "react-native-ui-kitten";
 
 import Room from "./Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreenConstants";
+import {FAILURE, REQUEST, SUCCESS} from "../../actions/helpers";
+import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
@@ -17,117 +18,76 @@ export default class RoomsScreenComponent extends React.Component {
   }
 
   componentDidMount() {
-    const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
-    getSimulationStatus();
+    // const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
+    const { getStatistics } = this.props;
+    // getSimulationStatus();
     getStatistics();
   }
 
   checkIfSimulationOn = () => {
     console.log("this.props.simulationStatus", this.props.simulationStatus);
-    return this.props.simulationStatus === "on";
+    return false;
+    // return this.props.simulationStatus === "on";
   };
 
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
 
-  screenWidth = Dimensions.get("window").width;
+  renderContent = () => {
+    const { statisticsState, statistics } = this.props;
+    {console.log('statisticsState', statisticsState)}
 
-  chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientTo: "#08130D",
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2 // optional, default 3
-  };
-
-  capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
-
-  render() {
-    const { lightSwitches, statistics } = this.props;
-
-    return (
-      <View style={styles.root}>
-        {!isempty(statistics) && (
-          <ProgressSteps
+    switch (statisticsState) {
+      case SUCCESS: {
+        return <ProgressSteps
             activeStepIconBorderColor="#2274a5"
             completedProgressBarColor="#2274a5"
             activeLabelColor="#2274a5"
             activeStepNumColor="#2274a5"
             completedStepIconColor="#2274a5"
-          >
-            {Object.entries(statistics).map(([key, value]) => (
+        >
+          {Object.entries(statistics).map(([key, value]) => (
               <ProgressStep
-                label={ROOMS_NAMES[key]}
-                key={key}
-                nextBtnText=">"
-                previousBtnText="<"
-                finishBtnText="Go back"
-                nextBtnStyle={styles.nextBtnStyle}
-                nextBtnTextStyle={styles.btnTextStyle}
-                previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
-                previousBtnTextStyle={styles.btnTextStyle}
+                  label={ROOMS_NAMES[key]}
+                  key={key}
+                  nextBtnText=">"
+                  previousBtnText="<"
+                  finishBtnText="Go back"
+                  nextBtnStyle={styles.nextBtnStyle}
+                  nextBtnTextStyle={styles.btnTextStyle}
+                  previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
+                  previousBtnTextStyle={styles.btnTextStyle}
               >
                 <View style={{ marginLeft: 10, marginRight: 10 }}>
-                  <Room
-                    isSimulationOn={this.checkIfSimulationOn()}
-                    isLightOn={lightSwitches[key]}
-                    key={key}
-                    value={value}
-                    onClick={this.props.switchLight}
-                  />
+                  {/*<Room*/}
+                  {/*  isSimulationOn={this.checkIfSimulationOn()}*/}
+                  {/*  // isLightOn={lightSwitches[key]}*/}
+                  {/*  key={key}*/}
+                  {/*  value={value}*/}
+                  {/*  onClick={this.props.switchLight}*/}
+                  {/*/>*/}
                 </View>
               </ProgressStep>
-            ))}
-          </ProgressSteps>
-        )}
+          ))}
+        </ProgressSteps>
+      }
+
+      case FAILURE: {return <Text>failure</Text>}
+
+      case REQUEST: {return <Text>request</Text>}
+
+      default:
+        return <Text>empty</Text>;
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.root}>
+        {this.renderContent()}
       </View>
     );
   }
-}
-
-{
-  /*<View style={{ marginTop: 10, marginBottom: 10 }}>*/
-}
-{
-  /*  <RkCard rkType="shadowed">*/
-}
-{
-  /*    <MyText>Some title</MyText>*/
-}
-{
-  /*    <PieChart*/
-}
-{
-  /*        data={this.data}*/
-}
-{
-  /*        width={this.screenWidth}*/
-}
-{
-  /*        height={220}*/
-}
-{
-  /*        chartConfig={this.chartConfig}*/
-}
-{
-  /*        accessor="population"*/
-}
-{
-  /*        backgroundColor="transparent"*/
-}
-{
-  /*        paddingLeft="15"*/
-}
-{
-  /*        absolute*/
-}
-{
-  /*    />*/
-}
-{
-  /*  </RkCard>*/
-}
-{
-  /*</View>*/
 }
 
 const styles = RkStyleSheet.create(theme => ({

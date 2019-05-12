@@ -12,15 +12,16 @@ import * as fromStatistic from "../../selectors/statisticSelector";
 const RoomsScreenContainer = props => <RoomsScreenComponent {...props} />;
 
 const mapStateToProps = state => ({
-  lightSwitches: getAvailableLights(state),
-  simulationStatus: getSimulationStatus(state),
-  statistics: fromStatistic.getStatistic(state)
+  // lightSwitches: getAvailableLights(state),
+  // simulationStatus: getSimulationStatus(state),
+  statistics: fromStatistic.getStatistic(state),
+  statisticsState: fromStatistic.getStatisticStatus(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  getLightSwitches: () => dispatch(actions.getLightSwitches.request()),
+  // getLightSwitches: () => dispatch(actions.getLightSwitches.request()),
   switchLight: params => dispatch(actions.switchLights.request(params)),
-  getSimulationStatus: () => dispatch(getSimulationState.request()),
+  // getSimulationStatus: () => dispatch(getSimulationState.request()),
   getStatistics: () => dispatch(getStatistics.request())
 });
 

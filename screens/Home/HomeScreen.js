@@ -12,7 +12,7 @@ export default class HomeScreen extends React.Component {
       <Card
         title={messages.cards[index].title}
         text={messages.cards[index].text}
-        image={currentImage.source}
+        index={index}
         key={`${index}__${currentImage.source}`}
       />
     ));
