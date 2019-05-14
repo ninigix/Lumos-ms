@@ -1,7 +1,8 @@
 import React from "react";
-import { Dimensions, StyleSheet, View, Text } from "react-native";
+import { Dimensions, StyleSheet, View, Text, Alert } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import moment from "moment";
 
 import MyText from "../../components/MyText/MyText";
 import Calendar from "../../components/Calendar/Calendar";
@@ -9,7 +10,6 @@ import HourChoiceButton from "../../components/HourChoiceButton/HourChoiceButton
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
-import * as actions from "../../actions/simulationActions";
 import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
 
 const deviceWidth = Dimensions.get("window").width;
@@ -50,7 +50,25 @@ export default class SimulationScreenComponent extends React.Component {
     }
   };
 
+  showAlert = () => Alert.alert(
+      "Incorrect date",
+      "You cannot choose today or any date in the past.",
+      [
+        { text: "OK", onPress: () => this.setState({
+            endingDay: null,
+            startingDay: null
+          }) }
+      ],
+      { cancelable: false }
+  );
+
   handleOnDateSelect = date => {
+    const today = new moment();
+    const isToday = date.dateString===today.format("YYYY-MM-DD");
+    const isInThePast = date.timestamp < today.valueOf();
+    if(isToday || isInThePast) {
+      return  this.showAlert();
+    }
     if (this.state.startingDay) {
       this.setEndingDay(date);
     } else {

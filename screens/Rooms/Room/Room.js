@@ -28,16 +28,16 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
         isSimulationOn ? styles.outlinedButtonContent : styles.buttonContent
       }
     >
+        {console.log('value', value)}
       {isSimulationOn ? SWITCH_OFF : SWITCH_ON}
     </RkButton>
-    {console.log("value", value)}
     <UsageCard
       price={value.price.price}
       kwh={value.kwh.kwh}
       bulb_consumption={value.bulb_consumption}
     />
 
-    <RkCard style={{ marginTop: 20, marginBottom: 20 }}>
+    <View style={styles.card}>
       <MyText
         isBold
         textStyle={{
@@ -58,8 +58,8 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
           data={fromChartHelper.formatDaysData(value.most_popular_days)}
         />
       </VictoryChart>
-    </RkCard>
-    <RkCard style={{ marginTop: 20, marginBottom: 20 }}>
+    </View>
+    <View style={styles.card}>
       <MyText
         isBold
         textStyle={{
@@ -77,7 +77,7 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
         innerRadius={100}
         // padAngle={3}
       />
-    </RkCard>
+    </View>
   </View>
 );
 
@@ -88,6 +88,9 @@ const styles = RkStyleSheet.create(theme => ({
     flex: 1,
     justifyContent: "center"
   },
+    card: {
+        marginTop: 20, marginBottom: 20, borderWidth: 1, borderColor: "#EBEBE4"
+    },
   button: {
     borderColor: "#2274a5",
     width: "100%",

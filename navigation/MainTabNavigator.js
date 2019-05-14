@@ -38,7 +38,7 @@ export default createBottomTabNavigator({
   tabBarOptions: {
     activeTintColor: '#2274a5',
     labelStyle: {
-      fontSize: 15,
+      fontSize: 20,
       fontFamily: 'raleway-bold',
     },
   },

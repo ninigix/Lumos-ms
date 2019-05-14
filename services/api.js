@@ -16,7 +16,7 @@ export function getSimulationStatus() {
 
 export function getStatistics() {
     const result = callApi.getStatistics();
-    return result.then(json => json);
+    return result; //.then(json => json);
 }
 
 

@@ -27,8 +27,6 @@ export default UsageCard;
 const styles = RkStyleSheet.create(theme => ({
   wrapper: {
     backgroundColor: "#42a0d8",
-    // backgroundColor: "#ffbf00",
-    // backgroundColor: "#32936f",
     height: 150,
     display: "flex",
     elevation: 4,
