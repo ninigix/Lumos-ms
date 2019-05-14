@@ -28,7 +28,7 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
         isSimulationOn ? styles.outlinedButtonContent : styles.buttonContent
       }
     >
-        {console.log('value', value)}
+      {console.log("value", value)}
       {isSimulationOn ? SWITCH_OFF : SWITCH_ON}
     </RkButton>
     <UsageCard
@@ -88,9 +88,12 @@ const styles = RkStyleSheet.create(theme => ({
     flex: 1,
     justifyContent: "center"
   },
-    card: {
-        marginTop: 20, marginBottom: 20, borderWidth: 1, borderColor: "#EBEBE4"
-    },
+  card: {
+    marginTop: 20,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "#EBEBE4"
+  },
   button: {
     borderColor: "#2274a5",
     width: "100%",

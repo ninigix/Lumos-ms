@@ -34,5 +34,5 @@ export function postDataToLearn(params) {
 
 export function postStartSimulation(params) {
     const result = callApi.postStartSimulation(params);
-    return result.then(json => json);
+    return result;//.then(json => json);
 }

@@ -4,7 +4,12 @@ import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import MyText from "../MyText/MyText";
 import CardChoice from "../CardChoice/CardChoice";
 
-const HourChoiceButton = ({ chosenDay, chosenHour, handleHourSelect }) => {
+const HourChoiceButton = ({
+  chosenDay,
+  chosenHour,
+  handleHourSelect,
+  isStart
+}) => {
   const formattedDate = chosenDay && new Date(chosenDay);
   const stringMonth =
     chosenDay && formattedDate.toLocaleString("en-us", { month: "short" });
@@ -23,9 +28,11 @@ const HourChoiceButton = ({ chosenDay, chosenHour, handleHourSelect }) => {
     </React.Fragment>
   );
 
+  const renderCTALabel = () => (isStart ? "Choose start" : "Choose end");
+
   return (
     <CardChoice
-      leftComponent={chosenHour ? "Edit hour" : "Choose hour"}
+      leftComponent={chosenHour ? "Edit start" : renderCTALabel()}
       handleOnPress={handleHourSelect}
       rightComponent={renderRightComponent()}
       iconType="clock"

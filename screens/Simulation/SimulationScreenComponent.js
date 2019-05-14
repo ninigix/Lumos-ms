@@ -1,21 +1,19 @@
 import React from "react";
-import { Dimensions, StyleSheet, View, Text, Alert } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
-import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 
-import MyText from "../../components/MyText/MyText";
 import Calendar from "../../components/Calendar/Calendar";
-import HourChoiceButton from "../../components/HourChoiceButton/HourChoiceButton";
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
-import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
-import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
+import HoursStep from "./steps/HoursStep";
+import MyAlert from "./steps/MyAlert";
+import SimulationStep from "./steps/SimulationStep";
+import StartSimulationStep from "./steps/StartSimulationStep";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const labels = {
+export const labels = {
   1: "Bathroom",
   2: "Bedroom1",
   3: "Kitchen"
@@ -24,8 +22,6 @@ const labels = {
 };
 
 // TODO: hide in shame and pretend that somebody else wrote this component
-// TODO: block choosing past date
-// TODO: when for one day block choosing end hour before start hour
 export default class SimulationScreenComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -37,7 +33,8 @@ export default class SimulationScreenComponent extends React.Component {
       endingHour: null,
       isChoosingStartingHour: false,
       selectedRooms: [],
-      areAllRoomsSelected: false
+      areAllRoomsSelected: false,
+      isRealSimulationSelected: false
     };
   }
 
@@ -50,25 +47,22 @@ export default class SimulationScreenComponent extends React.Component {
     }
   };
 
-  showAlert = () => Alert.alert(
-      "Incorrect date",
-      "You cannot choose today or any date in the past.",
-      [
-        { text: "OK", onPress: () => this.setState({
-            endingDay: null,
-            startingDay: null
-          }) }
-      ],
-      { cancelable: false }
-  );
+  clearState = () => {
+    this.setState({
+      endingDay: null,
+      startingDay: null
+    });
+  };
 
   handleOnDateSelect = date => {
     const today = new moment();
-    const isToday = date.dateString===today.format("YYYY-MM-DD");
+    const isToday = date.dateString === today.format("YYYY-MM-DD");
     const isInThePast = date.timestamp < today.valueOf();
-    if(isToday || isInThePast) {
-      return  this.showAlert();
+
+    if (isToday || isInThePast) {
+      return <MyAlert onPress={this.clearState} />;
     }
+
     if (this.state.startingDay) {
       this.setEndingDay(date);
     } else {
@@ -120,6 +114,11 @@ export default class SimulationScreenComponent extends React.Component {
     });
   };
 
+  handleSimulationTypeSelect = isRealSimulationSelected =>
+    this.setState({
+      isRealSimulationSelected: isRealSimulationSelected
+    });
+
   renderCalendarStep = () => {
     const isDisabled = !this.state.startingDay || !this.state.endingDay;
     return (
@@ -145,9 +144,6 @@ export default class SimulationScreenComponent extends React.Component {
             endDate={this.state.endingDay}
             onDateSelect={this.handleOnDateSelect}
           />
-          <MyText textStyle={{ textAlign: "justify", fontSize: 16 }}>
-            starting hour: 16 a.m.{" "}
-          </MyText>
         </View>
       </ProgressStep>
     );
@@ -168,24 +164,17 @@ export default class SimulationScreenComponent extends React.Component {
         previousBtnStyle={styles.prevBtnStyle}
         previousBtnTextStyle={styles.btnTextStyle}
       >
-        <View style={{ alignItems: "center" }}>
-          <HourChoiceButton
-            chosenDay={this.state.startingDay}
-            chosenHour={this.state.startingHour}
-            handleHourSelect={this.handleStartingHourSelect}
-          />
-          <HourChoiceButton
-            chosenDay={this.state.endingDay}
-            chosenHour={this.state.endingHour}
-            handleHourSelect={this.handleEndingHourSelect}
-          />
-          <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this.handleTimePicked}
-            onCancel={this.hideDateTimePicker}
-            mode="time"
-          />
-        </View>
+        <HoursStep
+          startingHour={this.state.startingHour}
+          endingHour={this.state.endingHour}
+          startingDay={this.state.startingDay}
+          endingDay={this.state.endingDay}
+          onEndingHourSelect={this.handleEndingHourSelect}
+          onStartingHourSelect={this.handleStartingHourSelect}
+          onTimePicked={this.handleTimePicked}
+          hideDateTimePicker={this.hideDateTimePicker}
+          isDateTimePickerVisible={this.state.isDateTimePickerVisible}
+        />
       </ProgressStep>
     );
   };
@@ -221,45 +210,22 @@ export default class SimulationScreenComponent extends React.Component {
     );
   };
 
-  renderSimulationStep = () => {
-    switch (this.props.learnStatus) {
-      case SUCCESS: {
-        return (
-          <ProgressStep
-            label="See simulation"
-            nextBtnText=">"
-            previousBtnText="<"
-            nextBtnStyle={styles.nextBtnStyle}
-            nextBtnTextStyle={styles.btnTextStyle}
-            previousBtnStyle={styles.prevBtnStyle}
-            previousBtnTextStyle={styles.btnTextStyle}
-          >
-            <View style={{ alignItems: "center" }}>
-              {this.props.generatedData &&
-                this.props.generatedData.map(data => (
-                  <SimulationComponent
-                    date={data.datetimevalue}
-                    isLightOn={data.status.includes(1)}
-                    roomName={labels[data.room]}
-                  />
-                ))}
-            </View>
-          </ProgressStep>
-        );
-      }
-
-      case FAILURE: {
-        return <Text>failure</Text>;
-      }
-
-      case REQUEST: {
-        return <LoadingIndicator />;
-      }
-
-      default:
-        return <Text>empty</Text>;
-    }
-  };
+  renderSimulationStep = () => (
+    <ProgressStep
+      label="See simulation"
+      nextBtnText=">"
+      previousBtnText="<"
+      nextBtnStyle={styles.nextBtnStyle}
+      nextBtnTextStyle={styles.btnTextStyle}
+      previousBtnStyle={styles.prevBtnStyle}
+      previousBtnTextStyle={styles.btnTextStyle}
+    >
+      <SimulationStep
+        generatedData={this.props.generatedData}
+        learnStatus={this.props.learnStatus}
+      />
+    </ProgressStep>
+  );
 
   renderStartSimulationStep = () => (
     <ProgressStep
@@ -267,28 +233,21 @@ export default class SimulationScreenComponent extends React.Component {
       nextBtnText=">"
       previousBtnText="<"
       finishBtnText="Start simulation"
-      onSubmit={() => this.props.postStartSimulation(this.props.generatedData)}
+      onSubmit={() =>
+        this.props.postStartSimulation({
+          generatedData: this.props.generatedData,
+          isRealSimulation: this.state.isRealSimulationSelected
+        })
+      }
       nextBtnStyle={styles.nextBtnStyle}
       nextBtnTextStyle={styles.btnTextStyle}
       previousBtnStyle={styles.prevBtnStyle}
       previousBtnTextStyle={styles.btnTextStyle}
     >
-      <View
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          margin: 10
-        }}
-      >
-        <MyText textStyle={styles.fancyFont} isBold>
-          Be careful!
-        </MyText>
-        <MyText textStyle={{ textAlign: "justify", fontSize: 26 }}>
-          When the simulation is running you can't switch light using Lumos app.
-        </MyText>
-      </View>
+      <StartSimulationStep
+        isRealSimulationSelected={this.state.isRealSimulationSelected}
+        onSelect={this.handleSimulationTypeSelect}
+      />
     </ProgressStep>
   );
 
@@ -306,7 +265,7 @@ export default class SimulationScreenComponent extends React.Component {
             {this.renderCalendarStep()}
             {this.renderHoursStep()}
             {this.renderRoomsStep()}
-            {this.renderSimulationStep()}
+            {/*{this.renderSimulationStep()}*/}
             {this.renderStartSimulationStep()}
           </ProgressSteps>
         </View>
@@ -315,7 +274,7 @@ export default class SimulationScreenComponent extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   dateComponentGrey: {
     flex: 1,
     backgroundColor: "#EBEBE4",
