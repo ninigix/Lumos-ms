@@ -107,7 +107,8 @@ export const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFBF00",
+    // backgroundColor: "#FFBF00",
+    backgroundColor: "#ffd044",
     height: 250,
     padding: 10
   },
@@ -115,7 +116,8 @@ export const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2274a5",
+    // backgroundColor: "#2274a5",
+    backgroundColor: "#42a0d8",
     height: 250,
     padding: 10
   },

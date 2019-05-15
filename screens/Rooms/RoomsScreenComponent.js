@@ -19,6 +19,7 @@ export default class RoomsScreenComponent extends React.Component {
   }
 
   componentDidMount() {
+    console.log("this.props", this.props);
     // const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
     const { getStatistics } = this.props;
     // getSimulationStatus();
@@ -65,7 +66,7 @@ export default class RoomsScreenComponent extends React.Component {
               >
                 <View style={{ marginLeft: 10, marginRight: 10 }}>
                   <Room
-                    isSimulationOn={this.checkIfSimulationOn()}
+                    // isSimulationOn={this.checkIfSimulationOn()}
                     // isLightOn={lightSwitches[key]}
                     key={key}
                     value={value}

@@ -1,30 +1,45 @@
 import React from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { RkStyleSheet } from "react-native-ui-kitten";
 import MyText from "../../../components/MyText/MyText";
 
-const UsageCard = ({ price, kwh, bulb_consumption }) => (
-  <View style={styles.wrapper}>
-    <View style={styles.priceWrapper}>
-      <MyText textStyle={{ color: "white" }}> Total price</MyText>
-      <MyText textStyle={{ color: "white", fontSize: 20 }} isBold>
-        {price.toFixed(4)} PLN
+const Row = ({label, data}) => (
+    <View style={styles.row}>
+      <MyText textStyle={{ color: "white" }}>
+        {label}
       </MyText>
+      <MyText isBold textStyle={{ color: "white" }}>
+        {data}
+      </MyText>
+    </View>
+);
+
+const UsageCard = ({ price, kwh, bulb_consumption, data }) => (
+  <TouchableOpacity style={styles.wrapper}>
+    <View style={styles.priceWrapper}>
+      <MyText textStyle={{ color: "white", fontSize: 20 }} isBold>
+        Data for {data ? data : "the last week"}
+      </MyText>
+      <MyText textStyle={{color: 'white'}}>Tap to change dates</MyText>
     </View>
     <View style={styles.detailsWrapper}>
-      <MyText isBold textStyle={{ color: "white" }}>
-        {kwh.toFixed(4)} kwh
-      </MyText>
-      <MyText isBold textStyle={{ color: "white" }}>
-        {bulb_consumption.toFixed(2)} %
-      </MyText>
+      <Row label="Total price" data={`${price.toFixed(4)} PLN`}/>
+      <Row label="Electric energy consumption" data={`${kwh.toFixed(4)} kwh`}/>
+      <Row label="Bulb consumption" data={`${bulb_consumption.toFixed(2)} %`}/>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 export default UsageCard;
 
 const styles = RkStyleSheet.create(theme => ({
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 15,
+    paddingRight: 15,
+    justifyContent: 'space-between'
+  },
   wrapper: {
     backgroundColor: "#42a0d8",
     height: 150,
@@ -44,12 +59,10 @@ const styles = RkStyleSheet.create(theme => ({
     borderBottomWidth: 1
   },
   detailsWrapper: {
-    flex: 1,
+    flex: 3,
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingLeft: 20,
-    paddingRight: 20
+    justifyContent: 'space-around',
+    marginTop: 5,
+    marginBottom: 5
   }
 }));

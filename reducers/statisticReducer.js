@@ -6,7 +6,6 @@ const initialState = {};
 export function lightReducer(state = initialState, action) {
   switch (action.type) {
     case actions.GET_STATISTICS.SUCCESS: {
-      console.log("action.response", action.response);
       return {
         ...state,
         status: SUCCESS,
