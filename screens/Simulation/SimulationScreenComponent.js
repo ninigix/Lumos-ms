@@ -265,7 +265,7 @@ export default class SimulationScreenComponent extends React.Component {
             {this.renderCalendarStep()}
             {this.renderHoursStep()}
             {this.renderRoomsStep()}
-            {/*{this.renderSimulationStep()}*/}
+            {this.renderSimulationStep()}
             {this.renderStartSimulationStep()}
           </ProgressSteps>
         </View>

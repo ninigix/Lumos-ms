@@ -3,23 +3,29 @@ import { View, Text } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import isempty from "lodash.isempty";
 import { RkStyleSheet } from "react-native-ui-kitten";
+import moment from "moment";
 
-import Room from "./Room/Room";
+import Room from "./Components/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreenConstants";
 import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import MyModal from "./Components/Modal";
+import Calendar from "../../components/Calendar/Calendar";
+import MyAlert from "../Simulation/steps/MyAlert";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lightSwitches: []
+      lightSwitches: [],
+      shouldShowCalendar: false,
+      startingDay: null,
+      endingDay: null
     };
   }
 
   componentDidMount() {
-    console.log("this.props", this.props);
     // const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
     const { getStatistics } = this.props;
     // getSimulationStatus();
@@ -32,50 +38,106 @@ export default class RoomsScreenComponent extends React.Component {
     // return this.props.simulationStatus === "on";
   };
 
+  handleOnChangeDatesClick = dates =>
+    this.setState({
+      shouldShowCalendar: true
+    });
+
+  handleCloseEmptyModal = () =>
+    this.setState({
+      shouldShowCalendar: false,
+      startingDay: null,
+      endingDay: null
+    });
+
+  setEndingDay = date => {
+    if (this.state.endingDay) {
+      this.setState({ startingDay: date.dateString });
+      this.setState({ endingDay: null });
+    } else {
+      this.setState({ endingDay: date.dateString });
+    }
+  };
+
+  handleOnDateSelect = date => {
+    const today = new moment();
+    const isToday = date.dateString === today.format("YYYY-MM-DD");
+    const isInThePast = date.timestamp < today.valueOf();
+
+    if (isToday || isInThePast) {
+      return <MyAlert onPress={this.clearState} />;
+    }
+
+    if (this.state.startingDay) {
+      this.setEndingDay(date);
+    } else {
+      this.setState({});
+      this.setState({ startingDay: date.dateString });
+    }
+  };
+
+  handleDatesConfirmClick = () => {
+    this.setState({
+      shouldShowCalendar: false,
+    });
+  };
+
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
 
-  // TODO: fix labels
-  renderContent = () => {
-    const { statisticsState, statistics } = this.props;
-    {
-      console.log("statisticsState", statisticsState);
-    }
+  renderProgressStep = () => (
+    <ProgressSteps
+      activeStepIconBorderColor="#2274a5"
+      completedProgressBarColor="#2274a5"
+      activeLabelColor="#2274a5"
+      activeStepNumColor="#2274a5"
+      completedStepIconColor="#2274a5"
+    >
+      {Object.entries(this.props.statistics).map(([key, value]) => (
+        <ProgressStep
+          label={ROOMS_NAMES[key]}
+          key={key}
+          nextBtnText=">"
+          previousBtnText="<"
+          finishBtnText="Go back"
+          nextBtnStyle={styles.nextBtnStyle}
+          nextBtnTextStyle={styles.btnTextStyle}
+          previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
+          previousBtnTextStyle={styles.btnTextStyle}
+        >
+          <View style={{ marginLeft: 10, marginRight: 10 }}>
+            <Room
+              // isSimulationOn={this.checkIfSimulationOn()}
+              // isLightOn={lightSwitches[key]}
+              key={key}
+              value={value}
+              onClick={this.props.switchLight}
+              onChangeDatesClick={this.handleOnChangeDatesClick}
+            />
+          </View>
+        </ProgressStep>
+      ))}
+    </ProgressSteps>
+  );
 
-    switch (statisticsState) {
+  renderContent = () => {
+    switch (this.props.statisticsState) {
       case SUCCESS: {
-        return (
-          <ProgressSteps
-            activeStepIconBorderColor="#2274a5"
-            completedProgressBarColor="#2274a5"
-            activeLabelColor="#2274a5"
-            activeStepNumColor="#2274a5"
-            completedStepIconColor="#2274a5"
-          >
-            {Object.entries(statistics).map(([key, value]) => (
-              <ProgressStep
-                label={ROOMS_NAMES[key]}
-                key={key}
-                nextBtnText=">"
-                previousBtnText="<"
-                finishBtnText="Go back"
-                nextBtnStyle={styles.nextBtnStyle}
-                nextBtnTextStyle={styles.btnTextStyle}
-                previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
-                previousBtnTextStyle={styles.btnTextStyle}
-              >
-                <View style={{ marginLeft: 10, marginRight: 10 }}>
-                  <Room
-                    // isSimulationOn={this.checkIfSimulationOn()}
-                    // isLightOn={lightSwitches[key]}
-                    key={key}
-                    value={value}
-                    onClick={this.props.switchLight}
-                  />
-                </View>
-              </ProgressStep>
-            ))}
-          </ProgressSteps>
+        return this.state.shouldShowCalendar ? (
+          <MyModal
+            onCloseModal={this.handleCloseEmptyModal}
+            areDatesSelected={this.state.endingDay && this.state.startingDay}
+            onDatesConfirmClick={this.handleDatesConfirmClick}
+            content={
+              <Calendar
+                startDate={this.state.startingDay}
+                endDate={this.state.endingDay}
+                onDateSelect={this.handleOnDateSelect}
+              />
+            }
+          />
+        ) : (
+          this.renderProgressStep()
         );
       }
 

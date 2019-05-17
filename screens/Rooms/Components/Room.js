@@ -1,14 +1,10 @@
 import React from "react";
-import { RkButton, RkStyleSheet, RkCard, RkText } from "react-native-ui-kitten";
+import { RkButton, RkStyleSheet } from "react-native-ui-kitten";
 import { Dimensions, View } from "react-native";
 import {
   VictoryChart,
-  VictoryTheme,
   VictoryBar,
   VictoryArea,
-  VictoryPie,
-  VictoryClipContainer,
-  VictoryLine,
   VictoryAxis
 } from "victory-native";
 
@@ -25,9 +21,11 @@ const ChartCard = ({ title, xLabel, yLabel, chart }) => (
     <MyText isBold textStyle={styles.title}>
       {title}
     </MyText>
-    <MyText textStyle={{marginLeft: 20, paddingTop: 5}}>X axis: {xLabel}</MyText>
-    <MyText textStyle={{marginLeft: 20}}>Y axis: {yLabel}</MyText>
-    <View style={{marginTop: -40, marginLeft: 5}}>{chart}</View>
+    <MyText textStyle={{ marginLeft: 20, paddingTop: 5 }}>
+      X axis: {xLabel}
+    </MyText>
+    <MyText textStyle={{ marginLeft: 20 }}>Y axis: {yLabel}</MyText>
+    <View style={{ marginTop: -40, marginLeft: 5 }}>{chart}</View>
   </View>
 );
 
@@ -50,7 +48,7 @@ const renderChart = (data, title, xLabel, yLabel, isHours) => (
   />
 );
 
-const Room = ({ isSimulationOn, value, key, onClick }) => (
+const Room = ({ isSimulationOn, value, key, onClick, onChangeDatesClick }) => (
   <View style={styles.root}>
     <RkButton
       onPress={onClick}
@@ -66,26 +64,32 @@ const Room = ({ isSimulationOn, value, key, onClick }) => (
       price={value.price.price}
       kwh={value.kwh.kwh}
       bulb_consumption={value.bulb_consumption}
+      onChangeDatesClick={onChangeDatesClick}
     />
     {renderChart(
       value.most_popular_days_changes,
-      "Most popular days changes",
-      "days",
-      "?"
+      "Light switches count per day",
+      "days of week",
+      "number of changes"
     )}
-    {renderChart(value.most_popular_days, "Most popular days", "days", "?")}
+    {renderChart(
+      value.most_popular_days,
+      "Total time of light usage per day",
+      "days of week",
+      "total minutes count"
+    )}
     {renderChart(
       value.most_popular_hours_changes,
-      "Most popular hours changes",
+      "Light switches count per hour",
       "hours",
-      "?",
+      "number of changes",
       true
     )}
     {renderChart(
       value.most_popular_hours,
-      "Most popular hours",
+      "Total time of light usage per hour",
       "hours",
-      "?",
+      "total minutes count",
       true
     )}
   </View>
