@@ -3,6 +3,8 @@ import { View, TouchableOpacity, ImageBackground } from "react-native";
 import { RkText, RkCard } from "react-native-ui-kitten";
 
 import MyText from "../../../../components/MyText/MyText";
+
+import { LABELS, messages } from "./Card.constants";
 import styles from "./Card.style";
 
 const Card = ({ item, image, onClick, isAvailable }) => {
@@ -13,13 +15,13 @@ const Card = ({ item, image, onClick, isAvailable }) => {
   const translateLightStatus = lightStatus => {
     switch (lightStatus) {
       case 0: {
-        return "Light is off";
+        return LABELS.OFF;
       }
       case 1: {
-        return "Light is on";
+        return LABELS.ON;
       }
       default:
-        return "Something went wrong";
+        return LABELS.ERROR;
     }
   };
 
@@ -49,7 +51,7 @@ const Card = ({ item, image, onClick, isAvailable }) => {
               </View>
             </View>
             <View rkCardFooter>
-              <MyText textStyle={styles.text}>Tap to switch light</MyText>
+              <MyText textStyle={styles.text}>{messages.title}</MyText>
             </View>
           </View>
         </ImageBackground>

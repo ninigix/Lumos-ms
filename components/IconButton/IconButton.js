@@ -3,7 +3,7 @@ import { Image, View } from "react-native";
 
 import styles from "./IconButton.style";
 
-const IconButton = ({ type, backgroundColor, wasSelected }) => {
+const IconButton = ({ type, wasSelected }) => {
   const helper = {
     clock: require("../../assets/icons/time.png"),
     kitchen: require("../../assets/icons/kitchen.png"),

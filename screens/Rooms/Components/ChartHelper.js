@@ -27,18 +27,6 @@ const HOURS = [
   "23"
 ];
 
-export const chartPieColors = [
-  "#2274A5",
-  "#42a0d8",
-  "#87c2e6",
-  "#000000",
-  "#444444",
-  "#888888",
-  "#FFBF00",
-  "#ffd044",
-  "#ffe188"
-];
-
 export const formatDaysData = data =>
   data.map((value, index) => {
     return {

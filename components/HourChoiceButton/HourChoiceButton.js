@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 
 import MyText from "../MyText/MyText";
 import CardChoice from "../CardChoice/CardChoice";
+
+import { LABELS } from "./HourChoiceButton.constants";
 
 const HourChoiceButton = ({
   chosenDay,
@@ -28,11 +29,11 @@ const HourChoiceButton = ({
     </React.Fragment>
   );
 
-  const renderCTALabel = () => (isStart ? "Choose start" : "Choose end");
+  const renderCTALabel = () => (isStart ? LABELS.START : LABELS.END);
 
   return (
     <CardChoice
-      leftComponent={chosenHour ? "Edit start" : renderCTALabel()}
+      leftComponent={chosenHour ? LABELS.EDIT : renderCTALabel()}
       handleOnPress={handleHourSelect}
       rightComponent={renderRightComponent()}
       iconType="clock"

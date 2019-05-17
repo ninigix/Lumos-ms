@@ -3,7 +3,7 @@ import { ScrollView, Text, View, Image } from "react-native";
 
 import Card from "./Card/Card";
 import { cardsImages } from "../../constants/Links";
-import { messages } from "./HomeScreenConstants";
+import { messages } from "./HomeScreen.constants";
 
 import styles from "./HomeScreen.style";
 

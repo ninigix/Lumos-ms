@@ -3,6 +3,8 @@ import MyText from "../MyText/MyText";
 
 import CardChoice from "../../components/CardChoice/CardChoice";
 
+import { LABELS } from "./SimulationComponent.constants";
+
 const SimulationComponent = ({ date, roomName, isLightOn }) => {
   const formattedDate = date && new Date(date);
   const stringMonth =
@@ -25,7 +27,7 @@ const SimulationComponent = ({ date, roomName, isLightOn }) => {
   return (
     <CardChoice
       leftComponent={roomName}
-      leftComponentAdditionalLine={isLightOn ? "Light on" : "Light off"}
+      leftComponentAdditionalLine={isLightOn ? LABELS.ON : LABELS.OFF}
       rightComponent={renderRightComponent()}
       iconType="lightbulb"
       iconIsActive={isLightOn}

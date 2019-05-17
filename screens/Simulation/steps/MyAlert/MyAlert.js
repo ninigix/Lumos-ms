@@ -1,13 +1,15 @@
 import React from "react";
 import { Alert } from "react-native";
 
+import messages from "./MyAlert.constants";
+
 const MyAlert = ({ onPress }) =>
   Alert.alert(
-    "Incorrect date",
-    "You cannot choose today or any date in the past.",
+    `${messages.title}`,
+    `${messages.message}`,
     [
       {
-        text: "OK",
+        text: `${messages.buttonText}`,
         onPress: () => onPress()
       }
     ],

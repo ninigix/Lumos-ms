@@ -4,7 +4,7 @@ import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import moment from "moment";
 
 import Room from "./Components/Room/Room";
-import { messages, ROOMS_NAMES } from "./RoomsScreenConstants";
+import { messages, ROOMS_NAMES } from "./RoomsScreen.constants";
 import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
@@ -99,7 +99,7 @@ export default class RoomsScreenComponent extends React.Component {
           key={key}
           nextBtnText=">"
           previousBtnText="<"
-          finishBtnText="Go back"
+          finishBtnText={messages.goBack}
           nextBtnStyle={styles.nextBtnStyle}
           nextBtnTextStyle={styles.btnTextStyle}
           previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}

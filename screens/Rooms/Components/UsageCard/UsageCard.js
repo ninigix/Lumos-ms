@@ -2,6 +2,7 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import MyText from "../../../../components/MyText/MyText";
 
+import messages, { LABELS } from "./UsageCard.constants";
 import styles from "./UsageCard.style";
 
 const Row = ({ label, data }) => (
@@ -23,14 +24,17 @@ const UsageCard = ({
   <TouchableOpacity style={styles.wrapper} onPress={() => onChangeDatesClick()}>
     <View style={styles.priceWrapper}>
       <MyText textStyle={{ color: "white", fontSize: 20 }} isBold>
-        Data from {data ? data : "20th March"}
+        {messages.data_label} {data ? data : "20th March"}
       </MyText>
-      <MyText textStyle={{ color: "white" }}>Tap to change dates</MyText>
+      <MyText textStyle={{ color: "white" }}>{messages.cta}</MyText>
     </View>
     <View style={styles.detailsWrapper}>
-      <Row label="Total price" data={`${price.toFixed(4)} PLN`} />
-      <Row label="Electric energy consumption" data={`${kwh.toFixed(4)} kwh`} />
-      <Row label="Bulb consumption" data={`${bulb_consumption.toFixed(2)} %`} />
+      <Row label={LABELS.PRICE} data={`${price.toFixed(4)} PLN`} />
+      <Row label={LABELS.ENERGY_CONSUMPTION} data={`${kwh.toFixed(4)} kwh`} />
+      <Row
+        label={LABELS.BULB_CONSUMPTION}
+        data={`${bulb_consumption.toFixed(2)} %`}
+      />
     </View>
   </TouchableOpacity>
 );
