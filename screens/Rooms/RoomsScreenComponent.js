@@ -1,18 +1,18 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
-import isempty from "lodash.isempty";
-import { RkStyleSheet } from "react-native-ui-kitten";
 import moment from "moment";
 
-import Room from "./Components/Room";
+import Room from "./Components/Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreenConstants";
 import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
 import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
-import MyModal from "./Components/Modal";
+import MyModal from "./Components/Modal/Modal";
 import Calendar from "../../components/Calendar/Calendar";
-import MyAlert from "../Simulation/steps/MyAlert";
+import MyAlert from "../Simulation/steps/MyAlert/MyAlert";
+
+import styles from "./RoomsScreenComponent.style";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
@@ -78,7 +78,7 @@ export default class RoomsScreenComponent extends React.Component {
 
   handleDatesConfirmClick = () => {
     this.setState({
-      shouldShowCalendar: false,
+      shouldShowCalendar: false
     });
   };
 
@@ -158,33 +158,3 @@ export default class RoomsScreenComponent extends React.Component {
     return <View style={styles.root}>{this.renderContent()}</View>;
   }
 }
-
-const styles = RkStyleSheet.create(theme => ({
-  root: {
-    flex: 1,
-    justifyContent: "center"
-  },
-  nextBtnStyle: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#2274a5",
-    borderRadius: 8,
-    marginRight: -50,
-    marginBottom: -30
-  },
-  prevBtnStyle: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#2274a5",
-    borderRadius: 8,
-    marginLeft: -50,
-    marginBottom: -30
-  },
-  btnTextStyle: {
-    color: "#2274a5",
-    fontFamily: "raleway-bold",
-    textAlign: "center",
-    padding: 8,
-    fontSize: 18
-  }
-}));

@@ -4,7 +4,7 @@ import { TouchableOpacity, View } from "react-native";
 import MyText from "../MyText/MyText";
 import IconButton from "../IconButton/IconButton";
 
-import styles from './CardChoice.style';
+import styles from "./CardChoice.style";
 
 const CardChoice = ({
   leftComponent,

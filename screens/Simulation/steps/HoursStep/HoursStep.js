@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 
-import HourChoiceButton from "../../../components/HourChoiceButton/HourChoiceButton";
+import HourChoiceButton from "../../../../components/HourChoiceButton/HourChoiceButton";
 
 const HoursStep = ({
   startingHour,

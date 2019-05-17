@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, View } from "react-native";
 
-import styles from './IconButton.style';
+import styles from "./IconButton.style";
 
 const IconButton = ({ type, backgroundColor, wasSelected }) => {
   const helper = {

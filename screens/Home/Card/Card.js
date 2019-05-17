@@ -4,6 +4,8 @@ import { RkCard } from "react-native-ui-kitten";
 
 import MyText from "../../../components/MyText/MyText";
 
+import styles from "./Card.style";
+
 const IMAGES = [
   require("../../../assets/images/home_light.png"),
   require("../../../assets/images/home_calendar.png"),
@@ -23,15 +25,3 @@ export default (Card = ({ index, title, text }) => (
     </RkCard>
   </View>
 ));
-
-const styles = StyleSheet.create({
-  listWrapper: {
-    padding: "5%"
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#3B3B39",
-    fontFamily: "raleway-bold"
-  }
-});

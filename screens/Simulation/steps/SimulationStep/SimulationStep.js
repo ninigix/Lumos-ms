@@ -1,10 +1,10 @@
 import React from "react";
-import { FAILURE, REQUEST, SUCCESS } from "../../../actions/helpers";
+import { FAILURE, REQUEST, SUCCESS } from "../../../../actions/helpers";
 import { Text, View } from "react-native";
-import SimulationComponent from "../../../components/SimulationComponent/SimulationComponent";
-import LoadingIndicator from "../../../components/LoadingIndicator/LoadingIndicator";
+import SimulationComponent from "../../../../components/SimulationComponent/SimulationComponent";
+import LoadingIndicator from "../../../../components/LoadingIndicator/LoadingIndicator";
 
-import { labels } from "../SimulationScreenComponent";
+import { labels } from "../../SimulationScreenComponent";
 
 const SimulationStep = ({ learnStatus, generatedData }) => {
   switch (learnStatus) {

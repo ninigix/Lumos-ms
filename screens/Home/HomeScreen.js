@@ -1,17 +1,11 @@
 import React from "react";
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image
-} from "react-native";
-import FullWidthImage from "react-native-fullwidth-image";
+import { ScrollView, Text, View, Image } from "react-native";
 
 import Card from "./Card/Card";
 import { cardsImages } from "../../constants/Links";
 import { messages } from "./HomeScreenConstants";
+
+import styles from "./HomeScreen.style";
 
 export default class HomeScreen extends React.Component {
   mapCards = () =>
@@ -47,24 +41,3 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
-
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 145,
-    color: "#2274a5",
-    fontFamily: "arkipelago",
-    marginTop: -(deviceHeight / 7.5)
-  },
-  scrollView: {
-    flex: 1,
-    flexDirection: "column"
-  },
-  fullScreen: {
-    width: deviceWidth,
-    height: deviceHeight,
-    flexDirection: "column"
-  }
-});

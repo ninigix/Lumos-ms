@@ -2,8 +2,8 @@ import React from "react";
 import { View, TouchableOpacity, ImageBackground } from "react-native";
 import { RkText, RkCard } from "react-native-ui-kitten";
 
-import MyText from "../../../components/MyText/MyText";
-import styles from "./CardStyles";
+import MyText from "../../../../components/MyText/MyText";
+import styles from "./Card.style";
 
 const Card = ({ item, image, onClick, isAvailable }) => {
   const handleOnItemPressed = () => {
