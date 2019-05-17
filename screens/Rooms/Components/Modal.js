@@ -12,9 +12,6 @@ const MyModal = ({ onCloseModal, content, areDatesSelected, onDatesConfirmClick 
     animationType={"slide"}
     transparent={false}
     visible
-    onRequestClose={() => {
-      console.log("Modal has been closed.");
-    }}
   >
     <View style={styles.modal}>
       {content}

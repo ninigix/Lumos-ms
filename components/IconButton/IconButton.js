@@ -1,5 +1,7 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, View } from "react-native";
+
+import styles from './IconButton.style';
 
 const IconButton = ({ type, backgroundColor, wasSelected }) => {
   const helper = {
@@ -25,19 +27,3 @@ const IconButton = ({ type, backgroundColor, wasSelected }) => {
 };
 
 export default IconButton;
-
-const styles = StyleSheet.create({
-  iconButton: {
-    height: 40,
-    width: 40,
-    borderRadius: 4,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 20
-  },
-  icon: {
-    width: 30,
-    height: 30
-  }
-});
