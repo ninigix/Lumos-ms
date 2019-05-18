@@ -1,27 +1,20 @@
 import React from "react";
-import { Dimensions, View } from "react-native";
+import { View, Text } from "react-native";
 import { ProgressStep } from "react-native-progress-steps";
-import moment from "moment";
 
 import Calendar from "../../components/Calendar/Calendar";
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
 import HoursStep from "./steps/HoursStep/HoursStep";
-import MyAlert from "./steps/MyAlert/MyAlert";
 import SimulationStep from "./steps/SimulationStep/SimulationStep";
 import MyProgressSteps from "../Rooms/MyProgressSteps";
 
 import StartSimulationStep from "./steps/StartSimulationStep/StartSimulationStep";
 import styles from "./SimulationScreenComponent.style";
 
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
-
 export const labels = {
   1: "Bathroom",
   2: "Bedroom1",
   3: "Kitchen"
-  // 4: "Hall", //not implemented
-  // 5: "Bedroom2" //not implemented
 };
 
 // TODO: hide in shame and pretend that somebody else wrote this component
@@ -41,17 +34,13 @@ export default class SimulationScreenComponent extends React.Component {
     };
   }
 
-  handleSetEndingDay = date => {
-    if (this.state.endingDay) {
-      this.setState({ startingDay: date.dateString });
-      this.setState({ endingDay: null });
-    } else {
-      this.setState({ endingDay: date.dateString });
-    }
-  };
+  handleSetEndingDay = date =>
+    this.state.endingDay
+      ? this.setState({ startingDay: date.dateString, endingDay: null })
+      : this.setState({ endingDay: date.dateString });
 
   handleSetStartingDay = date =>
-      this.setState({ startingDay: date.dateString });
+    this.setState({ startingDay: date.dateString });
 
   handleClearState = () => {
     this.setState({
@@ -85,15 +74,12 @@ export default class SimulationScreenComponent extends React.Component {
     this.setState({ isDateTimePickerVisible: true });
   };
 
-  handleSelect = label => {
-    if (!this.state.selectedRooms.includes(label)) {
-      this.setState({ selectedRooms: [...this.state.selectedRooms, label] });
-    } else {
-      this.setState({
-        selectedRooms: this.state.selectedRooms.filter(room => room !== label)
-      });
-    }
-  };
+  handleSelect = label =>
+    !this.state.selectedRooms.includes(label)
+      ? this.setState({ selectedRooms: [...this.state.selectedRooms, label] })
+      : this.setState({
+          selectedRooms: this.state.selectedRooms.filter(room => room !== label)
+        });
 
   handlePostDataToLearn = () => {
     this.props.postDataToLearn({
@@ -108,150 +94,123 @@ export default class SimulationScreenComponent extends React.Component {
       isRealSimulationSelected: isRealSimulationSelected
     });
 
-  renderCalendarStep = () => {
-    const isDisabled = !this.state.startingDay || !this.state.endingDay;
-    return (
-      <ProgressStep
-        label="Date"
-        nextBtnDisabled={isDisabled}
-        nextBtnText=">"
-        nextBtnStyle={
-          isDisabled ? styles.disabledNextBtnStyle : styles.nextBtnStyle
-        }
-        nextBtnTextStyle={styles.btnTextStyle}
-      >
-        <View
-          style={{
-            alignItems: "center",
-            width: deviceWidth,
-            height: deviceHeight,
-            flexDirection: "column"
-          }}
-        >
-          <Calendar
-            startDate={this.state.startingDay}
-            endDate={this.state.endingDay}
-            onClearState={this.handleClearState}
-            onSetEndingDate={this.handleSetEndingDay}
-            onSetStartingDate={this.handleSetStartingDay}
-          />
-        </View>
-      </ProgressStep>
-    );
-  };
+  renderCalendarStep = () => (
+    <View style={styles.calendarComponentWrapper}>
+      <Calendar
+        startDate={this.state.startingDay}
+        endDate={this.state.endingDay}
+        onClearState={this.handleClearState}
+        onSetEndingDate={this.handleSetEndingDay}
+        onSetStartingDate={this.handleSetStartingDay}
+      />
+    </View>
+  );
 
-  renderHoursStep = () => {
-    const isDisabled = !this.state.startingHour || !this.state.endingHour;
-    return (
-      <ProgressStep
-        label="Hours"
-        nextBtnDisabled={isDisabled}
-        nextBtnText=">"
-        previousBtnText="<"
-        nextBtnStyle={
-          isDisabled ? styles.disabledNextBtnStyle : styles.nextBtnStyle
-        }
-        nextBtnTextStyle={styles.btnTextStyle}
-        previousBtnStyle={styles.prevBtnStyle}
-        previousBtnTextStyle={styles.btnTextStyle}
-      >
-        <HoursStep
-          startingHour={this.state.startingHour}
-          endingHour={this.state.endingHour}
-          startingDay={this.state.startingDay}
-          endingDay={this.state.endingDay}
-          onEndingHourSelect={this.handleEndingHourSelect}
-          onStartingHourSelect={this.handleStartingHourSelect}
-          onTimePicked={this.handleTimePicked}
-          hideDateTimePicker={this.hideDateTimePicker}
-          isDateTimePickerVisible={this.state.isDateTimePickerVisible}
+  renderHoursStep = () => (
+    <HoursStep
+      startingHour={this.state.startingHour}
+      endingHour={this.state.endingHour}
+      startingDay={this.state.startingDay}
+      endingDay={this.state.endingDay}
+      onEndingHourSelect={this.handleEndingHourSelect}
+      onStartingHourSelect={this.handleStartingHourSelect}
+      onTimePicked={this.handleTimePicked}
+      hideDateTimePicker={this.hideDateTimePicker}
+      isDateTimePickerVisible={this.state.isDateTimePickerVisible}
+    />
+  );
+
+  renderRoomsStep = () => (
+    <View style={{ alignItems: "center" }}>
+      {Object.entries(labels).map(([key, value]) => (
+        <RoomChoiceButton
+          label={value}
+          onSelect={this.handleSelect}
+          key={`${key}__${value}`}
+          isSelected={this.state.selectedRooms.includes(key)}
+          roomId={key}
         />
-      </ProgressStep>
-    );
-  };
-
-  renderRoomsStep = () => {
-    const isDisabled = this.state.selectedRooms.length === 0;
-    return (
-      <ProgressStep
-        label="Rooms"
-        onNext={this.handlePostDataToLearn}
-        nextBtnDisabled={isDisabled}
-        nextBtnText=">"
-        previousBtnText="<"
-        nextBtnStyle={
-          isDisabled ? styles.disabledNextBtnStyle : styles.nextBtnStyle
-        }
-        nextBtnTextStyle={styles.btnTextStyle}
-        previousBtnStyle={styles.prevBtnStyle}
-        previousBtnTextStyle={styles.btnTextStyle}
-      >
-        <View style={{ alignItems: "center" }}>
-          {Object.entries(labels).map(([key, value]) => (
-            <RoomChoiceButton
-              label={value}
-              onSelect={this.handleSelect}
-              key={`${key}__${value}`}
-              isSelected={this.state.selectedRooms.includes(key)}
-              roomId={key}
-            />
-          ))}
-        </View>
-      </ProgressStep>
-    );
-  };
+      ))}
+    </View>
+  );
 
   renderSimulationStep = () => (
-    <ProgressStep
-      label="See simulation"
-      nextBtnText=">"
-      previousBtnText="<"
-      nextBtnStyle={styles.nextBtnStyle}
-      nextBtnTextStyle={styles.btnTextStyle}
-      previousBtnStyle={styles.prevBtnStyle}
-      previousBtnTextStyle={styles.btnTextStyle}
-    >
-      <SimulationStep
-        generatedData={this.props.generatedData}
-        learnStatus={this.props.learnStatus}
-      />
-    </ProgressStep>
+    <SimulationStep
+      generatedData={this.props.generatedData}
+      learnStatus={this.props.learnStatus}
+    />
   );
 
   renderStartSimulationStep = () => (
-    <ProgressStep
-      label="Start"
-      nextBtnText=">"
-      previousBtnText="<"
-      finishBtnText="Start simulation"
-      onSubmit={() =>
-        this.props.postStartSimulation({
-          generatedData: this.props.generatedData,
-          isRealSimulation: this.state.isRealSimulationSelected
-        })
-      }
-      nextBtnStyle={styles.nextBtnStyle}
-      nextBtnTextStyle={styles.btnTextStyle}
-      previousBtnStyle={styles.prevBtnStyle}
-      previousBtnTextStyle={styles.btnTextStyle}
-    >
-      <StartSimulationStep
-        isRealSimulationSelected={this.state.isRealSimulationSelected}
-        onSelect={this.handleSimulationTypeSelect}
-      />
-    </ProgressStep>
+    <StartSimulationStep
+      isRealSimulationSelected={this.state.isRealSimulationSelected}
+      onSelect={this.handleSimulationTypeSelect}
+    />
   );
+
+  steps = [
+    {
+      label: "Date",
+      content: this.renderCalendarStep,
+      isDisabled: () => !this.state.startingDay || !this.state.endingDay
+    },
+    {
+      label: "Hours",
+      content: this.renderHoursStep,
+      isDisabled: () => !this.state.startingHour || !this.state.endingHour
+    },
+    {
+      label: "Rooms",
+      content: this.renderRoomsStep,
+      isDisabled: () => this.state.selectedRooms.length === 0
+    },
+    {
+      label: "See simulation",
+      content: this.renderSimulationStep
+    },
+    {
+      label: "Start",
+      content: this.renderStartSimulationStep
+    }
+  ];
+
+  onSubmitHelper = () =>
+    this.props.postStartSimulation({
+      generatedData: this.props.generatedData,
+      isRealSimulation: this.state.isRealSimulationSelected
+    });
 
   render() {
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
+          {console.log("this.state", this.state)}
           <MyProgressSteps>
-            {this.renderCalendarStep()}
-            {this.renderHoursStep()}
-            {this.renderRoomsStep()}
-            {this.renderSimulationStep()}
-            {this.renderStartSimulationStep()}
+            {this.steps.map(({ label, content, isDisabled }, index) => {
+              const notFirstStep = index !== 0;
+              console.log("isDisabled", !!isDisabled);
+              return (
+                <ProgressStep
+                  key={`${label}__${index}`}
+                  label={label}
+                  nextBtnDisabled={!!isDisabled && isDisabled()}
+                  nextBtnText=">"
+                  nextBtnStyle={
+                    !!isDisabled && isDisabled()
+                      ? styles.disabledNextBtnStyle
+                      : styles.nextBtnStyle
+                  }
+                  nextBtnTextStyle={styles.btnTextStyle}
+                  onNext={label === "Rooms" && this.handlePostDataToLearn}
+                  previousBtnText={notFirstStep && "<"}
+                  previousBtnStyle={notFirstStep && styles.prevBtnStyle}
+                  previousBtnTextStyle={notFirstStep && styles.btnTextStyle}
+                  onSubmit={index === this.steps.length && this.onSubmitHelper}
+                >
+                  {content()}
+                </ProgressStep>
+              );
+            })}
           </MyProgressSteps>
         </View>
       </View>

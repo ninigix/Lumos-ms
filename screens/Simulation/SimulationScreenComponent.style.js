@@ -1,4 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create({
   dateComponentGrey: {
@@ -8,6 +11,12 @@ export default StyleSheet.create({
     alignItems: "center",
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 4
+  },
+  calendarComponentWrapper: {
+    alignItems: "center",
+    width: deviceWidth,
+    height: deviceHeight,
+    flexDirection: "column"
   },
   dateComponentHour: {
     flex: 5,

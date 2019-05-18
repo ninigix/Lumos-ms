@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Image, Text } from "react-native";
 
 import MyText from "../../../../components/MyText/MyText";
 
-import messages from './StartSimulationStep.constants';
+import messages from "./StartSimulationStep.constants";
 import styles from "./StartSimulationStep.style";
 
 const Card = ({
