@@ -17,7 +17,6 @@ export const labels = {
   3: "Kitchen"
 };
 
-// TODO: hide in shame and pretend that somebody else wrote this component
 export default class SimulationScreenComponent extends React.Component {
   constructor(props) {
     super(props);
