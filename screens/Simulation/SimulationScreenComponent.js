@@ -41,7 +41,7 @@ export default class SimulationScreenComponent extends React.Component {
     };
   }
 
-  setEndingDay = date => {
+  handleSetEndingDay = date => {
     if (this.state.endingDay) {
       this.setState({ startingDay: date.dateString });
       this.setState({ endingDay: null });
@@ -50,28 +50,14 @@ export default class SimulationScreenComponent extends React.Component {
     }
   };
 
-  clearState = () => {
+  handleSetStartingDay = date =>
+      this.setState({ startingDay: date.dateString });
+
+  handleClearState = () => {
     this.setState({
       endingDay: null,
       startingDay: null
     });
-  };
-
-  handleOnDateSelect = date => {
-    const today = new moment();
-    const isToday = date.dateString === today.format("YYYY-MM-DD");
-    const isInThePast = date.timestamp < today.valueOf();
-
-    if (isToday || isInThePast) {
-      return <MyAlert onPress={this.clearState} />;
-    }
-
-    if (this.state.startingDay) {
-      this.setEndingDay(date);
-    } else {
-      this.setState({});
-      this.setState({ startingDay: date.dateString });
-    }
   };
 
   hideDateTimePicker = () => {
@@ -145,7 +131,9 @@ export default class SimulationScreenComponent extends React.Component {
           <Calendar
             startDate={this.state.startingDay}
             endDate={this.state.endingDay}
-            onDateSelect={this.handleOnDateSelect}
+            onClearState={this.handleClearState}
+            onSetEndingDate={this.handleSetEndingDay}
+            onSetStartingDate={this.handleSetStartingDay}
           />
         </View>
       </ProgressStep>
