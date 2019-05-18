@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image } from "react-native";
 import { RkCard } from "react-native-ui-kitten";
 
 import MyText from "../../../components/MyText/MyText";

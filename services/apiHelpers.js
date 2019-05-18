@@ -94,7 +94,6 @@ export function postDataToLearn(params) {
 }
 
 export function postStartSimulation(params) {
-    console.log('params', params);
     if(params.isRealSimulation){
         return {sth: 'success'}
     } else {

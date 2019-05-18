@@ -30,7 +30,7 @@ export default class HomeScreen extends React.Component {
             }}
           >
             <Image
-              source={require("../../assets/images/lightbulb_other.png")}
+              source={require("../../assets/images/home_lightbulb.png")}
               style={{ resizeMode: "center" }}
             />
             <Text style={styles.title}>{messages.title}</Text>

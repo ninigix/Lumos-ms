@@ -7,8 +7,9 @@ import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton
 import HoursStep from "./steps/HoursStep/HoursStep";
 import SimulationStep from "./steps/SimulationStep/SimulationStep";
 import MyProgressSteps from "../Rooms/MyProgressSteps";
-
+import MyAlert from "../../components/MyAlert/MyAlert";
 import StartSimulationStep from "./steps/StartSimulationStep/StartSimulationStep";
+
 import styles from "./SimulationScreenComponent.style";
 
 export const labels = {
@@ -29,7 +30,8 @@ export default class SimulationScreenComponent extends React.Component {
       isChoosingStartingHour: false,
       selectedRooms: [],
       areAllRoomsSelected: false,
-      isRealSimulationSelected: false
+      isRealSimulationSelected: false,
+      shouldShowAlert: false
     };
   }
 
@@ -43,6 +45,7 @@ export default class SimulationScreenComponent extends React.Component {
 
   handleClearState = () => {
     this.setState({
+      shouldShowAlert: false,
       endingDay: null,
       startingDay: null
     });
@@ -93,17 +96,18 @@ export default class SimulationScreenComponent extends React.Component {
       isRealSimulationSelected: isRealSimulationSelected
     });
 
-  renderCalendarStep = () => (
-    <View style={styles.calendarComponentWrapper}>
-      <Calendar
+  handleShowAlert = () => this.setState({shouldShowAlert: true});
+
+  renderCalendarStep = () => this.state.shouldShowAlert ? <MyAlert onPress={this.handleClearState} />
+  :  <View style={styles.calendarComponentWrapper}>
+    <Calendar
         startDate={this.state.startingDay}
         endDate={this.state.endingDay}
-        onClearState={this.handleClearState}
+        onShowAlert={this.handleShowAlert}
         onSetEndingDate={this.handleSetEndingDay}
         onSetStartingDate={this.handleSetStartingDay}
-      />
-    </View>
-  );
+    />
+  </View>;
 
   renderHoursStep = () => (
     <HoursStep
@@ -183,11 +187,9 @@ export default class SimulationScreenComponent extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
-          {console.log("this.state", this.state)}
           <MyProgressSteps>
             {this.steps.map(({ label, content, isDisabled }, index) => {
               const notFirstStep = index !== 0;
-              console.log("isDisabled", !!isDisabled);
               return (
                 <ProgressStep
                   key={`${label}__${index}`}

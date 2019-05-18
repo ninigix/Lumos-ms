@@ -1,5 +1,3 @@
-import Papa from 'papaparse';
-
 import * as callApi from "./apiHelpers";
 
 // GET

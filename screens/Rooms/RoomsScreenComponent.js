@@ -8,6 +8,7 @@ import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 import MyModal from "./Components/Modal/Modal";
 import Calendar from "../../components/Calendar/Calendar";
+import MyAlert from "../../components/MyAlert/MyAlert";
 
 import styles from "./RoomsScreenComponent.style";
 import MyProgressSteps from "./MyProgressSteps";
@@ -18,6 +19,7 @@ export default class RoomsScreenComponent extends React.Component {
     this.state = {
       lightSwitches: [],
       shouldShowCalendar: false,
+      shouldShowAlert: false,
       startingDay: null,
       endingDay: null
     };
@@ -31,13 +33,13 @@ export default class RoomsScreenComponent extends React.Component {
   }
 
   checkIfSimulationOn = () => {
-    console.log("this.props.simulationStatus", this.props.simulationStatus);
     return false;
     // return this.props.simulationStatus === "on";
   };
 
-  clearState = () => {
+  handleClearState = () => {
     this.setState({
+      shouldShowAlert: false,
       endingDay: null,
       startingDay: null
     });
@@ -102,13 +104,13 @@ export default class RoomsScreenComponent extends React.Component {
       areDatesSelected={this.state.endingDay && this.state.startingDay}
       onDatesConfirmClick={this.handleToggleCalendar()}
     >
-      <Calendar
+      { this.state.shouldShowAlert ? <MyAlert onPress={this.handleClearState} /> : <Calendar
         startDate={this.state.startingDay}
         endDate={this.state.endingDay}
         onClearState={this.clearState}
         onSetEndingDate={this.handleSetEndingDay}
         onSetStartingDate={this.handleSetStartingDay}
-      />
+      />}
     </MyModal>
   );
 
