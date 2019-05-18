@@ -5,7 +5,7 @@ import moment from "moment";
 const Calendar = ({
   startDate,
   endDate,
-                    onShowAlert,
+  onShowAlert,
   onSetEndingDate,
   onSetStartingDate
 }) => {
@@ -14,7 +14,11 @@ const Calendar = ({
     const localStartDate = moment(startDate).format("YYYY-MM-DD");
     const localEndDate = moment(endDate).format("YYYY-MM-DD");
     const dateRange = {
-      [localStartDate]: { selected: true, startingDay: true, color: `${mustard}` },
+      [localStartDate]: {
+        selected: true,
+        startingDay: true,
+        color: `${mustard}`
+      },
       [localEndDate]: { selected: true, endingDay: true, color: `${mustard}` }
     };
     if (localStartDate && localEndDate) {
@@ -36,10 +40,7 @@ const Calendar = ({
     const today = new moment();
     const isToday = date.dateString === today.format("YYYY-MM-DD");
     const isInThePast = date.timestamp < today.valueOf();
-    console.log('isToday', isToday)
-    console.log('isInThePast', isInThePast)
     if (isToday || isInThePast) {
-      console.log('alert')
       return onShowAlert();
     }
     if (startDate) {

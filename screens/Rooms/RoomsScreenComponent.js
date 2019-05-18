@@ -37,6 +37,9 @@ export default class RoomsScreenComponent extends React.Component {
     // return this.props.simulationStatus === "on";
   };
 
+  handleToggleAlert = () =>
+    this.setState({ shouldShowAlert: !this.state.shouldShowAlert });
+
   handleClearState = () => {
     this.setState({
       shouldShowAlert: false,
@@ -52,7 +55,7 @@ export default class RoomsScreenComponent extends React.Component {
 
   handleCloseEmptyModal = () => {
     this.handleToggleCalendar();
-    this.clearState();
+    this.handleClearState();
   };
 
   handleSetEndingDay = date => {
@@ -87,7 +90,6 @@ export default class RoomsScreenComponent extends React.Component {
             <Room
               // isSimulationOn={this.checkIfSimulationOn()}
               // isLightOn={lightSwitches[key]}
-              key={key}
               value={value}
               onClick={this.props.switchLight}
               onChangeDatesClick={this.handleToggleCalendar}
@@ -102,15 +104,19 @@ export default class RoomsScreenComponent extends React.Component {
     <MyModal
       onCloseModal={this.handleCloseEmptyModal}
       areDatesSelected={this.state.endingDay && this.state.startingDay}
-      onDatesConfirmClick={this.handleToggleCalendar()}
+      onDatesConfirmClick={this.handleToggleCalendar}
     >
-      { this.state.shouldShowAlert ? <MyAlert onPress={this.handleClearState} /> : <Calendar
-        startDate={this.state.startingDay}
-        endDate={this.state.endingDay}
-        onClearState={this.clearState}
-        onSetEndingDate={this.handleSetEndingDay}
-        onSetStartingDate={this.handleSetStartingDay}
-      />}
+      {this.state.shouldShowAlert ? (
+        <MyAlert onPress={this.handleClearState} />
+      ) : (
+        <Calendar
+          startDate={this.state.startingDay}
+          endDate={this.state.endingDay}
+          onShowAlert={this.handleToggleAlert}
+          onSetEndingDate={this.handleSetEndingDay}
+          onSetStartingDate={this.handleSetStartingDay}
+        />
+      )}
     </MyModal>
   );
 

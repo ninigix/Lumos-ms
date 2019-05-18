@@ -42,7 +42,7 @@ const renderChart = (data, title, xLabel, yLabel, isHours) => (
   </View>
 );
 
-const Room = ({ isSimulationOn, value, key, onClick, onChangeDatesClick }) => (
+const Room = ({ isSimulationOn, value, onClick, onChangeDatesClick }) => (
   <View style={styles.root}>
     <RkButton
       onPress={onClick}
@@ -58,7 +58,7 @@ const Room = ({ isSimulationOn, value, key, onClick, onChangeDatesClick }) => (
       price={value.price.price}
       kwh={value.kwh.kwh}
       bulb_consumption={value.bulb_consumption}
-      onChangeDatesClick={onChangeDatesClick}
+      onChangeDatesClick={() => onChangeDatesClick()}
     />
     {renderChart(
       value.most_popular_days_changes,

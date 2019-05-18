@@ -96,18 +96,22 @@ export default class SimulationScreenComponent extends React.Component {
       isRealSimulationSelected: isRealSimulationSelected
     });
 
-  handleShowAlert = () => this.setState({shouldShowAlert: true});
+  handleShowAlert = () => this.setState({ shouldShowAlert: true });
 
-  renderCalendarStep = () => this.state.shouldShowAlert ? <MyAlert onPress={this.handleClearState} />
-  :  <View style={styles.calendarComponentWrapper}>
-    <Calendar
-        startDate={this.state.startingDay}
-        endDate={this.state.endingDay}
-        onShowAlert={this.handleShowAlert}
-        onSetEndingDate={this.handleSetEndingDay}
-        onSetStartingDate={this.handleSetStartingDay}
-    />
-  </View>;
+  renderCalendarStep = () =>
+    this.state.shouldShowAlert ? (
+      <MyAlert onPress={this.handleClearState} />
+    ) : (
+      <View style={styles.calendarComponentWrapper}>
+        <Calendar
+          startDate={this.state.startingDay}
+          endDate={this.state.endingDay}
+          onShowAlert={this.handleShowAlert}
+          onSetEndingDate={this.handleSetEndingDay}
+          onSetStartingDate={this.handleSetStartingDay}
+        />
+      </View>
+    );
 
   renderHoursStep = () => (
     <HoursStep

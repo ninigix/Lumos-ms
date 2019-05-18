@@ -21,7 +21,7 @@ const UsageCard = ({
   data,
   onChangeDatesClick
 }) => (
-  <TouchableOpacity style={styles.wrapper} onPress={() => onChangeDatesClick()}>
+  <TouchableOpacity style={styles.wrapper} onPress={onChangeDatesClick}>
     <View style={styles.priceWrapper}>
       <MyText textStyle={{ color: "white", fontSize: 20 }} isBold>
         {messages.data_label} {data ? data : "20th March"}
