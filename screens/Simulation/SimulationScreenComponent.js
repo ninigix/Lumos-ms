@@ -1,6 +1,6 @@
 import React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
-import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
+import { Dimensions, View } from "react-native";
+import { ProgressStep } from "react-native-progress-steps";
 import moment from "moment";
 
 import Calendar from "../../components/Calendar/Calendar";
@@ -8,8 +8,9 @@ import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton
 import HoursStep from "./steps/HoursStep/HoursStep";
 import MyAlert from "./steps/MyAlert/MyAlert";
 import SimulationStep from "./steps/SimulationStep/SimulationStep";
-import StartSimulationStep from "./steps/StartSimulationStep/StartSimulationStep";
+import MyProgressSteps from "../Rooms/MyProgressSteps";
 
+import StartSimulationStep from "./steps/StartSimulationStep/StartSimulationStep";
 import styles from "./SimulationScreenComponent.style";
 
 const deviceWidth = Dimensions.get("window").width;
@@ -257,19 +258,13 @@ export default class SimulationScreenComponent extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
-          <ProgressSteps
-            activeStepIconBorderColor="#2274a5"
-            completedProgressBarColor="#2274a5"
-            activeLabelColor="#2274a5"
-            activeStepNumColor="#2274a5"
-            completedStepIconColor="#2274a5"
-          >
+          <MyProgressSteps>
             {this.renderCalendarStep()}
             {this.renderHoursStep()}
             {this.renderRoomsStep()}
             {this.renderSimulationStep()}
             {this.renderStartSimulationStep()}
-          </ProgressSteps>
+          </MyProgressSteps>
         </View>
       </View>
     );

@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Image, Text } from "react-native";
 
 import MyText from "../../../../components/MyText/MyText";
 
+import messages from './StartSimulationStep.constants';
 import styles from "./StartSimulationStep.style";
 
 const Card = ({
@@ -39,8 +40,8 @@ const StartSimulationStep = ({ isRealSimulationSelected, onSelect }) => (
     <View style={styles.cardsWrapper}>
       <View style={styles.card}>
         <Card
-          description="When the simulation is running you can't switch light using Lumos app."
-          title="Real"
+          description={messages.real.description}
+          title={messages.real.title}
           isRealSimulation
           isSimulationSelected={isRealSimulationSelected}
           handleOnPress={onSelect}
@@ -48,8 +49,8 @@ const StartSimulationStep = ({ isRealSimulationSelected, onSelect }) => (
       </View>
       <View style={styles.card}>
         <Card
-          description="This simulation will be run on a doll house - you'll still be able to use Lumos app."
-          title="Artificial"
+          description={messages.artificial.description}
+          title={messages.artificial.title}
           isSimulationSelected={!isRealSimulationSelected}
           handleOnPress={onSelect}
         />

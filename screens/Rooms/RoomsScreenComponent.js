@@ -1,18 +1,16 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
-import moment from "moment";
+import { ProgressStep } from "react-native-progress-steps";
 
 import Room from "./Components/Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreen.constants";
 import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
-import SimulationComponent from "../../components/SimulationComponent/SimulationComponent";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 import MyModal from "./Components/Modal/Modal";
 import Calendar from "../../components/Calendar/Calendar";
-import MyAlert from "../Simulation/steps/MyAlert/MyAlert";
 
 import styles from "./RoomsScreenComponent.style";
+import MyProgressSteps from "./MyProgressSteps";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
@@ -38,61 +36,39 @@ export default class RoomsScreenComponent extends React.Component {
     // return this.props.simulationStatus === "on";
   };
 
-  handleOnChangeDatesClick = dates =>
+  clearState = () => {
     this.setState({
-      shouldShowCalendar: true
+      endingDay: null,
+      startingDay: null
+    });
+  };
+
+  handleToggleCalendar = () =>
+    this.setState({
+      shouldShowCalendar: !this.state.shouldShowCalendar
     });
 
-  handleCloseEmptyModal = () =>
-    this.setState({
-      shouldShowCalendar: false,
-      startingDay: null,
-      endingDay: null
-    });
+  handleCloseEmptyModal = () => {
+    this.handleToggleCalendar();
+    this.clearState();
+  };
 
-  setEndingDay = date => {
+  handleSetEndingDay = date => {
     if (this.state.endingDay) {
-      this.setState({ startingDay: date.dateString });
-      this.setState({ endingDay: null });
+      this.setState({ startingDay: date.dateString, endingDay: null });
     } else {
       this.setState({ endingDay: date.dateString });
     }
   };
 
-  handleOnDateSelect = date => {
-    const today = new moment();
-    const isToday = date.dateString === today.format("YYYY-MM-DD");
-    const isInThePast = date.timestamp < today.valueOf();
-
-    if (isToday || isInThePast) {
-      return <MyAlert onPress={this.clearState} />;
-    }
-
-    if (this.state.startingDay) {
-      this.setEndingDay(date);
-    } else {
-      this.setState({});
-      this.setState({ startingDay: date.dateString });
-    }
-  };
-
-  handleDatesConfirmClick = () => {
-    this.setState({
-      shouldShowCalendar: false
-    });
-  };
+  handleSetStartingDay = date =>
+    this.setState({ startingDay: date.dateString });
 
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
 
   renderProgressStep = () => (
-    <ProgressSteps
-      activeStepIconBorderColor="#2274a5"
-      completedProgressBarColor="#2274a5"
-      activeLabelColor="#2274a5"
-      activeStepNumColor="#2274a5"
-      completedStepIconColor="#2274a5"
-    >
+    <MyProgressSteps>
       {Object.entries(this.props.statistics).map(([key, value]) => (
         <ProgressStep
           label={ROOMS_NAMES[key]}
@@ -112,33 +88,36 @@ export default class RoomsScreenComponent extends React.Component {
               key={key}
               value={value}
               onClick={this.props.switchLight}
-              onChangeDatesClick={this.handleOnChangeDatesClick}
+              onChangeDatesClick={this.handleToggleCalendar}
             />
           </View>
         </ProgressStep>
       ))}
-    </ProgressSteps>
+    </MyProgressSteps>
+  );
+
+  renderModal = () => (
+    <MyModal
+      onCloseModal={this.handleCloseEmptyModal}
+      areDatesSelected={this.state.endingDay && this.state.startingDay}
+      onDatesConfirmClick={this.handleToggleCalendar()}
+    >
+      <Calendar
+        startDate={this.state.startingDay}
+        endDate={this.state.endingDay}
+        onClearState={this.clearState}
+        onSetEndingDate={this.handleSetEndingDay}
+        onSetStartingDate={this.handleSetStartingDay}
+      />
+    </MyModal>
   );
 
   renderContent = () => {
     switch (this.props.statisticsState) {
       case SUCCESS: {
-        return this.state.shouldShowCalendar ? (
-          <MyModal
-            onCloseModal={this.handleCloseEmptyModal}
-            areDatesSelected={this.state.endingDay && this.state.startingDay}
-            onDatesConfirmClick={this.handleDatesConfirmClick}
-            content={
-              <Calendar
-                startDate={this.state.startingDay}
-                endDate={this.state.endingDay}
-                onDateSelect={this.handleOnDateSelect}
-              />
-            }
-          />
-        ) : (
-          this.renderProgressStep()
-        );
+        return this.state.shouldShowCalendar
+          ? this.renderModal()
+          : this.renderProgressStep();
       }
 
       case FAILURE: {

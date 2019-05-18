@@ -15,7 +15,7 @@ import MyText from "../../../../components/MyText/MyText";
 import { LABELS, CHART_DATA } from "./Room.constants";
 import styles from "./Room.style";
 
-const ChartCard = ({ title, xLabel, yLabel, chart }) => (
+const renderChart = (data, title, xLabel, yLabel, isHours) => (
   <View style={styles.card}>
     <MyText isBold textStyle={styles.title}>
       {title}
@@ -26,27 +26,22 @@ const ChartCard = ({ title, xLabel, yLabel, chart }) => (
     <MyText textStyle={{ marginLeft: 20 }}>
       {LABELS.Y_AXIS} {yLabel}
     </MyText>
-    <View style={{ marginTop: -40, marginLeft: 5 }}>{chart}</View>
+    <View style={{ marginTop: -40, marginLeft: 5 }}>
+      {
+        <VictoryChart
+          domainPadding={!isHours && 15}
+        >
+          {isHours ? (
+            <VictoryArea data={fromChartHelper.formatHoursData(data)} />
+          ) : (
+            <VictoryBar data={fromChartHelper.formatDaysData(data)} />
+          )}
+          <VictoryAxis fixLabelOverlap={true} />
+          <VictoryAxis dependentAxis />
+        </VictoryChart>
+      }
+    </View>
   </View>
-);
-
-const renderChart = (data, title, xLabel, yLabel, isHours) => (
-  <ChartCard
-    chart={
-      <VictoryChart animate={{ duration: 2000 }} domainPadding={!isHours && 15}>
-        {isHours ? (
-          <VictoryArea data={fromChartHelper.formatHoursData(data)} />
-        ) : (
-          <VictoryBar data={fromChartHelper.formatDaysData(data)} />
-        )}
-        <VictoryAxis fixLabelOverlap={true} />
-        <VictoryAxis dependentAxis />
-      </VictoryChart>
-    }
-    title={title}
-    xLabel={xLabel}
-    yLabel={yLabel}
-  />
 );
 
 const Room = ({ isSimulationOn, value, key, onClick, onChangeDatesClick }) => (
