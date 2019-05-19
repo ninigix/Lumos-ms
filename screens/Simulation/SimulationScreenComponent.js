@@ -197,8 +197,7 @@ export default class SimulationScreenComponent extends React.Component {
   ];
 
   onSubmitHelper = () => {
-    // this.setState({ isSimulationOn: true });
-    return this.props.postStartSimulation({
+    return this.props.toggleSimulation({
       isRealSimulation: this.state.isRealSimulationSelected,
       shouldStartSimulation: this.props.simulationStatus !== SIMULATION_ON,
       generatedData: this.props.generatedData

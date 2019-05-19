@@ -38,22 +38,21 @@ export function* watchPostDataToLearn() {
   }
 }
 
-function* postStartSimulation(requestData) {
-  const { response, error } = yield call(api.postStartSimulation, requestData);
+function* postToggleSimulation(requestData) {
+  const { response, error } = yield call(api.postToggleSimulation, requestData);
   if (response) {
-    yield put(actions.postStartSimulation.success(response, requestData));
+    yield put(actions.postToggleSimulation.success(response, requestData));
   } else {
-    yield put(actions.postStartSimulation.failure(error));
+    yield put(actions.postToggleSimulation.failure(error));
   }
 }
 
 export function* watchPostStartSimulation() {
-  console.log("watchPostStartSimulation");
   while (true) {
-    const action = yield take(actions.POST_START_SIMULATION.REQUEST);
+    const action = yield take(actions.POST_TOGGLE_SIMULATION.REQUEST);
     if (action) {
       console.log("action.params", action.params);
-      yield fork(postStartSimulation, action.params);
+      yield fork(postToggleSimulation, action.params);
     }
   }
 }

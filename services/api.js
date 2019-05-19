@@ -33,8 +33,7 @@ export function postDataToLearn(params) {
     return result.then(json => json);
 }
 
-export function postStartSimulation(params) {
-    const result = callApi.postStartSimulation(params);
-    console.log('result', result)
+export function postToggleSimulation(params) {
+    const result = callApi.postToggleSimulation(params);
     return result.then(json => json);
 }

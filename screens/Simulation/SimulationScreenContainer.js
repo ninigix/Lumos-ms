@@ -21,8 +21,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   postDataToLearn: params => dispatch(actions.postLearnData.request(params)),
-  postStartSimulation: params =>
-    dispatch(actions.postStartSimulation.request(params)),
+  toggleSimulation: params =>
+    dispatch(actions.postToggleSimulation.request(params)),
   getSimulationStatus: () => dispatch(actions.getSimulationState.request())
 });
 

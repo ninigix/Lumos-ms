@@ -14,7 +14,7 @@ const initialState = {
 export function simulationReducer(state = initialState, action) {
   switch (action.type) {
     case actions.GET_SIMULATION_STATUS.SUCCESS:
-    case actions.POST_START_SIMULATION.SUCCESS: {
+    case actions.POST_TOGGLE_SIMULATION.SUCCESS: {
       console.log("action.response", action.response);
       console.log(
         "!action.response.simulationStatus",
@@ -29,7 +29,7 @@ export function simulationReducer(state = initialState, action) {
     }
 
     case actions.GET_SIMULATION_STATUS.FAILURE:
-    case actions.POST_START_SIMULATION.FAILURE: {
+    case actions.POST_TOGGLE_SIMULATION.FAILURE: {
       return {
         ...state,
         simulationStatus: FAILURE
@@ -37,7 +37,7 @@ export function simulationReducer(state = initialState, action) {
     }
 
     case actions.GET_SIMULATION_STATUS.REQUEST:
-    case actions.POST_START_SIMULATION.REQUEST: {
+    case actions.POST_TOGGLE_SIMULATION.REQUEST: {
       return {
         ...state,
         simulationStatus: REQUEST
