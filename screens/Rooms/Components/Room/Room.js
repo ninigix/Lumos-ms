@@ -44,16 +44,16 @@ const renderChart = (data, title, xLabel, yLabel, isHours) => (
 
 const Room = ({ isSimulationOn, value, onClick, onChangeDatesClick }) => (
   <View style={styles.root}>
-    <RkButton
-      onPress={onClick}
-      rkType={!isSimulationOn && "outline"}
-      style={styles.button}
-      contentStyle={
-        isSimulationOn ? styles.outlinedButtonContent : styles.buttonContent
-      }
-    >
-      {isSimulationOn ? LABELS.OFF : LABELS.ON}
-    </RkButton>
+      {!isSimulationOn && <RkButton
+          onPress={onClick}
+          rkType={!isSimulationOn && "outline"}
+          style={styles.button}
+          contentStyle={
+              isSimulationOn ? styles.outlinedButtonContent : styles.buttonContent
+          }
+      >
+          {isSimulationOn ? LABELS.OFF : LABELS.ON}
+      </RkButton>}
     <UsageCard
       price={value.price.price}
       kwh={value.kwh.kwh}

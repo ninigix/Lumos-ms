@@ -4,7 +4,7 @@ import { ProgressStep } from "react-native-progress-steps";
 
 import Room from "./Components/Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreen.constants";
-import { FAILURE, REQUEST, SUCCESS } from "../../actions/helpers";
+import {FAILURE, REQUEST, SIMULATION_ON, SUCCESS} from "../../actions/helpers";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 import MyModal from "./Components/Modal/Modal";
 import Calendar from "../../components/Calendar/Calendar";
@@ -12,6 +12,7 @@ import MyAlert from "../../components/MyAlert/MyAlert";
 
 import styles from "./RoomsScreenComponent.style";
 import MyProgressSteps from "./MyProgressSteps";
+import MyText from "../../components/MyText/MyText";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
@@ -27,15 +28,12 @@ export default class RoomsScreenComponent extends React.Component {
 
   componentDidMount() {
     // const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
-    const { getStatistics } = this.props;
-    // getSimulationStatus();
+    const { getStatistics, getSimulationStatus } = this.props;
+    getSimulationStatus();
     getStatistics();
   }
 
-  checkIfSimulationOn = () => {
-    return false;
-    // return this.props.simulationStatus === "on";
-  };
+  checkIfSimulationOn = () => this.props.simulationStatus === SIMULATION_ON;
 
   handleToggleAlert = () =>
     this.setState({ shouldShowAlert: !this.state.shouldShowAlert });
@@ -87,8 +85,9 @@ export default class RoomsScreenComponent extends React.Component {
           previousBtnTextStyle={styles.btnTextStyle}
         >
           <View style={{ marginLeft: 10, marginRight: 10 }}>
+            <MyText>{this.renderHeaderText()}</MyText>
             <Room
-              // isSimulationOn={this.checkIfSimulationOn()}
+              isSimulationOn={this.checkIfSimulationOn()}
               // isLightOn={lightSwitches[key]}
               value={value}
               onClick={this.props.switchLight}
@@ -121,7 +120,7 @@ export default class RoomsScreenComponent extends React.Component {
   );
 
   renderContent = () => {
-    switch (this.props.statisticsState) {
+    switch (this.props.statisticsState || this.props.simulationStatus) {
       case SUCCESS: {
         return this.state.shouldShowCalendar
           ? this.renderModal()
