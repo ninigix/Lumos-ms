@@ -83,7 +83,7 @@ export default class RoomsScreenComponent extends React.Component {
           finishBtnText={messages.goBack}
           nextBtnStyle={styles.nextBtnStyle}
           nextBtnTextStyle={styles.btnTextStyle}
-          previousBtnStyle={Number(key) !== 1 && styles.prevBtnStyle}
+          previousBtnStyle={Number(key) !== 1 ? styles.prevBtnStyle : {}} // prop can only be object, otherwise huge error in console => debugging more painful
           previousBtnTextStyle={styles.btnTextStyle}
         >
           <View style={{ marginLeft: 10, marginRight: 10 }}>
