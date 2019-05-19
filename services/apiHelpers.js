@@ -22,6 +22,7 @@ async function callApi(address, method, params = {}) {
         }
         const response = await fetch(address, additionalParams);
         const responseJson = await response.json();
+        console.log('responseJson', responseJson)
         return responseJson;
     } catch (error) {
         console.error(error);
@@ -37,7 +38,7 @@ export function findLightSwitches() {
 }
 
 export function getSimulationStatus() {
-    const address = "simulation";
+    const address = `${SERVER_URL}simulation`;
     return callApi(address, 'GET').then(value => ({response: value}));
 }
 
@@ -94,8 +95,11 @@ export function postDataToLearn(params) {
 }
 
 export function postStartSimulation(params) {
+    // console.log('prams', params);
     if(params.isRealSimulation){
-        return {sth: 'success'}
+        // return {sth: 'success'}
+        const address = `${SERVER_URL}simulation`;
+        return callApi(address, 'POST', params).then(value => ({response: value}));
     } else {
         const address = `${DOROTA_LOCAL_SERVER}simulation`;
         return callApi(address, 'POST', params.generatedData).then(value => ({response: value}));

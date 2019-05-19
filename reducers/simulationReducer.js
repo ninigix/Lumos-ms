@@ -1,5 +1,11 @@
 import * as actions from "../actions/simulationActions";
-import { FAILURE, SUCCESS, REQUEST } from "../actions/helpers";
+import {
+  FAILURE,
+  SUCCESS,
+  REQUEST,
+  SIMULATION_OFF,
+  SIMULATION_ON
+} from "../actions/helpers";
 
 const initialState = {
   status: []
@@ -7,17 +13,34 @@ const initialState = {
 
 export function simulationReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.GET_SIMULATION_STATUS.SUCCESS: {
+    case actions.GET_SIMULATION_STATUS.SUCCESS:
+    case actions.POST_START_SIMULATION.SUCCESS: {
+      console.log("action.response", action.response);
+      console.log(
+        "!action.response.simulationStatus",
+        !action.response.simulationStatus
+      );
       return {
         ...state,
-        simulationStatus: action.response.simulation
+        simulationStatus: !action.response.simulationStatus
+          ? SIMULATION_OFF
+          : SIMULATION_ON
       };
     }
 
-    case actions.GET_SIMULATION_STATUS.FAILURE: {
+    case actions.GET_SIMULATION_STATUS.FAILURE:
+    case actions.POST_START_SIMULATION.FAILURE: {
       return {
         ...state,
         simulationStatus: FAILURE
+      };
+    }
+
+    case actions.GET_SIMULATION_STATUS.REQUEST:
+    case actions.POST_START_SIMULATION.REQUEST: {
+      return {
+        ...state,
+        simulationStatus: REQUEST
       };
     }
 

@@ -1,6 +1,8 @@
 export const REQUEST = "REQUEST";
 export const SUCCESS = "SUCCESS";
 export const FAILURE = "FAILURE";
+export const SIMULATION_ON = "ON";
+export const SIMULATION_OFF = "OFF";
 
 export function action(type, payload = {}) {
   return { type, ...payload };

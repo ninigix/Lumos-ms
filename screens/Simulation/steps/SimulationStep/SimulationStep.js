@@ -32,7 +32,7 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
     }
 
     default:
-      return <Text>Something went wrong. Please try once again.</Text>;
+      return <React.Fragment />;
   }
 };
 

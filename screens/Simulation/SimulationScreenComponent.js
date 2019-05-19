@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { ProgressStep } from "react-native-progress-steps";
+import isequal from "lodash.isequal";
 
 import Calendar from "../../components/Calendar/Calendar";
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
@@ -9,6 +10,15 @@ import SimulationStep from "./steps/SimulationStep/SimulationStep";
 import MyProgressSteps from "../Rooms/MyProgressSteps";
 import MyAlert from "../../components/MyAlert/MyAlert";
 import StartSimulationStep from "./steps/StartSimulationStep/StartSimulationStep";
+import {
+  FAILURE,
+  REQUEST,
+  SIMULATION_OFF,
+  SIMULATION_ON,
+  SUCCESS
+} from "../../actions/helpers";
+import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import MyText from "../../components/MyText/MyText";
 
 import styles from "./SimulationScreenComponent.style";
 
@@ -30,9 +40,14 @@ export default class SimulationScreenComponent extends React.Component {
       isChoosingStartingHour: false,
       selectedRooms: [],
       areAllRoomsSelected: false,
-      isRealSimulationSelected: false,
-      shouldShowAlert: false
+      isRealSimulationSelected: true,
+      shouldShowAlert: false,
+      isSimulationOn: false
     };
+  }
+
+  componentDidMount() {
+    this.props.getSimulationStatus();
   }
 
   handleSetEndingDay = date =>
@@ -181,13 +196,83 @@ export default class SimulationScreenComponent extends React.Component {
     }
   ];
 
-  onSubmitHelper = () =>
-    this.props.postStartSimulation({
-      generatedData: this.props.generatedData,
-      isRealSimulation: this.state.isRealSimulationSelected
+  onSubmitHelper = () => {
+    // this.setState({ isSimulationOn: true });
+    return this.props.postStartSimulation({
+      isRealSimulation: this.state.isRealSimulationSelected,
+      shouldStartSimulation: this.props.simulationStatus !== SIMULATION_ON,
+      generatedData: this.props.generatedData
     });
+  };
+
+  renderSimulationOverlay = () => {
+    switch (this.props.simulationStatus) {
+      case SIMULATION_ON: {
+        return (
+          <React.Fragment>
+            <View
+              style={{
+                alignItems: "center",
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                position: "absolute",
+                zIndex: 100,
+                backgroundColor: "rgba(214, 215, 218, 0.8)",
+                minHeight: 600
+                // padding: 20
+              }}
+            >
+              <MyText
+                isBold
+                textStyle={{
+                  marginLeft: 20,
+                  marginRight: 20,
+                  marginTop: "55%",
+                  color: "#2274a5",
+                  textAlign: "center",
+                  fontSize: 22,
+                  lineHeight: 30
+                }}
+              >
+                Simulation running, in order to make changes go to the last step
+                and stop simulation.
+              </MyText>
+            </View>
+          </React.Fragment>
+        );
+      }
+
+      case SIMULATION_OFF:
+        return <React.Fragment />;
+
+      case FAILURE:
+        return <Text>failure</Text>;
+
+      case REQUEST: {
+        return (
+          <View
+            style={{
+              display: "flex",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <ActivityIndicator size="large" color="#2274a5k" />
+          </View>
+        );
+      }
+
+      default:
+        return <Text>Something went wrong. Please try once again.</Text>;
+    }
+  };
 
   render() {
+    const isSimulationOn = this.props.simulationStatus === SIMULATION_ON;
+    // || this.state.isSimulationOn;
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -198,20 +283,30 @@ export default class SimulationScreenComponent extends React.Component {
                 <ProgressStep
                   key={`${label}__${index}`}
                   label={label}
-                  nextBtnDisabled={!!isDisabled && isDisabled()}
+                  nextBtnDisabled={
+                    !!isDisabled && !isSimulationOn && isDisabled()
+                  }
                   nextBtnText=">"
                   nextBtnStyle={
-                    !!isDisabled && isDisabled()
+                    !!isDisabled && !isSimulationOn && isDisabled()
                       ? styles.disabledNextBtnStyle
                       : styles.nextBtnStyle
                   }
                   nextBtnTextStyle={styles.btnTextStyle}
-                  onNext={label === "Rooms" && this.handlePostDataToLearn}
-                  previousBtnText={notFirstStep && "<"}
-                  previousBtnStyle={notFirstStep && styles.prevBtnStyle}
-                  previousBtnTextStyle={notFirstStep && styles.btnTextStyle}
-                  onSubmit={index === this.steps.length && this.onSubmitHelper}
+                  onNext={
+                    label === "Rooms" &&
+                    !isSimulationOn &&
+                    this.handlePostDataToLearn
+                  }
+                  previousBtnText={notFirstStep ? "<" : ""} // otherwise huge warnings in console => makes debugging difficult
+                  previousBtnStyle={notFirstStep ? styles.prevBtnStyle : {}} // otherwise huge warnings in console => makes debugging difficult
+                  previousBtnTextStyle={notFirstStep ? styles.btnTextStyle : {}} // otherwise huge warnings in console => makes debugging difficult
+                  onSubmit={this.onSubmitHelper}
+                  finishBtnText={
+                    isSimulationOn ? "Stop simulation" : "Start simulation"
+                  }
                 >
+                  {this.renderSimulationOverlay()}
                   {content()}
                 </ProgressStep>
               );

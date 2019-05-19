@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://7y-6u3.anonymous.lumos-ms.exp.direct",
   "packagerNgrokUrl": "https://packager.7y-6u3.anonymous.lumos-ms.exp.direct",
-  "ngrokPid": 18620,
+  "ngrokPid": 31050,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 18599
+  "packagerPid": 31028
 }

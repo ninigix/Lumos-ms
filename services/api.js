@@ -9,7 +9,10 @@ export function findLightSwitches() {
 
 export function getSimulationStatus() {
     const result = callApi.getSimulationStatus();
-    return result.then(json => json);
+    return result.then(json => {
+        console.log('json', json);
+        return json
+    });
 }
 
 export function getStatistics() {
@@ -32,5 +35,6 @@ export function postDataToLearn(params) {
 
 export function postStartSimulation(params) {
     const result = callApi.postStartSimulation(params);
-    return result;//.then(json => json);
+    console.log('result', result)
+    return result.then(json => json);
 }

@@ -41,16 +41,18 @@ export function* watchPostDataToLearn() {
 function* postStartSimulation(requestData) {
   const { response, error } = yield call(api.postStartSimulation, requestData);
   if (response) {
-    yield put(actions.postLearnData.success(response, requestData));
+    yield put(actions.postStartSimulation.success(response, requestData));
   } else {
-    yield put(actions.postLearnData.failure(error));
+    yield put(actions.postStartSimulation.failure(error));
   }
 }
 
 export function* watchPostStartSimulation() {
+  console.log("watchPostStartSimulation");
   while (true) {
     const action = yield take(actions.POST_START_SIMULATION.REQUEST);
     if (action) {
+      console.log("action.params", action.params);
       yield fork(postStartSimulation, action.params);
     }
   }

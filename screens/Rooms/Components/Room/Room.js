@@ -28,7 +28,7 @@ const renderChart = (data, title, xLabel, yLabel, isHours) => (
     </MyText>
     <View style={{ marginTop: -40, marginLeft: 5 }}>
       {
-        <VictoryChart domainPadding={!isHours && {x: [15,0]}}>
+        <VictoryChart domainPadding={!isHours && { x: [15, 0] }}>
           {isHours ? (
             <VictoryArea data={fromChartHelper.formatHoursData(data)} />
           ) : (
