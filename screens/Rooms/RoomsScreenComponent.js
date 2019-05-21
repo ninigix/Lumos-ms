@@ -4,7 +4,12 @@ import { ProgressStep } from "react-native-progress-steps";
 
 import Room from "./Components/Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreen.constants";
-import {FAILURE, REQUEST, SIMULATION_ON, SUCCESS} from "../../actions/helpers";
+import {
+  FAILURE,
+  REQUEST,
+  SIMULATION_ON,
+  SUCCESS
+} from "../../actions/helpers";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 import MyModal from "./Components/Modal/Modal";
 import Calendar from "../../components/Calendar/Calendar";
@@ -18,7 +23,8 @@ export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lightSwitches: [],
+      lightsOn: [], // to indicate which switches were changed and are currently on
+      changedLightIds: new Set(), // to indicate which light switches were already used either via app or manually
       shouldShowCalendar: false,
       shouldShowAlert: false,
       startingDay: null,
@@ -27,10 +33,42 @@ export default class RoomsScreenComponent extends React.Component {
   }
 
   componentDidMount() {
-    // const { getSimulationStatus, getLightSwitches, getStatistics } = this.props;
-    const { getStatistics, getSimulationStatus } = this.props;
-    getSimulationStatus();
-    getStatistics();
+    this.props.getSwitchesInitialState();
+    this.props.getSimulationStatus();
+    this.props.getStatistics();
+
+    this.eventSource = new EventSource(
+      "http://localhost:5000/microcontrollers"
+    );
+    this.eventSource.addEventListener("message", data => {
+      const esp_id = data.data[0];
+      const status = data.data[2];
+
+      // TODO remove Number()... once backend from Dorota
+      if (status === "1") {
+        //light on
+        return this.state.lightsOn.includes( Number(esp_id))
+          ? null
+          : this.setState({
+              lightsOn: [...this.state.lightsOn, Number(esp_id)],
+              changedLightIds: this.state.changedLightIds.add( Number(esp_id))
+            });
+      } else {
+        // light off
+        this.state.lightsOn.includes( Number(esp_id)) &&
+          this.setState({
+            lightsOn: this.state.lightsOn.filter(
+              lightSwitch => lightSwitch !==  Number(esp_id)
+            ),
+            changedLightIds: this.state.changedLightIds.add( Number(esp_id))
+          });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.eventSource.removeAllListeners();
+    this.eventSource.close();
   }
 
   checkIfSimulationOn = () => this.props.simulationStatus === SIMULATION_ON;
@@ -64,11 +102,25 @@ export default class RoomsScreenComponent extends React.Component {
     }
   };
 
+  handleChangePeriod = () => {
+    this.handleToggleCalendar();
+    this.props.getStatistics({
+      startingDay: this.state.startingDay,
+      endingDay: this.state.endingDay
+    });
+  };
+
   handleSetStartingDay = date =>
     this.setState({ startingDay: date.dateString });
 
   renderHeaderText = () =>
     this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
+
+  checkIfLightOn = id => {
+    const mappedId = Number(id);
+    const { changedLightIds, lightsOn } = this.state;
+    return !changedLightIds.has(mappedId) ? this.props.initialLightsOn.includes(mappedId) : lightsOn.includes(mappedId);
+  };
 
   renderProgressStep = () => (
     <MyProgressSteps>
@@ -88,9 +140,9 @@ export default class RoomsScreenComponent extends React.Component {
             <MyText>{this.renderHeaderText()}</MyText>
             <Room
               isSimulationOn={this.checkIfSimulationOn()}
-              // isLightOn={lightSwitches[key]}
+              isLightOn={this.checkIfLightOn(key)}
               value={value}
-              onClick={this.props.switchLight}
+              onClick={() => this.props.switchLight({ esp_id: Number(key) })}
               onChangeDatesClick={this.handleToggleCalendar}
             />
           </View>
@@ -103,7 +155,7 @@ export default class RoomsScreenComponent extends React.Component {
     <MyModal
       onCloseModal={this.handleCloseEmptyModal}
       areDatesSelected={this.state.endingDay && this.state.startingDay}
-      onDatesConfirmClick={this.handleToggleCalendar}
+      onDatesConfirmClick={this.handleChangePeriod}
     >
       {this.state.shouldShowAlert ? (
         <MyAlert onPress={this.handleClearState} />
@@ -119,24 +171,28 @@ export default class RoomsScreenComponent extends React.Component {
     </MyModal>
   );
 
+  // add loading indicator for simulation status
   renderContent = () => {
-    switch (this.props.statisticsState || this.props.simulationStatus) {
-      case SUCCESS: {
-        return this.state.shouldShowCalendar
-          ? this.renderModal()
-          : this.renderProgressStep();
-      }
-
-      case FAILURE: {
-        return <Text>failure</Text>;
-      }
-
-      case REQUEST: {
-        return <LoadingIndicator />;
-      }
-
-      default:
-        return <Text>empty</Text>;
+    const { statisticsStatus, switchesInitialStateStatus } = this.props;
+    if (
+      switchesInitialStateStatus === REQUEST ||
+        statisticsStatus === REQUEST
+    ) {
+      return <LoadingIndicator />;
+    } else if (
+      switchesInitialStateStatus === FAILURE ||
+        statisticsStatus === FAILURE
+    ) {
+      return <Text>failure</Text>;
+    } else if (
+      switchesInitialStateStatus === SUCCESS &&
+        statisticsStatus === SUCCESS
+    ) {
+      return this.state.shouldShowCalendar
+        ? this.renderModal()
+        : this.renderProgressStep();
+    } else {
+      return <Text>something went wrong...</Text>;
     }
   };
 

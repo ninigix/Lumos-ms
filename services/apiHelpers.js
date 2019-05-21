@@ -22,7 +22,6 @@ async function callApi(address, method, params = {}) {
         }
         const response = await fetch(address, additionalParams);
         const responseJson = await response.json();
-        console.log('responseJson', responseJson)
         return responseJson;
     } catch (error) {
         console.error(error);
@@ -30,10 +29,12 @@ async function callApi(address, method, params = {}) {
 }
 
 
+
+
 // GET
 
-export function findLightSwitches() {
-    const address = "microcontrollers";
+export function getSwitchesInitialState() {
+    const address = `${SERVER_URL}switchesInitialState`;
     return callApi(address, 'GET').then(value => ({response: value}));
 }
 
@@ -42,11 +43,11 @@ export function getSimulationStatus() {
     return callApi(address, 'GET').then(value => ({response: value}));
 }
 
-export function getStatistics() {
+export function getStatistics(params) {
     // const endpoint = `${DOROTA_LOCAL_SERVER}analysis`;
     // return callApi(endpoint, 'POST').then(value => ({response: value}));
     return {response: {
-            "1": {
+            1: {
                 "light_changes": 1642,
                 "time_on": "2 days 03:45:14",
                 "most_popular_hours_changes": [16, 11, 7, 4, 9, 53, 158, 90, 49, 42, 37, 25, 31, 58, 49, 63, 344, 83, 99, 94, 93, 104, 97, 26],
@@ -57,7 +58,7 @@ export function getStatistics() {
                 "price": {"price": 0.12387833333333335, "kwh": 0.22523333333333334},
                 "bulb_consumption": 13.979305555555557
             },
-            "2": {
+            2: {
                 "light_changes": 82,
                 "time_on": "2 days 04:02:55",
                 "most_popular_hours_changes": [3, 1, 0, 0, 1, 0, 0, 0, 2, 0, 0, 3, 4, 1, 0, 3, 3, 10, 6, 9, 5, 8, 16, 7],
@@ -68,7 +69,7 @@ export function getStatistics() {
                 "price": {"price": 0.13360416666666666, "kwh": 0.24291666666666664},
                 "bulb_consumption": 28.11828703703704
             },
-            "3": {
+            3: {
                 "light_changes": 783,
                 "time_on": "1 days 05:06:11",
                 "most_popular_hours_changes": [4, 0, 1, 0, 0, 1, 7, 4, 7, 0, 1, 1, 0, 6, 1, 3, 47, 73, 139, 119, 126, 130, 77, 36],
@@ -85,7 +86,7 @@ export function getStatistics() {
 // POST
 
 export function postSwitchLights(params) {
-    const address = "front";
+    const address = `${SERVER_URL}front`;
     return callApi(address, 'POST', params).then(value => ({response: value}));
 }
 

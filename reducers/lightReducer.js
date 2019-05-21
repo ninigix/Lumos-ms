@@ -5,34 +5,56 @@ const initialState = {
   availableLightSwitches: []
 };
 
+const mapInitialLightsOn = initialLightStatuses =>
+  initialLightStatuses.map(light => light.esp_id);
+
+const filterInitialLightStatuses = initialLightStatuses =>
+  initialLightStatuses.filter(({ status }) => status === 1);
+
 export function lightReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.GET_LIGHT_SWITCHES.SUCCESS: {
+    case actions.SWITCH_LIGHTS.FAILURE: {
       return {
         ...state,
-        status: SUCCESS,
-        availableLightSwitches: action.response
-      };
-    }
-
-    case actions.GET_LIGHT_SWITCHES.FAILURE: {
-      return {
-        ...state,
-        status: FAILURE
+        switchLightsStatus: FAILURE
       };
     }
 
     case actions.SWITCH_LIGHTS.SUCCESS: {
       return {
         ...state,
-        status: SUCCESS
+        switchLightsStatus: SUCCESS
       };
     }
 
-    case actions.SWITCH_LIGHTS.FAILURE: {
+    case actions.SWITCH_LIGHTS.REQUEST: {
       return {
         ...state,
-        status: FAILURE
+        switchLightsStatus: REQUEST
+      };
+    }
+
+    case actions.GET_SWITCHES_INITIAL_STATE.FAILURE: {
+      return {
+        ...state,
+        switchesInitialStateStatus: FAILURE
+      };
+    }
+
+    case actions.GET_SWITCHES_INITIAL_STATE.SUCCESS: {
+      return {
+        ...state,
+        switchesInitialStateStatus: SUCCESS,
+        initialLightsOn: mapInitialLightsOn(
+          filterInitialLightStatuses(action.response)
+        )
+      };
+    }
+
+    case actions.GET_SWITCHES_INITIAL_STATE.REQUEST: {
+      return {
+        ...state,
+        switchesInitialStateStatus: REQUEST
       };
     }
 

@@ -2,21 +2,24 @@ import * as callApi from "./apiHelpers";
 
 // GET
 
-export function findLightSwitches() {
-    const result = callApi.findLightSwitches();
-    return result.then(json => json);
+export function getSwitchesInitialState() {
+    const result = callApi.getSwitchesInitialState();
+    return result;
+    // return result.then(json => {
+    //     console.log('getSwitchesInitialState json', json);
+    //     return json;
+    // });
 }
 
 export function getSimulationStatus() {
     const result = callApi.getSimulationStatus();
     return result.then(json => {
-        console.log('json', json);
         return json
     });
 }
 
-export function getStatistics() {
-    const result = callApi.getStatistics();
+export function getStatistics(params) {
+    const result = callApi.getStatistics(params);
     return result; //.then(json => json);
 }
 
@@ -25,7 +28,9 @@ export function getStatistics() {
 
 export function postSwitchLights(params) {
     const result = callApi.postSwitchLights(params);
-    return result.then(json => json);
+    return result.then(json => {
+        return json;
+    });
 }
 
 export function postDataToLearn(params) {

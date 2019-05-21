@@ -2,20 +2,23 @@ import { call, fork, put, take, all } from "redux-saga/effects";
 import * as actions from "../actions/lightActions";
 import * as api from "../services/api";
 
-function* getLightSwitches(requestData) {
-  const { response, error } = yield call(api.findLightSwitches, requestData);
+function* getSwitchesInitialState(requestData) {
+  const { response, error } = yield call(
+    api.getSwitchesInitialState,
+    requestData
+  );
   if (response) {
-    yield put(actions.getLightSwitches.success(response, requestData));
+    yield put(actions.getSwitchesInitialState.success(response, requestData));
   } else {
-    yield put(actions.getLightSwitches.failure(error));
+    yield put(actions.getSwitchesInitialState.failure(error));
   }
 }
 
-export function* watchGetLightSwitches() {
+export function* watchGetSwitchesInitialState() {
   while (true) {
-    const action = yield take(actions.GET_LIGHT_SWITCHES.REQUEST);
+    const action = yield take(actions.GET_SWITCHES_INITIAL_STATE.REQUEST);
     if (action) {
-      yield fork(getLightSwitches, action.params);
+      yield fork(getSwitchesInitialState, action.params);
     }
   }
 }

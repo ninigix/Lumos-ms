@@ -4838,6 +4838,11 @@ lodash.filter@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.filter/-/lodash.filter-4.6.0.tgz#668b1d4981603ae1cc5a6fa760143e480b4c4ace"
   integrity sha1-ZosdSYFgOuHMWm+nYBQ+SAtMSs4=
 
+lodash.find@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.find/-/lodash.find-4.6.0.tgz#cb0704d47ab71789ffa0de8b97dd926fb88b13b1"
+  integrity sha1-ywcE1Hq3F4n/oN6Ll92Sb7iLE7E=
+
 lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
@@ -4887,6 +4892,11 @@ lodash.pick@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
   integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
+
+lodash.remove@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/lodash.remove/-/lodash.remove-4.7.0.tgz#f31d31e7c39a0690d5074ec0d3627162334ee626"
+  integrity sha1-8x0x58OaBpDVB07A02JxYjNO5iY=
 
 lodash.sortby@^4.7.0:
   version "4.7.0"
@@ -6171,6 +6181,11 @@ react-native-elements@^1.1.0:
     prop-types "^15.5.8"
     react-native-ratings "^6.3.0"
     react-native-status-bar-height "^2.2.0"
+
+react-native-event-source@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-event-source/-/react-native-event-source-1.0.5.tgz#3fe811a5ca751055a71496308dcac692e44ead6c"
+  integrity sha512-hRXXFW/rWqZ7BtwKsF3Uz7q902g9VBuVFzIM6unYifKC6KO/WYTMnvKMMztAo5KsHFpwB6CYGOFtkhYSp3HI+w==
 
 react-native-gesture-handler@~1.0.14:
   version "1.0.16"

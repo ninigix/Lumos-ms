@@ -51,7 +51,6 @@ export function* watchPostStartSimulation() {
   while (true) {
     const action = yield take(actions.POST_TOGGLE_SIMULATION.REQUEST);
     if (action) {
-      console.log("action.params", action.params);
       yield fork(postToggleSimulation, action.params);
     }
   }

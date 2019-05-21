@@ -15,11 +15,6 @@ export function simulationReducer(state = initialState, action) {
   switch (action.type) {
     case actions.GET_SIMULATION_STATUS.SUCCESS:
     case actions.POST_TOGGLE_SIMULATION.SUCCESS: {
-      console.log("action.response", action.response);
-      console.log(
-        "!action.response.simulationStatus",
-        !action.response.simulationStatus
-      );
       return {
         ...state,
         simulationStatus: !action.response.simulationStatus
