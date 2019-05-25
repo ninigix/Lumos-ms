@@ -18,5 +18,10 @@ export default StyleSheet.create({
     width: deviceWidth,
     height: deviceHeight,
     flexDirection: "column"
+  },
+  imageWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });

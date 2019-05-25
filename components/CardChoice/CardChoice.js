@@ -37,12 +37,7 @@ const CardChoice = ({
         backgroundColor={iconBackgroundColor}
       />
       {leftComponentAdditionalLine ? (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column"
-          }}
-        >
+        <View style={styles.additionalLine}>
           {renderText()}
           {renderBoldText()}
         </View>

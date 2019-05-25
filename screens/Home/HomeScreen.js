@@ -2,19 +2,18 @@ import React from "react";
 import { ScrollView, Text, View, Image } from "react-native";
 
 import Card from "./Card/Card";
-import { cardsImages } from "../../constants/Links";
 import { messages } from "./HomeScreen.constants";
 
 import styles from "./HomeScreen.style";
 
 export default class HomeScreen extends React.Component {
   mapCards = () =>
-    cardsImages.map((currentImage, index) => (
+    messages.cards.map((message, index) => (
       <Card
-        title={messages.cards[index].title}
-        text={messages.cards[index].text}
+        title={message.title}
+        text={message.text}
         index={index}
-        key={`${index}__${currentImage.source}`}
+        key={`${index}__${message.title}`}
       />
     ));
 
@@ -22,13 +21,7 @@ export default class HomeScreen extends React.Component {
     return (
       <ScrollView style={styles.scrollView}>
         <View style={styles.fullScreen}>
-          <View
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
+          <View style={styles.imageWrapper}>
             <Image
               source={require("../../assets/images/home_lightbulb.png")}
               style={{ resizeMode: "center" }}

@@ -1,6 +1,6 @@
 export const LABELS = {
   ON: "Switch light on",
-  OFF: "Switch_light_off",
+  OFF: "Switch light off",
   X_AXIS: "X axis:",
   Y_AXIS: "Y axis:"
 };

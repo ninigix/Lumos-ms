@@ -13,29 +13,29 @@ const initialState = {
 
 export function simulationReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.GET_SIMULATION_STATUS.SUCCESS:
+    case actions.GET_REAL_SIMULATION_STATUS.SUCCESS:
     case actions.POST_TOGGLE_SIMULATION.SUCCESS: {
       return {
         ...state,
-        simulationStatus: !action.response.simulationStatus
+        realSimulationStatus: !action.response.realSimulationStatus
           ? SIMULATION_OFF
           : SIMULATION_ON
       };
     }
 
-    case actions.GET_SIMULATION_STATUS.FAILURE:
+    case actions.GET_REAL_SIMULATION_STATUS.FAILURE:
     case actions.POST_TOGGLE_SIMULATION.FAILURE: {
       return {
         ...state,
-        simulationStatus: FAILURE
+        realSimulationStatus: FAILURE
       };
     }
 
-    case actions.GET_SIMULATION_STATUS.REQUEST:
+    case actions.GET_REAL_SIMULATION_STATUS.REQUEST:
     case actions.POST_TOGGLE_SIMULATION.REQUEST: {
       return {
         ...state,
-        simulationStatus: REQUEST
+        realSimulationStatus: REQUEST
       };
     }
 

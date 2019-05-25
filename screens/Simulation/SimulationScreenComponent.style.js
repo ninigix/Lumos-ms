@@ -81,5 +81,24 @@ export default StyleSheet.create({
     color: "#ffbf00",
     textAlign: "center",
     padding: 20
+  },
+  message: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: "55%",
+    color: "#2274a5",
+    textAlign: "center",
+    fontSize: 22,
+    lineHeight: 30
+  },
+  screenOverlay: {
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    position: "absolute",
+    zIndex: 100,
+    backgroundColor: "rgba(214, 215, 218, 0.8)",
+    minHeight: 600
   }
 });

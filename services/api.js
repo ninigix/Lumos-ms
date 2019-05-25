@@ -11,8 +11,8 @@ export function getSwitchesInitialState() {
     // });
 }
 
-export function getSimulationStatus() {
-    const result = callApi.getSimulationStatus();
+export function getRealSimulationStatus() {
+    const result = callApi.getRealSimulationStatus();
     return result.then(json => {
         return json
     });

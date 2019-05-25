@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View } from "react-native";
 import { ProgressStep } from "react-native-progress-steps";
-import isequal from "lodash.isequal";
 
 import Calendar from "../../components/Calendar/Calendar";
 import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton";
@@ -17,16 +16,15 @@ import {
   SIMULATION_ON,
   SUCCESS
 } from "../../actions/helpers";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import {
+  LoadingIndicator,
+  DefaultIndicator,
+  FailureIndicator
+} from "../../components/FetchIndicators/Indicators/Indicators";
 import MyText from "../../components/MyText/MyText";
 
+import { roomLabels, stepLabels, messages } from "./SimulationScreen.constants";
 import styles from "./SimulationScreenComponent.style";
-
-export const labels = {
-  1: "Bathroom",
-  2: "Bedroom1",
-  3: "Kitchen"
-};
 
 export default class SimulationScreenComponent extends React.Component {
   constructor(props) {
@@ -47,8 +45,16 @@ export default class SimulationScreenComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getSimulationStatus();
+    this.props.getRealSimulationStatus();
   }
+
+  onSubmitHelper = () => {
+    return this.props.toggleSimulation({
+      isRealSimulation: this.state.isRealSimulationSelected,
+      shouldStartSimulation: this.props.realSimulationStatus !== SIMULATION_ON,
+      generatedData: this.props.generatedData
+    });
+  };
 
   handleSetEndingDay = date =>
     this.state.endingDay
@@ -144,7 +150,7 @@ export default class SimulationScreenComponent extends React.Component {
 
   renderRoomsStep = () => (
     <View style={{ alignItems: "center" }}>
-      {Object.entries(labels).map(([key, value]) => (
+      {Object.entries(roomLabels).map(([key, value]) => (
         <RoomChoiceButton
           label={value}
           onSelect={this.handleSelect}
@@ -172,70 +178,38 @@ export default class SimulationScreenComponent extends React.Component {
 
   steps = [
     {
-      label: "Date",
+      label: stepLabels.DATE,
       content: this.renderCalendarStep,
       isDisabled: () => !this.state.startingDay || !this.state.endingDay
     },
     {
-      label: "Hours",
+      label: stepLabels.HOURS,
       content: this.renderHoursStep,
       isDisabled: () => !this.state.startingHour || !this.state.endingHour
     },
     {
-      label: "Rooms",
+      label: stepLabels.ROOMS,
       content: this.renderRoomsStep,
       isDisabled: () => this.state.selectedRooms.length === 0
     },
     {
-      label: "See simulation",
+      label: stepLabels.SEE_SIMULATION,
       content: this.renderSimulationStep
     },
     {
-      label: "Start",
+      label: stepLabels.START,
       content: this.renderStartSimulationStep
     }
   ];
 
-  onSubmitHelper = () => {
-    return this.props.toggleSimulation({
-      isRealSimulation: this.state.isRealSimulationSelected,
-      shouldStartSimulation: this.props.simulationStatus !== SIMULATION_ON,
-      generatedData: this.props.generatedData
-    });
-  };
-
   renderSimulationOverlay = () => {
-    switch (this.props.simulationStatus) {
+    switch (this.props.realSimulationStatus) {
       case SIMULATION_ON: {
         return (
           <React.Fragment>
-            <View
-              style={{
-                alignItems: "center",
-                height: "100%",
-                width: "100%",
-                display: "flex",
-                position: "absolute",
-                zIndex: 100,
-                backgroundColor: "rgba(214, 215, 218, 0.8)",
-                minHeight: 600
-                // padding: 20
-              }}
-            >
-              <MyText
-                isBold
-                textStyle={{
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginTop: "55%",
-                  color: "#2274a5",
-                  textAlign: "center",
-                  fontSize: 22,
-                  lineHeight: 30
-                }}
-              >
-                Simulation running, in order to make changes go to the last step
-                and stop simulation.
+            <View style={styles.screenOverlay}>
+              <MyText isBold textStyle={styles.message}>
+                {messages.simulationRunning}
               </MyText>
             </View>
           </React.Fragment>
@@ -246,32 +220,19 @@ export default class SimulationScreenComponent extends React.Component {
         return <React.Fragment />;
 
       case FAILURE:
-        return <Text>failure</Text>;
+        return <FailureIndicator />;
 
       case REQUEST: {
-        return (
-          <View
-            style={{
-              display: "flex",
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <ActivityIndicator size="large" color="#2274a5k" />
-          </View>
-        );
+        return <LoadingIndicator />;
       }
 
       default:
-        return <Text>Something went wrong. Please try once again.</Text>;
+        return <DefaultIndicator />;
     }
   };
 
   render() {
-    const isSimulationOn = this.props.simulationStatus === SIMULATION_ON;
-    // || this.state.isSimulationOn;
+    const isSimulationOn = this.props.realSimulationStatus === SIMULATION_ON; // or this.props.artificialSimulationStatus === SIMULATION_ON;
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -302,7 +263,9 @@ export default class SimulationScreenComponent extends React.Component {
                   previousBtnTextStyle={notFirstStep ? styles.btnTextStyle : {}} // otherwise huge warnings in console => makes debugging difficult
                   onSubmit={this.onSubmitHelper}
                   finishBtnText={
-                    isSimulationOn ? "Stop simulation" : "Start simulation"
+                    isSimulationOn
+                      ? messages.simulationOn
+                      : messages.simulationOff
                   }
                 >
                   {this.renderSimulationOverlay()}

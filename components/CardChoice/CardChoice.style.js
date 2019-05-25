@@ -35,5 +35,9 @@ export default StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center"
+  },
+  additionalLine: {
+    display: "flex",
+    flexDirection: "column"
   }
 });

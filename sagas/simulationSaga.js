@@ -2,20 +2,23 @@ import { call, fork, put, take } from "redux-saga/effects";
 import * as actions from "../actions/simulationActions";
 import * as api from "../services/api";
 
-function* getSimulationStatus(requestData) {
-  const { response, error } = yield call(api.getSimulationStatus, requestData);
+function* getRealSimulationStatus(requestData) {
+  const { response, error } = yield call(
+    api.getRealSimulationStatus,
+    requestData
+  );
   if (response) {
-    yield put(actions.getSimulationState.success(response, requestData));
+    yield put(actions.getRealSimulationState.success(response, requestData));
   } else {
-    yield put(actions.getSimulationState.failure(error));
+    yield put(actions.getRealSimulationState.failure(error));
   }
 }
 
-export function* watchGetSimulationStatus() {
+export function* watchGetrealSimulationStatus() {
   while (true) {
-    const action = yield take(actions.GET_SIMULATION_STATUS.REQUEST);
+    const action = yield take(actions.GET_REAL_SIMULATION_STATUS.REQUEST);
     if (action) {
-      yield fork(getSimulationStatus, action.params);
+      yield fork(getRealSimulationStatus, action.params);
     }
   }
 }

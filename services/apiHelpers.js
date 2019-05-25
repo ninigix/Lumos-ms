@@ -1,6 +1,5 @@
 import isempty from 'lodash.isempty';
 
-// const SERVER_URL = "http://localhost:5000/";
 const SERVER_URL = "http://localhost:5000/";
 const MATEUSZ_SERVER = "178.32.244.200";
 const DOROTA_LOCAL_SERVER = "http://192.168.0.192:5000/";
@@ -28,9 +27,6 @@ async function callApi(address, method, params = {}) {
     }
 }
 
-
-
-
 // GET
 
 export function getSwitchesInitialState() {
@@ -38,8 +34,8 @@ export function getSwitchesInitialState() {
     return callApi(address, 'GET').then(value => ({response: value}));
 }
 
-export function getSimulationStatus() {
-    const address = `${SERVER_URL}simulation`;
+export function getRealSimulationStatus() {
+    const address = `${SERVER_URL}realSimulation`;
     return callApi(address, 'GET').then(value => ({response: value}));
 }
 
@@ -97,7 +93,7 @@ export function postDataToLearn(params) {
 
 export function postToggleSimulation(params) {
     if(params.isRealSimulation){
-        const address = `${SERVER_URL}simulation`;
+        const address = `${SERVER_URL}realSimulation`;
         return callApi(address, 'POST', params).then(value => ({response: value}));
     } else {
         const address = `${DOROTA_LOCAL_SERVER}simulation`;

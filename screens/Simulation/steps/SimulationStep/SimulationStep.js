@@ -1,10 +1,15 @@
 import React from "react";
-import { FAILURE, REQUEST, SUCCESS } from "../../../../actions/helpers";
-import { Text, View } from "react-native";
-import SimulationComponent from "../../../../components/SimulationComponent/SimulationComponent";
-import LoadingIndicator from "../../../../components/LoadingIndicator/LoadingIndicator";
+import { View } from "react-native";
 
-import { labels } from "../../SimulationScreenComponent";
+import { FAILURE, REQUEST, SUCCESS } from "../../../../actions/helpers";
+import SimulationComponent from "../../../../components/SimulationComponent/SimulationComponent";
+import {
+  LoadingIndicator,
+  FailureIndicator,
+  DefaultIndicator
+} from "../../../../components/FetchIndicators/Indicators/Indicators";
+
+import { roomLabels } from "../../SimulationScreen.constants";
 
 const SimulationStep = ({ learnStatus, generatedData }) => {
   switch (learnStatus) {
@@ -12,11 +17,11 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
       return (
         <View style={{ alignItems: "center" }}>
           {generatedData &&
-            generatedData.map(data => (
+            generatedData.map(({ room, status, datetimevalue }) => (
               <SimulationComponent
-                date={data.datetimevalue}
-                isLightOn={data.status.includes(1)}
-                roomName={labels[data.room]}
+                date={datetimevalue}
+                isLightOn={status.includes(1)}
+                roomName={roomLabels[room]}
               />
             ))}
         </View>
@@ -24,7 +29,7 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
     }
 
     case FAILURE: {
-      return <Text>failure</Text>;
+      return <FailureIndicator />;
     }
 
     case REQUEST: {
@@ -32,7 +37,7 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
     }
 
     default:
-      return <React.Fragment />;
+      return <DefaultIndicator />;
   }
 };
 

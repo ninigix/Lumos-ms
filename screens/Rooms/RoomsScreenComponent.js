@@ -10,14 +10,18 @@ import {
   SIMULATION_ON,
   SUCCESS
 } from "../../actions/helpers";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import {
+  LoadingIndicator,
+  FailureIndicator,
+  DefaultIndicator
+} from "../../components/FetchIndicators/Indicators/Indicators";
 import MyModal from "./Components/Modal/Modal";
 import Calendar from "../../components/Calendar/Calendar";
 import MyAlert from "../../components/MyAlert/MyAlert";
+import MyProgressSteps from "./MyProgressSteps";
+import SimulationWarning from "./Components/SimulationWarning/SimulationWarning";
 
 import styles from "./RoomsScreenComponent.style";
-import MyProgressSteps from "./MyProgressSteps";
-import MyText from "../../components/MyText/MyText";
 
 export default class RoomsScreenComponent extends React.Component {
   constructor(props) {
@@ -34,7 +38,7 @@ export default class RoomsScreenComponent extends React.Component {
 
   componentDidMount() {
     this.props.getSwitchesInitialState();
-    this.props.getSimulationStatus();
+    this.props.getRealSimulationStatus();
     this.props.getStatistics();
 
     this.eventSource = new EventSource(
@@ -73,7 +77,7 @@ export default class RoomsScreenComponent extends React.Component {
     this.eventSource.close();
   }
 
-  checkIfSimulationOn = () => this.props.simulationStatus === SIMULATION_ON;
+  checkIfSimulationOn = () => this.props.realSimulationStatus === SIMULATION_ON;
 
   handleToggleAlert = () =>
     this.setState({ shouldShowAlert: !this.state.shouldShowAlert });
@@ -115,9 +119,6 @@ export default class RoomsScreenComponent extends React.Component {
   handleSetStartingDay = date =>
     this.setState({ startingDay: date.dateString });
 
-  renderHeaderText = () =>
-    this.checkIfSimulationOn() ? messages.simulationOn : messages.simulationOff;
-
   checkIfLightOn = id => {
     const mappedId = Number(id);
     const { changedLightIds, lightsOn } = this.state;
@@ -142,7 +143,7 @@ export default class RoomsScreenComponent extends React.Component {
           previousBtnTextStyle={styles.btnTextStyle}
         >
           <View style={{ marginLeft: 10, marginRight: 10 }}>
-            <MyText>{this.renderHeaderText()}</MyText>
+            {this.checkIfSimulationOn() && <SimulationWarning />}
             <Room
               isSimulationOn={this.checkIfSimulationOn()}
               isLightOn={this.checkIfLightOn(key)}
@@ -188,7 +189,7 @@ export default class RoomsScreenComponent extends React.Component {
       switchesInitialStateStatus === FAILURE ||
       statisticsStatus === FAILURE
     ) {
-      return <Text>failure</Text>;
+      return <FailureIndicator />;
     } else if (
       switchesInitialStateStatus === SUCCESS &&
       statisticsStatus === SUCCESS
@@ -197,7 +198,7 @@ export default class RoomsScreenComponent extends React.Component {
         ? this.renderModal()
         : this.renderProgressStep();
     } else {
-      return <Text>something went wrong...</Text>;
+      return <DefaultIndicator />;
     }
   };
 

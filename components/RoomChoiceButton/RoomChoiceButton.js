@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import MyText from "../MyText/MyText";
 import CardChoice from "../CardChoice/CardChoice";

@@ -6,7 +6,7 @@ import * as actions from "../../actions/simulationActions";
 import {
   getGeneratedData,
   getLearningStatus,
-  getSimulationStatus
+  getRealSimulationStatus
 } from "../../selectors/simulationSelector";
 
 const SimulationScreenContainer = props => (
@@ -16,14 +16,15 @@ const SimulationScreenContainer = props => (
 const mapStateToProps = state => ({
   generatedData: getGeneratedData(state),
   learnStatus: getLearningStatus(state),
-  simulationStatus: getSimulationStatus(state)
+  realSimulationStatus: getRealSimulationStatus(state)
 });
 
 const mapDispatchToProps = dispatch => ({
   postDataToLearn: params => dispatch(actions.postLearnData.request(params)),
   toggleSimulation: params =>
     dispatch(actions.postToggleSimulation.request(params)),
-  getSimulationStatus: () => dispatch(actions.getSimulationState.request())
+  getRealSimulationStatus: () =>
+    dispatch(actions.getRealSimulationState.request())
 });
 
 export default connect(
