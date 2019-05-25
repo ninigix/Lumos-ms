@@ -47,20 +47,22 @@ export default class RoomsScreenComponent extends React.Component {
       // TODO remove Number()... once backend from Dorota
       if (status === "1") {
         //light on
-        return this.state.lightsOn.includes( Number(esp_id))
-          ? null
+        return this.state.lightsOn.includes(Number(esp_id))
+          ? null // and in the lightOn => do nothing
           : this.setState({
+              // not in lightsOn => add to lightsOn and changedLightIds to inform that it's not in its initial state
               lightsOn: [...this.state.lightsOn, Number(esp_id)],
-              changedLightIds: this.state.changedLightIds.add( Number(esp_id))
+              changedLightIds: this.state.changedLightIds.add(Number(esp_id))
             });
       } else {
         // light off
-        this.state.lightsOn.includes( Number(esp_id)) &&
+        this.state.lightsOn.includes(Number(esp_id)) &&
           this.setState({
+            // off but in lightsOn => remove from lightsOn and add to changedLightIds to inform that it's not in its initial state
             lightsOn: this.state.lightsOn.filter(
-              lightSwitch => lightSwitch !==  Number(esp_id)
+              lightSwitch => lightSwitch !== Number(esp_id)
             ),
-            changedLightIds: this.state.changedLightIds.add( Number(esp_id))
+            changedLightIds: this.state.changedLightIds.add(Number(esp_id))
           });
       }
     });
@@ -119,7 +121,10 @@ export default class RoomsScreenComponent extends React.Component {
   checkIfLightOn = id => {
     const mappedId = Number(id);
     const { changedLightIds, lightsOn } = this.state;
-    return !changedLightIds.has(mappedId) ? this.props.initialLightsOn.includes(mappedId) : lightsOn.includes(mappedId);
+    // if not in initial state, check if in state.lightOn. If in initial state, check if in props.initialLightsOn
+    return !changedLightIds.has(mappedId)
+      ? this.props.initialLightsOn.includes(mappedId)
+      : lightsOn.includes(mappedId);
   };
 
   renderProgressStep = () => (
@@ -176,17 +181,17 @@ export default class RoomsScreenComponent extends React.Component {
     const { statisticsStatus, switchesInitialStateStatus } = this.props;
     if (
       switchesInitialStateStatus === REQUEST ||
-        statisticsStatus === REQUEST
+      statisticsStatus === REQUEST
     ) {
       return <LoadingIndicator />;
     } else if (
       switchesInitialStateStatus === FAILURE ||
-        statisticsStatus === FAILURE
+      statisticsStatus === FAILURE
     ) {
       return <Text>failure</Text>;
     } else if (
       switchesInitialStateStatus === SUCCESS &&
-        statisticsStatus === SUCCESS
+      statisticsStatus === SUCCESS
     ) {
       return this.state.shouldShowCalendar
         ? this.renderModal()

@@ -62,7 +62,7 @@ const Room = ({
         {isLightOn ? LABELS.OFF : LABELS.ON}
       </RkButton>
     )}
-      <UsageCard
+    <UsageCard
       price={value.price.price}
       kwh={value.kwh.kwh}
       bulb_consumption={value.bulb_consumption}
