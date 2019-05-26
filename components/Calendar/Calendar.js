@@ -1,13 +1,15 @@
 import React from "react";
 import { CalendarList } from "react-native-calendars";
 import moment from "moment";
+import MyText from "../MyText/MyText";
 
 const Calendar = ({
   startDate,
   endDate,
   onShowAlert,
   onSetEndingDate,
-  onSetStartingDate
+  onSetStartingDate,
+                    shouldShowAlert
 }) => {
   const mustard = "#ffbf00";
   const createDateRange = () => {
@@ -51,6 +53,8 @@ const Calendar = ({
   };
 
   return (
+      <React.Fragment>
+        {shouldShowAlert && <MyText>You can't choose date in the past or today</MyText>}
     <CalendarList
       markedDates={createDateRange()}
       pastScrollRange={12}
@@ -60,6 +64,7 @@ const Calendar = ({
       onDayPress={day => handleDateSelect(day)}
       markingType="period"
     />
+      </React.Fragment>
   );
 };
 

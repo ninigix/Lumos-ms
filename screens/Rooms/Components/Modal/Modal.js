@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Modal, View } from "react-native";
 import { RkButton } from "react-native-ui-kitten";
 
 import { LABELS } from "./Modal.constants";

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import {View} from "react-native";
 import { ProgressStep } from "react-native-progress-steps";
 
 import Room from "./Components/Room/Room";
@@ -17,7 +17,6 @@ import {
 } from "../../components/FetchIndicators/Indicators/Indicators";
 import MyModal from "./Components/Modal/Modal";
 import Calendar from "../../components/Calendar/Calendar";
-import MyAlert from "../../components/MyAlert/MyAlert";
 import MyProgressSteps from "./MyProgressSteps";
 import SimulationWarning from "./Components/SimulationWarning/SimulationWarning";
 
@@ -80,7 +79,8 @@ export default class RoomsScreenComponent extends React.Component {
   checkIfSimulationOn = () => this.props.realSimulationStatus === SIMULATION_ON;
 
   handleToggleAlert = () =>
-    this.setState({ shouldShowAlert: !this.state.shouldShowAlert });
+    this.setState({ shouldShowAlert: true,   endingDay: null,
+      startingDay: null });
 
   handleClearState = () => {
     this.setState({
@@ -163,17 +163,14 @@ export default class RoomsScreenComponent extends React.Component {
       areDatesSelected={this.state.endingDay && this.state.startingDay}
       onDatesConfirmClick={this.handleChangePeriod}
     >
-      {this.state.shouldShowAlert ? (
-        <MyAlert onPress={this.handleClearState} />
-      ) : (
-        <Calendar
+      {  <Calendar
           startDate={this.state.startingDay}
           endDate={this.state.endingDay}
           onShowAlert={this.handleToggleAlert}
           onSetEndingDate={this.handleSetEndingDay}
           onSetStartingDate={this.handleSetStartingDay}
-        />
-      )}
+          shouldShowAlert={this.state.shouldShowAlert}
+      />}
     </MyModal>
   );
 

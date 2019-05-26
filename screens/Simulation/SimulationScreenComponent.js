@@ -7,7 +7,6 @@ import RoomChoiceButton from "../../components/RoomChoiceButton/RoomChoiceButton
 import HoursStep from "./steps/HoursStep/HoursStep";
 import SimulationStep from "./steps/SimulationStep/SimulationStep";
 import MyProgressSteps from "../Rooms/MyProgressSteps";
-import MyAlert from "../../components/MyAlert/MyAlert";
 import StartSimulationStep from "./steps/StartSimulationStep/StartSimulationStep";
 import {
   FAILURE,
@@ -76,15 +75,6 @@ export default class SimulationScreenComponent extends React.Component {
   handleSetStartingDay = date =>
     this.setState({ startingDay: date.dateString });
 
-  handleClearState = () => {
-    console.log("handleClearState");
-    this.setState({
-      shouldShowAlert: false,
-      endingDay: null,
-      startingDay: null
-    });
-  };
-
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   };
@@ -131,22 +121,21 @@ export default class SimulationScreenComponent extends React.Component {
       simulationSpeed: simulationSpeed
     });
 
-  handleShowAlert = () => this.setState({ shouldShowAlert: true });
+  handleShowAlert = () => this.setState({ shouldShowAlert: true, endingDay: null,
+    startingDay: null });
 
-  renderCalendarStep = () =>
-    this.state.shouldShowAlert ? (
-      <MyAlert onPress={this.handleClearState} />
-    ) : (
+  renderCalendarStep = () => (
       <View style={styles.calendarComponentWrapper}>
         <Calendar
-          startDate={this.state.startingDay}
-          endDate={this.state.endingDay}
-          onShowAlert={this.handleShowAlert}
-          onSetEndingDate={this.handleSetEndingDay}
-          onSetStartingDate={this.handleSetStartingDay}
+            startDate={this.state.startingDay}
+            endDate={this.state.endingDay}
+            onShowAlert={this.handleShowAlert}
+            onSetEndingDate={this.handleSetEndingDay}
+            onSetStartingDate={this.handleSetStartingDay}
+            shouldShowAlert={this.state.shouldShowAlert}
         />
       </View>
-    );
+  );
 
   renderHoursStep = () => (
     <HoursStep

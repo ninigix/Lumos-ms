@@ -34,6 +34,7 @@
     "moment": "^2.24.0",
     "prettier": "^1.17.0",
     "react-native-calendars": "1.21.0",
+    "react-native-dialog": "^5.6.0",
     "react-native-event-source": "^1.0.5",
     "react-native-modal-datetime-picker": "^7.4.0",
     "react-native-picker": "^4.3.7",
