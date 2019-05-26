@@ -1,8 +1,10 @@
 export const messages = {
   simulationOn: "Stop simulation",
   simulationOff: "Start simulation",
-  simulationRunning:
-    " Simulation running, in order to make changes go to the last step and stop simulation."
+  realSimulationRunning:
+    "Real simulation running, in order to make changes go to the last step and stop simulation.",
+  artificialSimulationRunning:
+    "Artificial simulation running, in order to make changes go to the last step and stop simulation."
 };
 
 export const roomLabels = {

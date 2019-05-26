@@ -18,12 +18,14 @@ export function simulationReducer(state = initialState, action) {
     case actions.POST_TOGGLE_SIMULATION.SUCCESS: {
       return {
         ...state,
-        artificialSimulationStatus: action.response.artificialSimulationStatus === "ON"
-          ? SIMULATION_ON
-          : SIMULATION_OFF,
-        realSimulationStatus: action.response.realSimulationStatus === "ON"
-          ? SIMULATION_ON
-          : SIMULATION_OFF
+        artificialSimulationStatus:
+          action.response.artificialSimulationStatus === "ON"
+            ? SIMULATION_ON
+            : SIMULATION_OFF,
+        realSimulationStatus:
+          action.response.realSimulationStatus === "ON"
+            ? SIMULATION_ON
+            : SIMULATION_OFF
       };
     }
 

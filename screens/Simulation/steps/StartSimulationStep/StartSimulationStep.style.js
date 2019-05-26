@@ -68,5 +68,22 @@ export default StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
+  },
+  choiceGroupWrapper: {
+    borderWidth: 1,
+    borderColor: "#2274a5",
+    borderRadius: 4,
+    padding: 20,
+    width: "100%",
+    marginTop: 20
+  },
+  choiceTitle: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: "#2274a5"
+  },
+  choiceLabel: {
+    fontSize: 16,
+    marginBottom: 5
   }
 });

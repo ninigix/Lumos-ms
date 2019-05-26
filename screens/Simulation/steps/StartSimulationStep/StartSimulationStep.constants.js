@@ -9,7 +9,8 @@ export default (messages = {
       "This simulation will be run on a doll house - you'll still be able to use Lumos app.",
     title: "Artificial"
   },
-  header: "Choose simulation type"
+  header: "Choose simulation type",
+  choiceTitle: "Choose simulation speed"
 });
 
 export const AVAILABLE_SPEEDS = [200, 400, 600];

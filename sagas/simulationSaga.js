@@ -1,6 +1,6 @@
 import { call, fork, put, take, select } from "redux-saga/effects";
 
-import * as fromSimulation from '../selectors/simulationSelector';
+import * as fromSimulation from "../selectors/simulationSelector";
 import * as actions from "../actions/simulationActions";
 import * as api from "../services/api";
 
@@ -67,9 +67,17 @@ export function* watchPostDataToLearn() {
 }
 
 function* postToggleSimulation(requestData) {
-  const artificialSimulationStatus = yield select(fromSimulation.getArtificialSimulationStatus);
-  const realSimulationStatus = yield select(fromSimulation.getRealSimulationStatus);
-  const { response, error } = yield call(api.postToggleSimulation, {...requestData, artificialSimulationStatus, realSimulationStatus});
+  const artificialSimulationStatus = yield select(
+    fromSimulation.getArtificialSimulationStatus
+  );
+  const realSimulationStatus = yield select(
+    fromSimulation.getRealSimulationStatus
+  );
+  const { response, error } = yield call(api.postToggleSimulation, {
+    ...requestData,
+    artificialSimulationStatus,
+    realSimulationStatus
+  });
   if (response) {
     yield put(actions.postToggleSimulation.success(response, requestData));
   } else {

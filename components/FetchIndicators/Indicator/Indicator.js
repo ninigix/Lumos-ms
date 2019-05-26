@@ -13,7 +13,11 @@ const image = {
 const Indicator = ({ title, message, type }) => (
   <ScrollView>
     <View style={styles.imageWrapper}>
-      <Image source={image[type]} />
+      <Image
+        source={image[type]}
+        resizeMode={"center"}
+        style={{ maxHeight: 400 }}
+      />
       <MyText isBold textStyle={styles.header}>
         {title}
       </MyText>

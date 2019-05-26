@@ -10,7 +10,7 @@ const MyAlert = ({ onPress }) => {
     [
       {
         text: `${messages.buttonText}`,
-        onPress: () => console.log('was pressed')
+        onPress: () => console.log("was pressed")
       }
     ],
     { cancelable: true }

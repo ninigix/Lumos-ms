@@ -9,7 +9,7 @@ export const getArtificialSimulationStatus = state =>
   get(state, [SIMULATION_STATE_KEY, "artificialSimulationStatus"], "");
 
 export const getToggleSimulationStatus = state =>
-    get(state, [SIMULATION_STATE_KEY, "toggleSimulationStatus"], "");
+  get(state, [SIMULATION_STATE_KEY, "toggleSimulationStatus"], "");
 
 export const getLearningStatus = state =>
   get(state, [SIMULATION_STATE_KEY, "learningStatus"], "");

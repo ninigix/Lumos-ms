@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity, Image, Text } from "react-native";
-import { RkChoiceGroup, RkChoice } from "react-native-ui-kitten";
 
 import MyText from "../../../../components/MyText/MyText";
 
-import messages from "./StartSimulationStep.constants";
+import messages, { AVAILABLE_SPEEDS } from "./StartSimulationStep.constants";
 import styles from "./StartSimulationStep.style";
 
 class StartSimulationStep extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedSpeed: 200
+      selectedSpeed: AVAILABLE_SPEEDS[0]
     };
   }
 
@@ -44,7 +43,10 @@ class StartSimulationStep extends Component {
           </View>
         </View>
         {!isRealSimulationSelected && (
-          <SimulationSpeed onSelect={this.handleSelectSpeed} />
+          <SimulationSpeed
+            onSelect={this.handleSelectSpeed}
+            selectedSpeed={this.state.selectedSpeed}
+          />
         )}
       </View>
     );
@@ -77,27 +79,27 @@ const Card = ({
   </TouchableOpacity>
 );
 
-const SimulationSpeed = ({ onSelect }) => (
-  <RkChoiceGroup selectedIndex={2} radio>
-    <TouchableOpacity choiceTrigge onPress={() => onSelect(200)}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <RkChoice rkType="radio" />
-        <Text>200</Text>
-      </View>
-    </TouchableOpacity>
-    <TouchableOpacity choiceTrigger onPress={() => onSelect(400)}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <RkChoice rkType="radio" />
-        <Text>400</Text>
-      </View>
-    </TouchableOpacity>
-    <TouchableOpacity choiceTrigger onPress={() => onSelect(600)}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <RkChoice rkType="radio" />
-        <Text>600</Text>
-      </View>
-    </TouchableOpacity>
-  </RkChoiceGroup>
+const SimulationSpeed = ({ onSelect, selectedSpeed }) => (
+  <View style={styles.choiceGroupWrapper}>
+    <MyText isBold textStyle={styles.choiceTitle}>
+      {messages.choiceTitle}
+    </MyText>
+    {AVAILABLE_SPEEDS.map((speed, index) => (
+      <TouchableOpacity
+        key={`${index}__${speed}`}
+        onPress={() => onSelect(speed)}
+      >
+        <MyText
+          textStyle={{
+            ...styles.choiceLabel,
+            color: speed === selectedSpeed ? "#2274a5" : "grey"
+          }}
+        >
+          {speed}
+        </MyText>
+      </TouchableOpacity>
+    ))}
+  </View>
 );
 
 export default StartSimulationStep;

@@ -5,8 +5,7 @@ import { FAILURE, REQUEST, SUCCESS } from "../../../../actions/helpers";
 import SimulationComponent from "../../../../components/SimulationComponent/SimulationComponent";
 import {
   LoadingIndicator,
-  FailureIndicator,
-  DefaultIndicator
+  FailureIndicator
 } from "../../../../components/FetchIndicators/Indicators/Indicators";
 
 import { roomLabels } from "../../SimulationScreen.constants";
@@ -19,6 +18,7 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
           {generatedData &&
             generatedData.map(({ room, status, datetimevalue }) => (
               <SimulationComponent
+                key={`${room}__${status}`}
                 date={datetimevalue}
                 isLightOn={status.includes(1)}
                 roomName={roomLabels[room]}
@@ -37,7 +37,7 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
     }
 
     default:
-      return <DefaultIndicator />;
+      return <React.Fragment />;
   }
 };
 

@@ -50,12 +50,20 @@ export default class SimulationScreenComponent extends React.Component {
   }
 
   onSubmitHelper = () => {
-    const {realSimulationStatus, generatedData, artificialSimulationStatus} = this.props;
+    const {
+      realSimulationStatus,
+      generatedData,
+      artificialSimulationStatus
+    } = this.props;
     return this.props.toggleSimulation({
       isRealSimulation: this.state.isRealSimulationSelected,
       speed: this.state.simulationSpeed,
-      shouldStartRealSimulation: realSimulationStatus !== SIMULATION_ON && artificialSimulationStatus === SIMULATION_OFF,
-      shouldStartArtificialSimulation: artificialSimulationStatus !== SIMULATION_ON && realSimulationStatus === SIMULATION_OFF,
+      shouldStartRealSimulation:
+        realSimulationStatus !== SIMULATION_ON &&
+        artificialSimulationStatus === SIMULATION_OFF,
+      shouldStartArtificialSimulation:
+        artificialSimulationStatus !== SIMULATION_ON &&
+        realSimulationStatus === SIMULATION_OFF,
       generatedData
     });
   };
@@ -69,7 +77,7 @@ export default class SimulationScreenComponent extends React.Component {
     this.setState({ startingDay: date.dateString });
 
   handleClearState = () => {
-    console.log('handleClearState')
+    console.log("handleClearState");
     this.setState({
       shouldShowAlert: false,
       endingDay: null,
@@ -209,7 +217,11 @@ export default class SimulationScreenComponent extends React.Component {
   ];
 
   renderSimulationOverlay = () => {
-    const { realSimulationStatus, artificialSimulationStatus, toggleSimulationStatus } = this.props;
+    const {
+      realSimulationStatus,
+      artificialSimulationStatus,
+      toggleSimulationStatus
+    } = this.props;
     if (
       realSimulationStatus === SIMULATION_ON ||
       artificialSimulationStatus === SIMULATION_ON
@@ -218,7 +230,9 @@ export default class SimulationScreenComponent extends React.Component {
         <React.Fragment>
           <View style={styles.screenOverlay}>
             <MyText isBold textStyle={styles.message}>
-              {messages.simulationRunning}
+              {realSimulationStatus === SIMULATION_ON
+                ? messages.realSimulationRunning
+                : messages.artificialSimulationRunning}
             </MyText>
           </View>
         </React.Fragment>
@@ -240,6 +254,12 @@ export default class SimulationScreenComponent extends React.Component {
       return <LoadingIndicator />;
     } else {
       return <DefaultIndicator />;
+    }
+  };
+
+  handleOnNext = (label, isSimulationOn) => {
+    if (label === stepLabels.ROOMS && !isSimulationOn) {
+      this.handlePostDataToLearn();
     }
   };
 
@@ -267,11 +287,7 @@ export default class SimulationScreenComponent extends React.Component {
                       : styles.nextBtnStyle
                   }
                   nextBtnTextStyle={styles.btnTextStyle}
-                  onNext={
-                    label === "Rooms" &&
-                    !isSimulationOn &&
-                    this.handlePostDataToLearn
-                  }
+                  onNext={() => this.handleOnNext(label, isSimulationOn)}
                   previousBtnText={notFirstStep ? "<" : ""} // otherwise huge warnings in console => makes debugging difficult
                   previousBtnStyle={notFirstStep ? styles.prevBtnStyle : {}} // otherwise huge warnings in console => makes debugging difficult
                   previousBtnTextStyle={notFirstStep ? styles.btnTextStyle : {}} // otherwise huge warnings in console => makes debugging difficult
