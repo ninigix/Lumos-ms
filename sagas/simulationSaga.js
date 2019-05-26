@@ -1,4 +1,6 @@
-import { call, fork, put, take } from "redux-saga/effects";
+import { call, fork, put, take, select } from "redux-saga/effects";
+
+import * as fromSimulation from '../selectors/simulationSelector';
 import * as actions from "../actions/simulationActions";
 import * as api from "../services/api";
 
@@ -14,11 +16,34 @@ function* getRealSimulationStatus(requestData) {
   }
 }
 
-export function* watchGetrealSimulationStatus() {
+export function* watchGetRealSimulationStatus() {
   while (true) {
     const action = yield take(actions.GET_REAL_SIMULATION_STATUS.REQUEST);
     if (action) {
       yield fork(getRealSimulationStatus, action.params);
+    }
+  }
+}
+
+function* getArtificialSimulationStatus(requestData) {
+  const { response, error } = yield call(
+    api.getArtificialSimulationStatus,
+    requestData
+  );
+  if (response) {
+    yield put(
+      actions.getArtificialSimulationState.success(response, requestData)
+    );
+  } else {
+    yield put(actions.getArtificialSimulationState.failure(error));
+  }
+}
+
+export function* watchGetArtificialSimulationStatus() {
+  while (true) {
+    const action = yield take(actions.GET_ARTIFICIAL_SIMULATION_STATUS.REQUEST);
+    if (action) {
+      yield fork(getArtificialSimulationStatus, action.params);
     }
   }
 }
@@ -42,7 +67,9 @@ export function* watchPostDataToLearn() {
 }
 
 function* postToggleSimulation(requestData) {
-  const { response, error } = yield call(api.postToggleSimulation, requestData);
+  const artificialSimulationStatus = yield select(fromSimulation.getArtificialSimulationStatus);
+  const realSimulationStatus = yield select(fromSimulation.getRealSimulationStatus);
+  const { response, error } = yield call(api.postToggleSimulation, {...requestData, artificialSimulationStatus, realSimulationStatus});
   if (response) {
     yield put(actions.postToggleSimulation.success(response, requestData));
   } else {

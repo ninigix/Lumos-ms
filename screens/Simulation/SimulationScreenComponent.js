@@ -46,13 +46,17 @@ export default class SimulationScreenComponent extends React.Component {
 
   componentDidMount() {
     this.props.getRealSimulationStatus();
+    this.props.getArtificialSimulationStatus();
   }
 
   onSubmitHelper = () => {
+    const {realSimulationStatus, generatedData, artificialSimulationStatus} = this.props;
     return this.props.toggleSimulation({
       isRealSimulation: this.state.isRealSimulationSelected,
-      shouldStartSimulation: this.props.realSimulationStatus !== SIMULATION_ON,
-      generatedData: this.props.generatedData
+      speed: this.state.simulationSpeed,
+      shouldStartRealSimulation: realSimulationStatus !== SIMULATION_ON && artificialSimulationStatus === SIMULATION_OFF,
+      shouldStartArtificialSimulation: artificialSimulationStatus !== SIMULATION_ON && realSimulationStatus === SIMULATION_OFF,
+      generatedData
     });
   };
 
@@ -65,6 +69,7 @@ export default class SimulationScreenComponent extends React.Component {
     this.setState({ startingDay: date.dateString });
 
   handleClearState = () => {
+    console.log('handleClearState')
     this.setState({
       shouldShowAlert: false,
       endingDay: null,
@@ -112,9 +117,10 @@ export default class SimulationScreenComponent extends React.Component {
     });
   };
 
-  handleSimulationTypeSelect = isRealSimulationSelected =>
+  handleSimulationTypeSelect = (isRealSimulationSelected, simulationSpeed) =>
     this.setState({
-      isRealSimulationSelected: isRealSimulationSelected
+      isRealSimulationSelected: isRealSimulationSelected,
+      simulationSpeed: simulationSpeed
     });
 
   handleShowAlert = () => this.setState({ shouldShowAlert: true });
@@ -203,36 +209,44 @@ export default class SimulationScreenComponent extends React.Component {
   ];
 
   renderSimulationOverlay = () => {
-    switch (this.props.realSimulationStatus) {
-      case SIMULATION_ON: {
-        return (
-          <React.Fragment>
-            <View style={styles.screenOverlay}>
-              <MyText isBold textStyle={styles.message}>
-                {messages.simulationRunning}
-              </MyText>
-            </View>
-          </React.Fragment>
-        );
-      }
-
-      case SIMULATION_OFF:
-        return <React.Fragment />;
-
-      case FAILURE:
-        return <FailureIndicator />;
-
-      case REQUEST: {
-        return <LoadingIndicator />;
-      }
-
-      default:
-        return <DefaultIndicator />;
+    const { realSimulationStatus, artificialSimulationStatus, toggleSimulationStatus } = this.props;
+    if (
+      realSimulationStatus === SIMULATION_ON ||
+      artificialSimulationStatus === SIMULATION_ON
+    ) {
+      return (
+        <React.Fragment>
+          <View style={styles.screenOverlay}>
+            <MyText isBold textStyle={styles.message}>
+              {messages.simulationRunning}
+            </MyText>
+          </View>
+        </React.Fragment>
+      );
+    } else if (
+      realSimulationStatus === SIMULATION_OFF ||
+      artificialSimulationStatus === SIMULATION_OFF
+    ) {
+      return <React.Fragment />;
+    } else if (
+      realSimulationStatus === FAILURE ||
+      artificialSimulationStatus === FAILURE
+    ) {
+      return <FailureIndicator />;
+    } else if (
+      realSimulationStatus === REQUEST ||
+      artificialSimulationStatus === REQUEST
+    ) {
+      return <LoadingIndicator />;
+    } else {
+      return <DefaultIndicator />;
     }
   };
 
   render() {
-    const isSimulationOn = this.props.realSimulationStatus === SIMULATION_ON; // or this.props.artificialSimulationStatus === SIMULATION_ON;
+    const isSimulationOn =
+      this.props.realSimulationStatus === SIMULATION_ON ||
+      this.props.artificialSimulationStatus === SIMULATION_ON;
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>

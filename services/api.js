@@ -18,6 +18,13 @@ export function getRealSimulationStatus() {
     });
 }
 
+export function getArtificialSimulationStatus() {
+    const result = callApi.getArtificialSimulationStatus();
+    return result.then(json => {
+        return json
+    });
+}
+
 export function getStatistics(params) {
     const result = callApi.getStatistics(params);
     return result; //.then(json => json);

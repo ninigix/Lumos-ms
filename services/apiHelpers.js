@@ -39,6 +39,11 @@ export function getRealSimulationStatus() {
     return callApi(address, 'GET').then(value => ({response: value}));
 }
 
+export function getArtificialSimulationStatus() {
+    const address = `${SERVER_URL}artificialSimulation`;
+    return callApi(address, 'GET').then(value => ({response: value}));
+}
+
 export function getStatistics(params) {
     // const endpoint = `${DOROTA_LOCAL_SERVER}analysis`;
     // return callApi(endpoint, 'POST').then(value => ({response: value}));
@@ -92,11 +97,12 @@ export function postDataToLearn(params) {
 }
 
 export function postToggleSimulation(params) {
+    console.log('params', params);
     if(params.isRealSimulation){
         const address = `${SERVER_URL}realSimulation`;
         return callApi(address, 'POST', params).then(value => ({response: value}));
     } else {
-        const address = `${DOROTA_LOCAL_SERVER}simulation`;
-        return callApi(address, 'POST', params.generatedData).then(value => ({response: value}));
+        const address = `${SERVER_URL}simulation`;
+        return callApi(address, 'POST', params).then(value => ({response: value}));
     }
 }

@@ -10,10 +10,10 @@ const MyAlert = ({ onPress }) => {
     [
       {
         text: `${messages.buttonText}`,
-        onPress: () => onPress()
+        onPress: () => console.log('was pressed')
       }
     ],
-    { cancelable: false }
+    { cancelable: true }
   );
   return <React.Fragment />;
 };

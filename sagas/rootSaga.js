@@ -2,9 +2,10 @@ import { all } from "redux-saga/effects";
 
 import { watchGetSwitchesInitialState, watchSwitchLights } from "./lightSaga";
 import {
-  watchGetrealSimulationStatus,
+  watchGetRealSimulationStatus,
   watchPostDataToLearn,
-  watchPostStartSimulation
+  watchPostStartSimulation,
+  watchGetArtificialSimulationStatus
 } from "./simulationSaga";
 import { watchGetStatistics } from "./statisticSaga";
 
@@ -12,7 +13,8 @@ export default function* rootSaga() {
   yield all([
     watchGetSwitchesInitialState(),
     watchSwitchLights(),
-    watchGetrealSimulationStatus(),
+    watchGetRealSimulationStatus(),
+    watchGetArtificialSimulationStatus(),
     watchPostDataToLearn(),
     watchGetStatistics(),
     watchPostStartSimulation()
