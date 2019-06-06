@@ -17,7 +17,7 @@ const SimulationComponent = ({ date, roomName, isLightOn }) => {
       {/*  {stringMonth} {numberDay}*/}
       {/*</MyText>*/}
       {date && (
-        <MyText isBold textStyle={{ fontSize: 16 }}>
+        <MyText isBold textStyle={{ fontSize: 16, textAlign: 'center' }}>
           {date}
           {/*{formattedDate.getHours()}:{formattedDate.getMinutes()}:{formattedDate.getSeconds()}*/}
         </MyText>

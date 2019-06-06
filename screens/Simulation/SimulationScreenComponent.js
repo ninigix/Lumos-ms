@@ -22,6 +22,7 @@ import {
 } from "../../components/FetchIndicators/Indicators/Indicators";
 import MyText from "../../components/MyText/MyText";
 
+import {ROOMS_NAMES} from '../Rooms/RoomsScreen.constants';
 import { roomLabels, stepLabels, messages } from "./SimulationScreen.constants";
 import styles from "./SimulationScreenComponent.style";
 
@@ -153,7 +154,7 @@ export default class SimulationScreenComponent extends React.Component {
 
   renderRoomsStep = () => (
     <View style={{ alignItems: "center" }}>
-      {Object.entries(roomLabels).map(([key, value]) => (
+      {Object.entries(ROOMS_NAMES).map(([key, value]) => (
         <RoomChoiceButton
           label={value}
           onSelect={this.handleSelect}
