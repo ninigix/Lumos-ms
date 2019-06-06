@@ -49,7 +49,6 @@ export default class RoomsScreenComponent extends React.Component {
       const esp_id = dataFromEvent[0];
       const status = dataFromEvent[1];
 
-      // TODO remove Number()... once backend from Dorota
       if (status) {
         //light on
         return this.state.lightsOn.includes(Number(esp_id))
@@ -61,12 +60,11 @@ export default class RoomsScreenComponent extends React.Component {
             });
       } else {
         // light off
-        this.state.lightsOn.includes(esp_id) &&
           this.setState({
             // off but in lightsOn => remove from lightsOn and add to changedLightIds to inform that it's not in its initial state
-            lightsOn: this.state.lightsOn.filter(
+            lightsOn: this.state.lightsOn.includes(esp_id) ? this.state.lightsOn.filter(
               lightSwitch => lightSwitch !== Number(esp_id)
-            ),
+            ) : this.state.lightsOn,
             changedLightIds: this.state.changedLightIds.add(Number(esp_id))
           });
       }
