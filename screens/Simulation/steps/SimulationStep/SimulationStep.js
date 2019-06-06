@@ -15,6 +15,7 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
     case SUCCESS: {
       return (
         <View style={{ alignItems: "center" }}>
+          {console.log('GENERATED DATA', generatedData)}
           {generatedData &&
             generatedData.map(({ room, status, datetimevalue }) => (
               <SimulationComponent

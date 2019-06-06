@@ -6,10 +6,14 @@ import CardChoice from "../../components/CardChoice/CardChoice";
 import { LABELS } from "./SimulationComponent.constants";
 
 const SimulationComponent = ({ date, roomName, isLightOn }) => {
+  console.log('date', date);
   const formattedDate = date && new Date(date);
+  console.log('formattedDate', formattedDate)
   const stringMonth =
     date && formattedDate.toLocaleString("en-us", { month: "short" });
   const numberDay = date && formattedDate.getDate();
+  console.log('stringMonth', stringMonth);
+  console.log('numberDay', numberDay);
 
   const renderRightComponent = () => (
     <React.Fragment>
@@ -18,7 +22,7 @@ const SimulationComponent = ({ date, roomName, isLightOn }) => {
       </MyText>
       {date && (
         <MyText isBold textStyle={{ fontSize: 16 }}>
-          {formattedDate.getHours()}:{formattedDate.getMinutes()}
+          {formattedDate.getHours()}:{formattedDate.getMinutes()}:{formattedDate.getSeconds()}
         </MyText>
       )}
     </React.Fragment>
