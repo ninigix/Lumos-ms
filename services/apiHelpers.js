@@ -87,7 +87,6 @@ export function getStatistics(params) {
 // POST
 
 export function postSwitchLights(params) {
-    console.log('switch lights params', params);
     const address = `${SERVER_URL}front`;
     return callApi(address, 'POST', params).then(value => ({response: value}));
 }
@@ -98,7 +97,6 @@ export function postDataToLearn(params) {
 }
 
 export function postToggleSimulation(params) {
-    console.log('params', params);
     if(params.isRealSimulation){
         const address = `${SERVER_URL}realSimulation`;
         return callApi(address, 'POST', params).then(value => ({response: value}));

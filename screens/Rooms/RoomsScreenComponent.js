@@ -27,7 +27,8 @@ export default class RoomsScreenComponent extends React.Component {
     super(props);
     this.state = {
       lightsOn: [], // to indicate which switches were changed and are currently on
-      changedLightIds: new Set(), // to indicate which light switches were already used either via app or manually
+      changedLightIds: new Set(), // to indicate which light switches were already used either via app or manually,
+      lightsStatus: {},
       shouldShowCalendar: false,
       shouldShowAlert: false,
       startingDay: null,
@@ -44,11 +45,12 @@ export default class RoomsScreenComponent extends React.Component {
       "http://localhost:5000/microcontrollers"
     );
     this.eventSource.addEventListener("message", data => {
-      const esp_id = data.data[0];
-      const status = data.data[2];
+      const dataFromEvent = data.data.match(/\d+/g).map(Number);
+      const esp_id = dataFromEvent[0];
+      const status = dataFromEvent[1];
 
       // TODO remove Number()... once backend from Dorota
-      if (status === "1") {
+      if (status) {
         //light on
         return this.state.lightsOn.includes(Number(esp_id))
           ? null // and in the lightOn => do nothing
@@ -59,7 +61,7 @@ export default class RoomsScreenComponent extends React.Component {
             });
       } else {
         // light off
-        this.state.lightsOn.includes(Number(esp_id)) &&
+        this.state.lightsOn.includes(esp_id) &&
           this.setState({
             // off but in lightsOn => remove from lightsOn and add to changedLightIds to inform that it's not in its initial state
             lightsOn: this.state.lightsOn.filter(
@@ -142,8 +144,6 @@ export default class RoomsScreenComponent extends React.Component {
           previousBtnStyle={index !== 0 ? styles.prevBtnStyle : {}} // prop can only be object, otherwise huge error in console => debugging more painful
           previousBtnTextStyle={styles.btnTextStyle}
         >
-          {console.log('key', key)}
-          {console.log('value',value)}
           <View style={{ marginLeft: 10, marginRight: 10 }}>
             {this.checkIfSimulationOn() && <SimulationWarning />}
             <Room
