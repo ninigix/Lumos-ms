@@ -48,7 +48,7 @@ export function getStatistics(params) {
     // const endpoint = `${DOROTA_LOCAL_SERVER}analysis`;
     // return callApi(endpoint, 'POST').then(value => ({response: value}));
     return {response: {
-            1: {
+            88: {
                 "light_changes": 1642,
                 "time_on": "2 days 03:45:14",
                 "most_popular_hours_changes": [16, 11, 7, 4, 9, 53, 158, 90, 49, 42, 37, 25, 31, 58, 49, 63, 344, 83, 99, 94, 93, 104, 97, 26],
@@ -59,7 +59,7 @@ export function getStatistics(params) {
                 "price": {"price": 0.12387833333333335, "kwh": 0.22523333333333334},
                 "bulb_consumption": 13.979305555555557
             },
-            2: {
+            104: {
                 "light_changes": 82,
                 "time_on": "2 days 04:02:55",
                 "most_popular_hours_changes": [3, 1, 0, 0, 1, 0, 0, 0, 2, 0, 0, 3, 4, 1, 0, 3, 3, 10, 6, 9, 5, 8, 16, 7],
@@ -70,23 +70,24 @@ export function getStatistics(params) {
                 "price": {"price": 0.13360416666666666, "kwh": 0.24291666666666664},
                 "bulb_consumption": 28.11828703703704
             },
-            3: {
-                "light_changes": 783,
-                "time_on": "1 days 05:06:11",
-                "most_popular_hours_changes": [4, 0, 1, 0, 0, 1, 7, 4, 7, 0, 1, 1, 0, 6, 1, 3, 47, 73, 139, 119, 126, 130, 77, 36],
-                "kwh": {"price": 0.16840083333333336, "kwh": 0.30618333333333336},
-                "most_popular_days_changes": [126, 100, 94, 74, 128, 101, 160],
-                "most_popular_days": [5732.716666666666, 5538.800000000001, 3457.216666666666, 3484.9333333333334, 5341.183333333334, 3415.6166666666677, 4179.450000000001],
-                "most_popular_hours": [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 53, 60, 60, 44, 0, 0, 49, 166, 242, 221, 360, 269, 124, 24],
-                "price": {"price": 0.16840083333333336, "kwh": 0.30618333333333336},
-                "bulb_consumption": 10.680532407407407
-            }
+            // 105: {
+            //     "light_changes": 783,
+            //     "time_on": "1 days 05:06:11",
+            //     "most_popular_hours_changes": [4, 0, 1, 0, 0, 1, 7, 4, 7, 0, 1, 1, 0, 6, 1, 3, 47, 73, 139, 119, 126, 130, 77, 36],
+            //     "kwh": {"price": 0.16840083333333336, "kwh": 0.30618333333333336},
+            //     "most_popular_days_changes": [126, 100, 94, 74, 128, 101, 160],
+            //     "most_popular_days": [5732.716666666666, 5538.800000000001, 3457.216666666666, 3484.9333333333334, 5341.183333333334, 3415.6166666666677, 4179.450000000001],
+            //     "most_popular_hours": [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 53, 60, 60, 44, 0, 0, 49, 166, 242, 221, 360, 269, 124, 24],
+            //     "price": {"price": 0.16840083333333336, "kwh": 0.30618333333333336},
+            //     "bulb_consumption": 10.680532407407407
+            // }
         }}
 }
 
 // POST
 
 export function postSwitchLights(params) {
+    console.log('switch lights params', params);
     const address = `${SERVER_URL}front`;
     return callApi(address, 'POST', params).then(value => ({response: value}));
 }

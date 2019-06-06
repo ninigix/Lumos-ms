@@ -130,7 +130,7 @@ export default class RoomsScreenComponent extends React.Component {
 
   renderProgressStep = () => (
     <MyProgressSteps>
-      {Object.entries(this.props.statistics).map(([key, value]) => (
+      {Object.entries(this.props.statistics).map(([key, value], index) => (
         <ProgressStep
           label={ROOMS_NAMES[key]}
           key={key}
@@ -139,16 +139,19 @@ export default class RoomsScreenComponent extends React.Component {
           finishBtnText={messages.goBack}
           nextBtnStyle={styles.nextBtnStyle}
           nextBtnTextStyle={styles.btnTextStyle}
-          previousBtnStyle={Number(key) !== 1 ? styles.prevBtnStyle : {}} // prop can only be object, otherwise huge error in console => debugging more painful
+          previousBtnStyle={index !== 0 ? styles.prevBtnStyle : {}} // prop can only be object, otherwise huge error in console => debugging more painful
           previousBtnTextStyle={styles.btnTextStyle}
         >
+          {console.log('key', key)}
+          {console.log('value',value)}
           <View style={{ marginLeft: 10, marginRight: 10 }}>
             {this.checkIfSimulationOn() && <SimulationWarning />}
             <Room
+                roomRenderIndex={index}
               isSimulationOn={this.checkIfSimulationOn()}
               isLightOn={this.checkIfLightOn(key)}
               value={value}
-              onClick={() => this.props.switchLight({ esp_id: Number(key) })}
+              onClick={() => this.props.switchLight({ esp_id: key })}
               onChangeDatesClick={this.handleToggleCalendar}
             />
           </View>
