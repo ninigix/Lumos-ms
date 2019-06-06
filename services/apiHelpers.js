@@ -1,6 +1,6 @@
 import isempty from 'lodash.isempty';
 
-const SERVER_URL = "http://localhost:5000/";
+const SERVER_URL = "http://192.168.0.115:5000/";
 const MATEUSZ_SERVER = "178.32.244.200";
 const DOROTA_LOCAL_SERVER = "http://192.168.0.192:5000/";
 

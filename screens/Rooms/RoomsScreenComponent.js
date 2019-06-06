@@ -1,6 +1,7 @@
 import React from "react";
 import {View} from "react-native";
 import { ProgressStep } from "react-native-progress-steps";
+import RNEventSource from 'react-native-event-source'
 
 import Room from "./Components/Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreen.constants";
@@ -41,8 +42,8 @@ export default class RoomsScreenComponent extends React.Component {
     this.props.getRealSimulationStatus();
     this.props.getStatistics();
 
-    this.eventSource = new EventSource(
-      "http://localhost:5000/microcontrollers"
+    this.eventSource = new RNEventSource(
+      "http://192.168.0.115:5000/microcontrollers"
     );
     this.eventSource.addEventListener("message", data => {
       const dataFromEvent = data.data.match(/\d+/g).map(Number);
