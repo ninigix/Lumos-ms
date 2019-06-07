@@ -58,8 +58,6 @@ export default class SimulationScreenComponent extends React.Component {
       speed: this.state.simulationSpeed,
       shouldStartRealSimulation:
         realSimulationStatus !== SIMULATION_ON,
-      // shouldStartArtificialSimulation:
-      //   realSimulationStatus === SIMULATION_OFF,
       data: generatedData
     });
   };
@@ -205,8 +203,7 @@ export default class SimulationScreenComponent extends React.Component {
 
   renderSimulationOverlay = () => {
     const {
-      realSimulationStatus,
-      toggleSimulationStatus
+      realSimulationStatus
     } = this.props;
     if (
       realSimulationStatus === SIMULATION_ON
