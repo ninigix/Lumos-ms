@@ -46,25 +46,21 @@ export default class SimulationScreenComponent extends React.Component {
 
   componentDidMount() {
     this.props.getRealSimulationStatus();
-    this.props.getArtificialSimulationStatus();
   }
 
   onSubmitHelper = () => {
     const {
       realSimulationStatus,
-      generatedData,
-      artificialSimulationStatus
+      generatedData
     } = this.props;
     return this.props.toggleSimulation({
       isRealSimulation: this.state.isRealSimulationSelected,
       speed: this.state.simulationSpeed,
       shouldStartRealSimulation:
-        realSimulationStatus !== SIMULATION_ON &&
-        artificialSimulationStatus === SIMULATION_OFF,
-      shouldStartArtificialSimulation:
-        artificialSimulationStatus !== SIMULATION_ON &&
-        realSimulationStatus === SIMULATION_OFF,
-      generatedData
+        realSimulationStatus !== SIMULATION_ON,
+      // shouldStartArtificialSimulation:
+      //   realSimulationStatus === SIMULATION_OFF,
+      data: generatedData
     });
   };
 
@@ -210,37 +206,30 @@ export default class SimulationScreenComponent extends React.Component {
   renderSimulationOverlay = () => {
     const {
       realSimulationStatus,
-      artificialSimulationStatus,
       toggleSimulationStatus
     } = this.props;
     if (
-      realSimulationStatus === SIMULATION_ON ||
-      artificialSimulationStatus === SIMULATION_ON
+      realSimulationStatus === SIMULATION_ON
     ) {
       return (
         <React.Fragment>
           <View style={styles.screenOverlay}>
             <MyText isBold textStyle={styles.message}>
-              {realSimulationStatus === SIMULATION_ON
-                ? messages.realSimulationRunning
-                : messages.artificialSimulationRunning}
+              {realSimulationStatus === SIMULATION_ON && messages.realSimulationRunning}
             </MyText>
           </View>
         </React.Fragment>
       );
     } else if (
-      realSimulationStatus === SIMULATION_OFF ||
-      artificialSimulationStatus === SIMULATION_OFF
+      realSimulationStatus === SIMULATION_OFF
     ) {
       return <React.Fragment />;
     } else if (
-      realSimulationStatus === FAILURE ||
-      artificialSimulationStatus === FAILURE
+      realSimulationStatus === FAILURE
     ) {
       return <FailureIndicator />;
     } else if (
-      realSimulationStatus === REQUEST ||
-      artificialSimulationStatus === REQUEST
+      realSimulationStatus === REQUEST
     ) {
       return <LoadingIndicator />;
     } else {
@@ -256,8 +245,7 @@ export default class SimulationScreenComponent extends React.Component {
 
   render() {
     const isSimulationOn =
-      this.props.realSimulationStatus === SIMULATION_ON ||
-      this.props.artificialSimulationStatus === SIMULATION_ON;
+      this.props.realSimulationStatus === SIMULATION_ON
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>

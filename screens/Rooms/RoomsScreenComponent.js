@@ -44,15 +44,24 @@ export default class RoomsScreenComponent extends React.Component {
     this.props.getStatistics({start: startingDay ? startingDay : "2019-03-15", stop: endingDay ? endingDay : "2019-03-18"});
 
     this.eventSource = new RNEventSource(
-      "http://192.168.0.115:5000/microcontrollers"
+      "http://192.168.0.192:5000/microcontrollers"
     );
     this.eventSource.addEventListener("message", data => {
       const dataFromEvent = data.data.match(/\d+/g).map(Number);
-      const esp_id = dataFromEvent[0];
+      let esp_id = dataFromEvent[0];
       const status = dataFromEvent[1];
+      console.log('esp_id', esp_id);
+      console.log('status', status);
+      if(parseInt(esp_id) > 10){
+        esp_id = esp_id - 100;
+      }
 
       if (status) {
         //light on
+        console.log('light on');
+        console.log('esp_id)', esp_id);
+        console.log('this.state.lightsOn)', this.state.lightsOn);
+        console.log('this.state.lightsOn.includes(Number(esp_id)', this.state.lightsOn.includes(Number(esp_id)));
         return this.state.lightsOn.includes(Number(esp_id))
           ? null // and in the lightOn => do nothing
           : this.setState({
@@ -61,6 +70,10 @@ export default class RoomsScreenComponent extends React.Component {
               changedLightIds: this.state.changedLightIds.add(Number(esp_id))
             });
       } else {
+        console.log('light off')
+        console.log('this.state.lightsOn.includes(esp_id)',this.state.lightsOn.includes(esp_id));
+        console.log('this.state.lightsOn',this.state.lightsOn);
+        console.log('esp_id', esp_id);
         // light off
           this.setState({
             // off but in lightsOn => remove from lightsOn and add to changedLightIds to inform that it's not in its initial state
@@ -125,11 +138,11 @@ export default class RoomsScreenComponent extends React.Component {
     const mappedId = Number(id);
     const { changedLightIds, lightsOn } = this.state;
     // if not in initial state, check if in state.lightOn. If in initial state, check if in props.initialLightsOn
-    console.log('changedLightIds',changedLightIds);
-    console.log('lightsOn',lightsOn);
-    console.log('this.props.initialLightsOn',this.props.initialLightsOn);
+    // console.log('changedLightIds',changedLightIds);
+    // console.log('lightsOn',lightsOn);
+    // console.log('this.props.initialLightsOn',this.props.initialLightsOn);
     console.log('mappedId', mappedId);
-    console.log('this.props.initialLightsOn.includes(mappedId)',this.props.initialLightsOn.includes(mappedId));
+    // console.log('this.props.initialLightsOn.includes(mappedId)',this.props.initialLightsOn.includes(mappedId));
     return !changedLightIds.has(mappedId)
       ? this.props.initialLightsOn.includes(mappedId)
       : lightsOn.includes(mappedId);
@@ -160,7 +173,10 @@ export default class RoomsScreenComponent extends React.Component {
                               isSimulationOn={this.checkIfSimulationOn()}
                               isLightOn={this.checkIfLightOn(key)}
                               value={value}
-                              onClick={() => this.props.switchLight({ esp_id: key })}
+                              onClick={() => {
+                                console.log('key', key)
+                                return this.props.switchLight({ esp_id: key })
+                              }}
                               onChangeDatesClick={this.handleToggleCalendar}
                           />
                       </View>

@@ -3,8 +3,8 @@ export const messages = {
 };
 
 export const ROOMS_NAMES = {
-  101: "Bathroom",
-  102: "Bedroom",
-  103: "Kitchen"
+  1: "Bathroom",
+  2: "Bedroom",
+  3: "Kitchen"
 };
 

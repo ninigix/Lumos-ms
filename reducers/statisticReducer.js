@@ -8,15 +8,10 @@ const initialState = {};
 export function lightReducer(state = initialState, action) {
   switch (action.type) {
     case actions.GET_STATISTICS.SUCCESS: {
-      const mappedResponse = mapkeys(action.response, function(value, key) {
-        return parseInt(key) + 100;
-      });
-
-
       return {
         ...state,
         status: SUCCESS,
-        statistic: mappedResponse
+        statistic: action.response
       };
     }
 
