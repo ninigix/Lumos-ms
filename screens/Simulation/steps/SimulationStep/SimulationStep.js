@@ -8,7 +8,7 @@ import {
   FailureIndicator
 } from "../../../../components/FetchIndicators/Indicators/Indicators";
 
-import { roomLabels } from "../../SimulationScreen.constants";
+import {ROOMS_NAMES} from "../../../Rooms/RoomsScreen.constants";
 
 const SimulationStep = ({ learnStatus, generatedData }) => {
   switch (learnStatus) {
@@ -21,7 +21,7 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
                 key={`${room}__${status}`}
                 date={datetimevalue}
                 isLightOn={status.includes(1)}
-                roomName={roomLabels[room]}
+                roomName={ROOMS_NAMES[room]}
               />
             ))}
         </View>

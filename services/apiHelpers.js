@@ -5,7 +5,6 @@ const MATEUSZ_SERVER = "178.32.244.200";
 const SERVER_URL = "http://192.168.0.192:5000/";
 
 async function callApi(address, method, params = {}) {
-    // try {
         let additionalParams = {method};
         if (!isempty(params)) {
             additionalParams = {
@@ -32,9 +31,6 @@ async function callApi(address, method, params = {}) {
             .catch((error) => {
                 console.log(error)
             });
-    // } catch (error) {
-    //     console.error(error);
-    // }
 }
 
 // GET

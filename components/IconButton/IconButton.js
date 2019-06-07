@@ -9,8 +9,7 @@ const IconButton = ({ type, wasSelected }) => {
     kitchen: require("../../assets/icons/kitchen.png"),
     bathroom: require("../../assets/icons/bathroom.png"),
     hall: require("../../assets/icons/hall.png"),
-    bedroom1: require("../../assets/icons/bedroom.png"),
-    bedroom2: require("../../assets/icons/bedroom.png"),
+    bedroom: require("../../assets/icons/bedroom.png"),
     lightbulb: require("../../assets/icons/lightbulb.png")
   };
 

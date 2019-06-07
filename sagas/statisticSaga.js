@@ -4,10 +4,7 @@ import * as actions from "../actions/statisticActions";
 import * as api from "../services/api";
 
 function* getStatistics(requestData) {
-  console.log('requestData', requestData);
   const { response, error } = yield call(api.getStatistics, requestData);
-  console.log('response', response);
-  console.log('error', error);
   if (response) {
     yield put(actions.getStatistics.success(response, requestData));
   } else {

@@ -23,7 +23,7 @@ import {
 import MyText from "../../components/MyText/MyText";
 
 import {ROOMS_NAMES} from '../Rooms/RoomsScreen.constants';
-import { roomLabels, stepLabels, messages } from "./SimulationScreen.constants";
+import { stepLabels, messages } from "./SimulationScreen.constants";
 import styles from "./SimulationScreenComponent.style";
 
 export default class SimulationScreenComponent extends React.Component {
