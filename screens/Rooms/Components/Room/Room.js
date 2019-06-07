@@ -47,7 +47,8 @@ const Room = ({
   isLightOn,
   value,
   onClick,
-  onChangeDatesClick
+  onChangeDatesClick,
+    date
 }) => (
   <View style={styles.root}>
     {!isSimulationOn && (
@@ -63,6 +64,7 @@ const Room = ({
       </RkButton>
     )}
     <UsageCard
+        date={date}
       price={value.price.price}
       kwh={value.kwh.kwh}
       bulb_consumption={value.bulb_consumption}

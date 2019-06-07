@@ -1,5 +1,5 @@
 export default (messages = {
-  data_label: "Data from",
+  date_label: "Data ",
   cta: "Tap to change dates"
 });
 

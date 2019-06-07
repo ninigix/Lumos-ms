@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const mapInitialLightsOn = initialLightStatuses =>
-  initialLightStatuses.map(light => light.esp_id);
+  initialLightStatuses.map(light => Number(light.esp_id));
 
 const filterInitialLightStatuses = initialLightStatuses =>
   initialLightStatuses.filter(({ status }) => status === 1);

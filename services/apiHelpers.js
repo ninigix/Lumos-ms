@@ -5,7 +5,7 @@ const MATEUSZ_SERVER = "178.32.244.200";
 const SERVER_URL = "http://192.168.0.192:5000/";
 
 async function callApi(address, method, params = {}) {
-    try {
+    // try {
         let additionalParams = {method};
         if (!isempty(params)) {
             additionalParams = {
@@ -19,12 +19,22 @@ async function callApi(address, method, params = {}) {
                 })
             }
         }
-        const response = await fetch(address, additionalParams);
-        const responseJson = await response.json();
-        return responseJson;
-    } catch (error) {
-        console.error(error);
-    }
+        return fetch(address, additionalParams).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Something went wrong');
+            }
+        })
+            .then((responseJson) => {
+                return responseJson
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    // } catch (error) {
+    //     console.error(error);
+    // }
 }
 
 // GET
@@ -32,16 +42,13 @@ async function callApi(address, method, params = {}) {
 export function getSwitchesInitialState() {
     const address = `${SERVER_URL}switchesInitialState`;
     return callApi(address, 'GET').then(value => {
-        console.log('INITIAL STATE VALUE', value);
         return {response: value}
     });
 }
 
 export function getRealSimulationStatus() {
     const address = `${SERVER_URL}realSimulation`;
-    console.log('r address ')
     return callApi(address, 'GET').then(value => {
-        console.log('value r', value);
         return {response: value}
     });
 }
@@ -49,14 +56,12 @@ export function getRealSimulationStatus() {
 export function getArtificialSimulationStatus() {
     const address = `${SERVER_URL}artificialSimulation`;
     return callApi(address, 'GET').then(value => {
-        console.log('value a', value);
         return {response: value}
     });
 }
 
 export function getStatistics(params) {
     const endpoint = `${SERVER_URL}analysis`;
-    console.log('GET STATISTICS PARAMS', params)
     return callApi(endpoint, 'POST', params).then(value => ({response: value}));
     // return {response: {
     //         88: {

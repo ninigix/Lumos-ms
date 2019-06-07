@@ -3,13 +3,17 @@ import { CalendarList } from "react-native-calendars";
 import moment from "moment";
 import MyText from "../MyText/MyText";
 
+import messages from './Calendar.constants';
+
 const Calendar = ({
   startDate,
   endDate,
   onShowAlert,
   onSetEndingDate,
   onSetStartingDate,
-                    shouldShowAlert
+                    shouldShowAlert,
+                    allowSelectingPastDates,
+                    allowSelectingFutureDates
 }) => {
   const mustard = "#ffbf00";
   const createDateRange = () => {
@@ -42,7 +46,10 @@ const Calendar = ({
     const today = new moment();
     const isToday = date.dateString === today.format("YYYY-MM-DD");
     const isInThePast = date.timestamp < today.valueOf();
-    if (isToday || isInThePast) {
+    const isInTheFuture = date.timestamp > today.valueOf();
+    const pastCondition = !allowSelectingPastDates && (isToday || isInThePast);
+    const futureCondition =!allowSelectingFutureDates && (isToday || isInTheFuture);
+    if (pastCondition || futureCondition) {
       return onShowAlert();
     }
     if (startDate) {
@@ -52,9 +59,11 @@ const Calendar = ({
     }
   };
 
+  const renderAlert = () => allowSelectingPastDates ? messages.futureChoiceAlert: messages.pastChoiceAlert;
+
   return (
       <React.Fragment>
-        {shouldShowAlert && <MyText>You can't choose date in the past or today</MyText>}
+        {shouldShowAlert && <MyText textStyle={{color: "#E83F6F"}} isBold>{renderAlert()}</MyText>}
     <CalendarList
       markedDates={createDateRange()}
       pastScrollRange={12}

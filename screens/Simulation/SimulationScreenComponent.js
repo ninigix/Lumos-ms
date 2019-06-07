@@ -134,6 +134,7 @@ export default class SimulationScreenComponent extends React.Component {
             onSetEndingDate={this.handleSetEndingDay}
             onSetStartingDate={this.handleSetStartingDay}
             shouldShowAlert={this.state.shouldShowAlert}
+            allowSelectingFutureDates
         />
       </View>
   );
@@ -154,11 +155,11 @@ export default class SimulationScreenComponent extends React.Component {
 
   renderRoomsStep = () => (
     <View style={{ alignItems: "center" }}>
-      {Object.entries(ROOMS_NAMES).map(([key, value]) => (
+      {Object.entries(ROOMS_NAMES).map(([key, value], index) => (
         <RoomChoiceButton
           label={value}
           onSelect={this.handleSelect}
-          key={`${key}__${value}`}
+          key={`${key}__${index}`}
           isSelected={this.state.selectedRooms.includes(key)}
           roomId={key}
         />

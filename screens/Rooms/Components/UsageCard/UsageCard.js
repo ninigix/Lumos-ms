@@ -18,13 +18,13 @@ const UsageCard = ({
   price,
   kwh,
   bulb_consumption,
-  data,
+  date,
   onChangeDatesClick
 }) => (
   <TouchableOpacity style={styles.wrapper} onPress={onChangeDatesClick}>
     <View style={styles.priceWrapper}>
       <MyText textStyle={{ color: "white", fontSize: 20 }} isBold>
-        {messages.data_label} {data ? data : "20th March"}
+        {messages.date_label} {date ? `from ${date.startingDay} to ${date.endingDay}` : " from 2019-03-15 to 2019-04-18"}
       </MyText>
       <MyText textStyle={{ color: "white" }}>{messages.cta}</MyText>
     </View>
