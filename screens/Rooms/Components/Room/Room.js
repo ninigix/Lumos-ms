@@ -30,7 +30,7 @@ const renderChart = (data, title, xLabel, yLabel, isHours) => (
       {
         <VictoryChart domainPadding={!isHours && { x: [15, 0] }}>
           {isHours ? (
-            <VictoryArea data={fromChartHelper.formatHoursData(data)} />
+            <VictoryBar data={fromChartHelper.formatHoursData(data)} />
           ) : (
             <VictoryBar data={fromChartHelper.formatDaysData(data)} />
           )}
