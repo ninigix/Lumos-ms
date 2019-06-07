@@ -80,11 +80,11 @@ const Room = ({
       ...CHART_DATA.most_popular_hours_changes,
       true
     )}
-    {renderChart(
-      value.most_popular_hours,
-      ...CHART_DATA.most_popular_hours,
-      true
-    )}
+    {/*{renderChart(*/}
+    {/*  value.most_popular_hours,*/}
+    {/*  ...CHART_DATA.most_popular_hours,*/}
+    {/*  true*/}
+    {/*)}*/}
   </View>
 );
 
