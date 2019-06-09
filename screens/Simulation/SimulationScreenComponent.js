@@ -22,7 +22,7 @@ import {
 } from "../../components/FetchIndicators/Indicators/Indicators";
 import MyText from "../../components/MyText/MyText";
 
-import {ROOMS_NAMES} from '../Rooms/RoomsScreen.constants';
+import { ROOMS_NAMES } from "../Rooms/RoomsScreen.constants";
 import { stepLabels, messages } from "./SimulationScreen.constants";
 import styles from "./SimulationScreenComponent.style";
 
@@ -49,15 +49,11 @@ export default class SimulationScreenComponent extends React.Component {
   }
 
   onSubmitHelper = () => {
-    const {
-      realSimulationStatus,
-      generatedData
-    } = this.props;
+    const { realSimulationStatus, generatedData } = this.props;
     return this.props.toggleSimulation({
       isRealSimulation: this.state.isRealSimulationSelected,
       speed: this.state.simulationSpeed,
-      shouldStartRealSimulation:
-        realSimulationStatus !== SIMULATION_ON,
+      shouldStartRealSimulation: realSimulationStatus !== SIMULATION_ON,
       data: generatedData
     });
   };
@@ -116,21 +112,25 @@ export default class SimulationScreenComponent extends React.Component {
       simulationSpeed: simulationSpeed
     });
 
-  handleShowAlert = () => this.setState({ shouldShowAlert: true, endingDay: null,
-    startingDay: null });
+  handleShowAlert = () =>
+    this.setState({
+      shouldShowAlert: true,
+      endingDay: null,
+      startingDay: null
+    });
 
   renderCalendarStep = () => (
-      <View style={styles.calendarComponentWrapper}>
-        <Calendar
-            startDate={this.state.startingDay}
-            endDate={this.state.endingDay}
-            onShowAlert={this.handleShowAlert}
-            onSetEndingDate={this.handleSetEndingDay}
-            onSetStartingDate={this.handleSetStartingDay}
-            shouldShowAlert={this.state.shouldShowAlert}
-            allowSelectingFutureDates
-        />
-      </View>
+    <View style={styles.calendarComponentWrapper}>
+      <Calendar
+        startDate={this.state.startingDay}
+        endDate={this.state.endingDay}
+        onShowAlert={this.handleShowAlert}
+        onSetEndingDate={this.handleSetEndingDay}
+        onSetStartingDate={this.handleSetStartingDay}
+        shouldShowAlert={this.state.shouldShowAlert}
+        allowSelectingFutureDates
+      />
+    </View>
   );
 
   renderHoursStep = () => (
@@ -202,32 +202,23 @@ export default class SimulationScreenComponent extends React.Component {
   ];
 
   renderSimulationOverlay = () => {
-    const {
-      realSimulationStatus
-    } = this.props;
-    if (
-      realSimulationStatus === SIMULATION_ON
-    ) {
+    const { realSimulationStatus } = this.props;
+    if (realSimulationStatus === SIMULATION_ON) {
       return (
         <React.Fragment>
           <View style={styles.screenOverlay}>
             <MyText isBold textStyle={styles.message}>
-              {realSimulationStatus === SIMULATION_ON && messages.realSimulationRunning}
+              {realSimulationStatus === SIMULATION_ON &&
+                messages.realSimulationRunning}
             </MyText>
           </View>
         </React.Fragment>
       );
-    } else if (
-      realSimulationStatus === SIMULATION_OFF
-    ) {
+    } else if (realSimulationStatus === SIMULATION_OFF) {
       return <React.Fragment />;
-    } else if (
-      realSimulationStatus === FAILURE
-    ) {
+    } else if (realSimulationStatus === FAILURE) {
       return <FailureIndicator />;
-    } else if (
-      realSimulationStatus === REQUEST
-    ) {
+    } else if (realSimulationStatus === REQUEST) {
       return <LoadingIndicator />;
     } else {
       return <DefaultIndicator />;
@@ -241,8 +232,7 @@ export default class SimulationScreenComponent extends React.Component {
   };
 
   render() {
-    const isSimulationOn =
-      this.props.realSimulationStatus === SIMULATION_ON
+    const isSimulationOn = this.props.realSimulationStatus === SIMULATION_ON;
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>

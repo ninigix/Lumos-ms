@@ -1,4 +1,4 @@
-import mapkeys from 'lodash.mapkeys';
+import mapkeys from "lodash.mapkeys";
 
 import * as actions from "../actions/statisticActions";
 import { REQUEST, SUCCESS, FAILURE } from "../actions/helpers";

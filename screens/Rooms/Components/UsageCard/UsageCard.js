@@ -24,7 +24,10 @@ const UsageCard = ({
   <TouchableOpacity style={styles.wrapper} onPress={onChangeDatesClick}>
     <View style={styles.priceWrapper}>
       <MyText textStyle={{ color: "white", fontSize: 20 }} isBold>
-        {messages.date_label} {date ? `from ${date.startingDay} to ${date.endingDay}` : " from 2019-03-15 to 2019-06-06"}
+        {messages.date_label}{" "}
+        {date
+          ? `from ${date.startingDay} to ${date.endingDay}`
+          : " from 2019-03-15 to 2019-06-06"}
       </MyText>
       <MyText textStyle={{ color: "white" }}>{messages.cta}</MyText>
     </View>

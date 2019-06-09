@@ -1,13 +1,9 @@
-import renderer from 'react-test-renderer';
-import React from 'react';
+import renderer from "react-test-renderer";
+import React from "react";
 
-import MyText from './MyText';
+import MyText from "./MyText";
 
-it('renders correctly', () => {
-    const tree = renderer
-        .create(
-            <MyText />
-        )
-        .toJSON();
-    expect(tree).toMatchSnapshot();
+it("renders correctly", () => {
+  const tree = renderer.create(<MyText />).toJSON();
+  expect(tree).toMatchSnapshot();
 });

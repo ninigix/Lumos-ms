@@ -7,4 +7,3 @@ export const ROOMS_NAMES = {
   2: "Bedroom",
   3: "Kitchen"
 };
-

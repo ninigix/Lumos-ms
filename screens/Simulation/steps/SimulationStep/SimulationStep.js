@@ -8,7 +8,7 @@ import {
   FailureIndicator
 } from "../../../../components/FetchIndicators/Indicators/Indicators";
 
-import {ROOMS_NAMES} from "../../../Rooms/RoomsScreen.constants";
+import { ROOMS_NAMES } from "../../../Rooms/RoomsScreen.constants";
 
 const SimulationStep = ({ learnStatus, generatedData }) => {
   switch (learnStatus) {

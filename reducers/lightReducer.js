@@ -7,7 +7,7 @@ const initialState = {
 
 const mapInitialLightsOn = initialLightStatuses =>
   initialLightStatuses.map(light => {
-    if(Number(light.esp_id) > 10){
+    if (Number(light.esp_id) > 10) {
       return Number(light.esp_id) - 100;
     }
     return Number(light.esp_id);

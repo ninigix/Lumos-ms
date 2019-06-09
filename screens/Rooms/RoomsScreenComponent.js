@@ -1,7 +1,7 @@
 import React from "react";
-import {View} from "react-native";
+import { View } from "react-native";
 import { ProgressStep } from "react-native-progress-steps";
-import RNEventSource from 'react-native-event-source'
+import RNEventSource from "react-native-event-source";
 
 import Room from "./Components/Room/Room";
 import { messages, ROOMS_NAMES } from "./RoomsScreen.constants";
@@ -38,10 +38,13 @@ export default class RoomsScreenComponent extends React.Component {
   }
 
   componentDidMount() {
-    const {startingDay, endingDay} = this.state;
+    const { startingDay, endingDay } = this.state;
     this.props.getSwitchesInitialState();
     this.props.getRealSimulationStatus();
-    this.props.getStatistics({start: startingDay ? startingDay : "2019-03-15", stop: endingDay ? endingDay : "2019-06-06"});
+    this.props.getStatistics({
+      start: startingDay ? startingDay : "2019-03-15",
+      stop: endingDay ? endingDay : "2019-06-06"
+    });
 
     this.eventSource = new RNEventSource(
       "http://192.168.0.115:5000/microcontrollers"
@@ -50,7 +53,7 @@ export default class RoomsScreenComponent extends React.Component {
       const dataFromEvent = data.data.match(/\d+/g).map(Number);
       let esp_id = dataFromEvent[0];
       const status = dataFromEvent[1];
-      if(parseInt(esp_id) > 10){
+      if (parseInt(esp_id) > 10) {
         esp_id = esp_id - 100;
       }
       if (status) {
@@ -64,13 +67,15 @@ export default class RoomsScreenComponent extends React.Component {
             });
       } else {
         // light off
-          this.setState({
-            // off but in lightsOn => remove from lightsOn and add to changedLightIds to inform that it's not in its initial state
-            lightsOn: this.state.lightsOn.includes(esp_id) ? this.state.lightsOn.filter(
-              lightSwitch => lightSwitch !== Number(esp_id)
-            ) : this.state.lightsOn,
-            changedLightIds: this.state.changedLightIds.add(Number(esp_id))
-          });
+        this.setState({
+          // off but in lightsOn => remove from lightsOn and add to changedLightIds to inform that it's not in its initial state
+          lightsOn: this.state.lightsOn.includes(esp_id)
+            ? this.state.lightsOn.filter(
+                lightSwitch => lightSwitch !== Number(esp_id)
+              )
+            : this.state.lightsOn,
+          changedLightIds: this.state.changedLightIds.add(Number(esp_id))
+        });
       }
     });
   }
@@ -112,13 +117,16 @@ export default class RoomsScreenComponent extends React.Component {
   };
 
   handleToggleAlert = () =>
-      this.setState({ shouldShowAlert: true,   endingDay: null,
-        startingDay: null });
+    this.setState({
+      shouldShowAlert: true,
+      endingDay: null,
+      startingDay: null
+    });
 
   handleToggleCalendar = () =>
-      this.setState({
-        shouldShowCalendar: !this.state.shouldShowCalendar
-      });
+    this.setState({
+      shouldShowCalendar: !this.state.shouldShowCalendar
+    });
 
   handleSetStartingDay = date =>
     this.setState({ startingDay: date.dateString });
@@ -132,41 +140,41 @@ export default class RoomsScreenComponent extends React.Component {
   };
 
   renderProgressStep = () => {
-      const {startingDay, endingDay} = this.state;
-      const wasDatePeriodChanged = startingDay && endingDay;
-      return (
-          <MyProgressSteps>
-              {Object.entries(this.props.statistics).map(([key, value], index) => (
-                  <ProgressStep
-                      label={ROOMS_NAMES[key]}
-                      key={`${key}__${ROOMS_NAMES[key]}`}
-                      nextBtnText=">"
-                      previousBtnText="<"
-                      finishBtnText={messages.goBack}
-                      nextBtnStyle={styles.nextBtnStyle}
-                      nextBtnTextStyle={styles.btnTextStyle}
-                      previousBtnStyle={index !== 0 ? styles.prevBtnStyle : {}} // Number(key) !== 1  prop can only be object, otherwise huge error in console => debugging more painful
-                      previousBtnTextStyle={styles.btnTextStyle}
-                  >
-                      <View style={{ marginLeft: 10, marginRight: 10 }}>
-                          {this.checkIfSimulationOn() && <SimulationWarning />}
-                          <Room
-                              date={wasDatePeriodChanged ? {startingDay, endingDay} : null}
-                              roomRenderIndex={index}
-                              isSimulationOn={this.checkIfSimulationOn()}
-                              isLightOn={this.checkIfLightOn(key)}
-                              value={value}
-                              onClick={() => {
-                                console.log('key', key)
-                                return this.props.switchLight({ esp_id: key })
-                              }}
-                              onChangeDatesClick={this.handleToggleCalendar}
-                          />
-                      </View>
-                  </ProgressStep>
-              ))}
-          </MyProgressSteps>
-      );
+    const { startingDay, endingDay } = this.state;
+    const wasDatePeriodChanged = startingDay && endingDay;
+    return (
+      <MyProgressSteps>
+        {Object.entries(this.props.statistics).map(([key, value], index) => (
+          <ProgressStep
+            label={ROOMS_NAMES[key]}
+            key={`${key}__${ROOMS_NAMES[key]}`}
+            nextBtnText=">"
+            previousBtnText="<"
+            finishBtnText={messages.goBack}
+            nextBtnStyle={styles.nextBtnStyle}
+            nextBtnTextStyle={styles.btnTextStyle}
+            previousBtnStyle={index !== 0 ? styles.prevBtnStyle : {}} // Number(key) !== 1  prop can only be object, otherwise huge error in console => debugging more painful
+            previousBtnTextStyle={styles.btnTextStyle}
+          >
+            <View style={{ marginLeft: 10, marginRight: 10 }}>
+              {this.checkIfSimulationOn() && <SimulationWarning />}
+              <Room
+                date={wasDatePeriodChanged ? { startingDay, endingDay } : null}
+                roomRenderIndex={index}
+                isSimulationOn={this.checkIfSimulationOn()}
+                isLightOn={this.checkIfLightOn(key)}
+                value={value}
+                onClick={() => {
+                  console.log("key", key);
+                  return this.props.switchLight({ esp_id: key });
+                }}
+                onChangeDatesClick={this.handleToggleCalendar}
+              />
+            </View>
+          </ProgressStep>
+        ))}
+      </MyProgressSteps>
+    );
   };
 
   renderModal = () => (
@@ -175,7 +183,8 @@ export default class RoomsScreenComponent extends React.Component {
       areDatesSelected={this.state.endingDay && this.state.startingDay}
       onDatesConfirmClick={this.handleChangePeriod}
     >
-      {  <Calendar
+      {
+        <Calendar
           startDate={this.state.startingDay}
           endDate={this.state.endingDay}
           onShowAlert={this.handleToggleAlert}
@@ -183,7 +192,8 @@ export default class RoomsScreenComponent extends React.Component {
           onSetStartingDate={this.handleSetStartingDay}
           shouldShowAlert={this.state.shouldShowAlert}
           allowSelectingPastDates
-      />}
+        />
+      }
     </MyModal>
   );
 

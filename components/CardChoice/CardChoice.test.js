@@ -1,13 +1,9 @@
-import renderer from 'react-test-renderer';
-import React from 'react';
+import renderer from "react-test-renderer";
+import React from "react";
 
-import CardChoice from './CardChoice';
+import CardChoice from "./CardChoice";
 
-it('renders correctly', () => {
-    const tree = renderer
-        .create(
-            <CardChoice />
-        )
-        .toJSON();
-    expect(tree).toMatchSnapshot();
+it("renders correctly", () => {
+  const tree = renderer.create(<CardChoice />).toJSON();
+  expect(tree).toMatchSnapshot();
 });

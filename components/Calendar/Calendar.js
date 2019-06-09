@@ -3,7 +3,7 @@ import { CalendarList } from "react-native-calendars";
 import moment from "moment";
 import MyText from "../MyText/MyText";
 
-import messages from './Calendar.constants';
+import messages from "./Calendar.constants";
 
 const Calendar = ({
   startDate,
@@ -11,9 +11,9 @@ const Calendar = ({
   onShowAlert,
   onSetEndingDate,
   onSetStartingDate,
-                    shouldShowAlert,
-                    allowSelectingPastDates,
-                    allowSelectingFutureDates
+  shouldShowAlert,
+  allowSelectingPastDates,
+  allowSelectingFutureDates
 }) => {
   const mustard = "#ffbf00";
   const createDateRange = () => {
@@ -48,7 +48,8 @@ const Calendar = ({
     const isInThePast = date.timestamp < today.valueOf();
     const isInTheFuture = date.timestamp > today.valueOf();
     const pastCondition = !allowSelectingPastDates && (isToday || isInThePast);
-    const futureCondition =!allowSelectingFutureDates && (isToday || isInTheFuture);
+    const futureCondition =
+      !allowSelectingFutureDates && (isToday || isInTheFuture);
     if (pastCondition || futureCondition) {
       return onShowAlert();
     }
@@ -59,21 +60,28 @@ const Calendar = ({
     }
   };
 
-  const renderAlert = () => allowSelectingPastDates ? messages.futureChoiceAlert: messages.pastChoiceAlert;
+  const renderAlert = () =>
+    allowSelectingPastDates
+      ? messages.futureChoiceAlert
+      : messages.pastChoiceAlert;
 
   return (
-      <React.Fragment>
-        {shouldShowAlert && <MyText textStyle={{color: "#E83F6F"}} isBold>{renderAlert()}</MyText>}
-    <CalendarList
-      markedDates={createDateRange()}
-      pastScrollRange={12}
-      futureScrollRange={12}
-      scrollEnabled={true}
-      showScrollIndicator={true}
-      onDayPress={day => handleDateSelect(day)}
-      markingType="period"
-    />
-      </React.Fragment>
+    <React.Fragment>
+      {shouldShowAlert && (
+        <MyText textStyle={{ color: "#E83F6F" }} isBold>
+          {renderAlert()}
+        </MyText>
+      )}
+      <CalendarList
+        markedDates={createDateRange()}
+        pastScrollRange={12}
+        futureScrollRange={12}
+        scrollEnabled={true}
+        showScrollIndicator={true}
+        onDayPress={day => handleDateSelect(day)}
+        markingType="period"
+      />
+    </React.Fragment>
   );
 };
 
