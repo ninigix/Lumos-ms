@@ -1,8 +1,16 @@
-import React from 'react';
-import {Text} from 'react-native';
+import React from "react";
+import { Text } from "react-native";
 
-const MyText = ({textStyle, text}) => (
-    <Text style={{...textStyle, fontFamily: 'raleway-light'}}>{text}</Text>
+const MyText = ({ textStyle, isBold, children }) => (
+  <Text
+    style={{
+      fontFamily: isBold ? "raleway-bold" : "raleway-light",
+      fontSize: 16,
+      ...textStyle
+    }}
+  >
+    {children}
+  </Text>
 );
 
 export default MyText;
