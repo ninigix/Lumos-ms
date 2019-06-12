@@ -47,7 +47,7 @@ export default class RoomsScreenComponent extends React.Component {
     });
 
     this.eventSource = new RNEventSource(
-      "http://192.168.0.115:5000/microcontrollers"
+      "http://192.168.0.186:5000/microcontrollers"
     );
     this.eventSource.addEventListener("message", data => {
       const dataFromEvent = data.data.match(/\d+/g).map(Number);

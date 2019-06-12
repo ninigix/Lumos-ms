@@ -3,8 +3,6 @@ import isempty from 'lodash.isempty';
 
 const SERVER_URL = "http://192.168.0.186:5000/";
 const EXTERNAL_SERVER = "http://178.32.244.200:5000/";
-// 192.168.0.186
-// const SERVER_URL = "http://192.168.0.192:5000/";
 
 async function callApi(address, method, params = {}) {
         let additionalParams = {method};
