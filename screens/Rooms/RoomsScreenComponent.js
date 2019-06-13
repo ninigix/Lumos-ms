@@ -43,10 +43,11 @@ export default class RoomsScreenComponent extends React.Component {
     this.props.getRealSimulationStatus();
     this.props.getStatistics({
       start: startingDay ? startingDay : "2019-03-15",
-      stop: endingDay ? endingDay : "2019-06-06"
+      stop: endingDay ? endingDay : "2019-03-23"
     });
 
     this.eventSource = new RNEventSource(
+      // "http://192.168.0.73:5000/microcontrollers"
       "http://192.168.0.186:5000/microcontrollers"
     );
     this.eventSource.addEventListener("message", data => {

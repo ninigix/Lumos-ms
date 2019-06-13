@@ -3,6 +3,7 @@ import isempty from 'lodash.isempty';
 
 const SERVER_URL = "http://192.168.0.186:5000/";
 const EXTERNAL_SERVER = "http://178.32.244.200:5000/";
+const SERVER = "http://192.168.0.73:5000/";
 
 async function callApi(address, method, params = {}) {
         let additionalParams = {method};
@@ -39,6 +40,7 @@ async function callApi(address, method, params = {}) {
 export function getSwitchesInitialState() {
     const address = `${SERVER_URL}switchesInitialState`;
     return callApi(address, 'GET').then(value => {
+        console.log('getSwitchesInitialState response', getSwitchesInitialState);
         return {response: value}
     });
 }
@@ -71,7 +73,7 @@ export function postSwitchLights(params) {
 
 export function postDataToLearn(params) {
     console.log('PARAMS FOR DOROTA', params);
-    const address = `${EXTERNAL_SERVER}learn`;
+    const address = `${SERVER}learn`;
     return callApi(address, 'POST', params).then(value => ({response: value}));
 }
 

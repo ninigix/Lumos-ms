@@ -27,7 +27,7 @@ const UsageCard = ({
         {messages.date_label}{" "}
         {date
           ? `from ${date.startingDay} to ${date.endingDay}`
-          : " from 2019-03-15 to 2019-06-06"}
+          : " from 2019-03-15 to 2019-03-23"}
       </MyText>
       <MyText textStyle={{ color: "white" }}>{messages.cta}</MyText>
     </View>

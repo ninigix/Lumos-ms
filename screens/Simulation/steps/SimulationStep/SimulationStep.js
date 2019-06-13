@@ -16,9 +16,9 @@ const SimulationStep = ({ learnStatus, generatedData }) => {
       return (
         <View style={{ alignItems: "center" }}>
           {generatedData &&
-            generatedData.map(({ room, status, datetimevalue }) => (
+            generatedData.map(({ room, status, datetimevalue }, index) => (
               <SimulationComponent
-                key={`${room}__${status}`}
+                key={`${room}__${status}__${index}`}
                 date={datetimevalue}
                 isLightOn={status.includes(1)}
                 roomName={ROOMS_NAMES[room]}
