@@ -70,13 +70,22 @@ export default class SimulationScreenComponent extends React.Component {
     this.setState({ isDateTimePickerVisible: false });
   };
 
+  mapTime = date => {
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString();
+    if(minutes.length === 1){
+      return `${hours}:0${minutes}`;
+    }
+    return `${hours}:${minutes}`;
+  };
+
   handleTimePicked = date => {
     if (this.state.isChoosingStartingHour) {
       this.setState({
-        startingHour: `${date.getHours()}:${date.getMinutes()}`
+        startingHour: this.mapTime(date)
       });
     } else {
-      this.setState({ endingHour: `${date.getHours()}:${date.getMinutes()}` });
+      this.setState({ endingHour: this.mapTime(date)});
     }
     this.hideDateTimePicker();
   };

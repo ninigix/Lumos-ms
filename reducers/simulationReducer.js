@@ -50,6 +50,8 @@ export function simulationReducer(state = initialState, action) {
     }
 
     case actions.POST_LEARN_DATA.SUCCESS: {
+      console.log('action.response');
+
       return {
         ...state,
         learningStatus: SUCCESS,

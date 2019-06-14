@@ -11,6 +11,7 @@ import {
   SIMULATION_ON,
   SUCCESS
 } from "../../actions/helpers";
+import {SERVER} from '../../services/apiHelpers';
 import {
   LoadingIndicator,
   FailureIndicator,
@@ -46,9 +47,9 @@ export default class RoomsScreenComponent extends React.Component {
       stop: endingDay ? endingDay : "2019-03-23"
     });
 
-    this.eventSource = new RNEventSource(
+    this.eventSource = new RNEventSource(SERVER
       // "http://192.168.0.73:5000/microcontrollers"
-      "http://192.168.0.186:5000/microcontrollers"
+      // "http://192.168.0.186:5000/microcontrollers"
     );
     this.eventSource.addEventListener("message", data => {
       const dataFromEvent = data.data.match(/\d+/g).map(Number);

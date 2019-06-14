@@ -1,9 +1,9 @@
 import isempty from 'lodash.isempty';
 
 
-const SERVER_URL = "http://192.168.0.186:5000/";
-const EXTERNAL_SERVER = "http://178.32.244.200:5000/";
-const SERVER = "http://192.168.0.73:5000/";
+const SERVER_URL = "http://192.168.0.186:5000/"; // Raspberry Pi
+const EXTERNAL_SERVER = "http://178.32.244.200:5000/"; // physical
+export const SERVER = "http://192.168.0.73:5000/"; // D
 
 async function callApi(address, method, params = {}) {
         let additionalParams = {method};
@@ -23,7 +23,7 @@ async function callApi(address, method, params = {}) {
             if (response.ok) {
                 return response.json();
             } else {
-                console.log('address', address)
+                console.log('address', address);
                 throw new Error('Something went wrong');
             }
         })
